@@ -7,4 +7,48 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Primary-->
+    <color name="Primary5">#FFECE5</color>
+    <color name="Primary10">#FBDBD0</color>
+    <color name="Primary20">#FAC8B6</color>
+    <color name="Primary30">#F8B59D</color>
+    <color name="Primary40">#F6A183</color>
+    <color name="Primary50">#F48E6A</color>
+    <color name="Primary60">#F27B50</color>
+
+    <color name="yellow1">#FDC700</color>
+
+    <!-- neutral-->
+    <color name="neutral10">#E7E7EB</color>
+    <color name="neutral20">#CFCFD7</color>
+    <color name="neutral30">#B7B6C2</color>
+    <color name="neutral40">#9F9EAE</color>
+    <color name="neutral50">#87869A</color>
+    <color name="neutral60">#6E6E86</color>
+    <color name="neutral70">#565672</color>
+    <color name="neutral80">#3E3D5D</color>
+    <color name="neutral90">#262549</color>
+    <color name="neutral100">#020043</color>
+
+    <!-- gray-->
+    <color name="gray1">#F4F4F6</color>
+    <color name="gray2">#F0F0F3</color>
+
+    <!-- secondary-->
+    <color name="secondaryDangerC">#E10303</color>
+    <color name="secondaryInforC">#0286FF</color>
+    <color name="secondarySuccessC">#51CC56</color>
+    <color name="secondaryWarningC">#FBCB23</color>
+    <color name="secondaryDangerP">#FFEEEC</color>
+    <color name="secondaryInforP">#E8F8FF</color>
+    <color name="secondarySuccessP">#E2FCE3</color>
+    <color name="secondaryWarningP">#FFF8E0</color>
+
+    <!-- dark-->
+    <color name="dark3">#252E39</color>
+    <color name="dark4">#2C3745</color>
+    <color name="dark1">#10151B</color>
+    <color name="dark2">#1C232C</color>
+    <color name="dark5">#374454</color>
 </resources>
