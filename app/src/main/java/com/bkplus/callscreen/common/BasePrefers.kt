@@ -1,0 +1,87 @@
+package com.bkplus.callscreen.common
+
+import android.content.Context
+import androidx.core.content.edit
+import androidx.preference.PreferenceManager
+import java.util.Calendar
+
+class BasePrefers(context: Context) {
+
+    private val prefsNewUser = "prefsNewUser"
+    private val prefsLocale = "prefsLocale"
+    private val prefsOnBoard = "prefsOnBoard"
+    private val prefsTimer = "prefsTimer"
+
+    private val prefsBanner = "prefsBanner"
+    private val prefsInterSplash = "prefsInterSplash"
+    private val prefsNativeLanguage = "prefsNativeLanguage"
+    private val prefsNativeHome = "prefsNativeHome"
+    private val prefsNativeOnboard = "prefsNativeOnboard"
+    private val prefsInterOnboard = "prefsInterOnboard"
+    private val prefsOpenResume = "prefsOpenResume"
+
+    private val mPrefs = PreferenceManager.getDefaultSharedPreferences(context)
+
+    var newUser
+        get() = mPrefs.getBoolean(prefsNewUser, true)
+        set(value) = mPrefs.edit { putBoolean(prefsNewUser, value) }
+
+    var openboard
+        get() = mPrefs.getBoolean(prefsOnBoard, false)
+        set(value) = mPrefs.edit { putBoolean(prefsOnBoard, value) }
+
+    var scheduled
+        get() = mPrefs.getLong(prefsTimer, Calendar.getInstance().timeInMillis)
+        set(value) = mPrefs.edit { putLong(prefsTimer, value) }
+
+    var locale
+        get() = mPrefs.getString(prefsLocale, "en")
+        set(value) = mPrefs.edit { putString(prefsLocale, value) }
+
+    var banner
+        get() = mPrefs.getBoolean(prefsBanner, true)
+        set(value) = mPrefs.edit { putBoolean(prefsBanner, value) }
+
+    var interSplash
+        get() = mPrefs.getBoolean(prefsInterSplash, true)
+        set(value) = mPrefs.edit { putBoolean(prefsInterSplash, value) }
+
+    var nativeLanguage
+        get() = mPrefs.getBoolean(prefsNativeLanguage, true)
+        set(value) = mPrefs.edit { putBoolean(prefsNativeLanguage, value) }
+    var nativeHome
+        get() = mPrefs.getBoolean(prefsNativeHome, true)
+        set(value) = mPrefs.edit { putBoolean(prefsNativeHome, value) }
+
+    var nativeOnboard
+        get() = mPrefs.getBoolean(prefsNativeOnboard, true)
+        set(value) = mPrefs.edit { putBoolean(prefsNativeOnboard, value) }
+
+    var interOnboard
+        get() = mPrefs.getBoolean(prefsInterOnboard, true)
+        set(value) = mPrefs.edit { putBoolean(prefsInterOnboard, value) }
+
+    var openResume
+        get() = mPrefs.getBoolean(prefsOpenResume, true)
+        set(value) = mPrefs.edit { putBoolean(prefsOpenResume, value) }
+
+
+
+    companion object {
+        @Volatile
+        private var INSTANCE: BasePrefers? = null
+
+        fun initPrefs(context: Context): BasePrefers {
+            return INSTANCE ?: synchronized(this) {
+                val instance = BasePrefers(context)
+                INSTANCE = instance
+                // return instance
+                instance
+            }
+        }
+
+        fun getPrefsInstance(): BasePrefers {
+            return INSTANCE ?: error("GoPreferences not initialized!")
+        }
+    }
+}

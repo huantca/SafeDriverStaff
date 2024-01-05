@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="back_pressed_finish">Please press back again to quit</string>
+    <string name="setting_language">Languages</string>
+    <string name="setting_policy">Privacy Policy</string>
+    <string name="setting_en">English</string>
+    <string name="setting_vi">Vietnamese</string>
+    <string name="setting_it">Italian</string>
+    <string name="setting_spain">Spanish</string>
+    <string name="setting_hindi">Hindi</string>
+    <string name="setting_china">China</string> <!-- China -->
+    <string name="setting_russian">Russian</string> <!-- Russian -->
+    <string name="setting_bengal">Bengal</string> <!-- Bengal -->
+    <string name="setting_japan">Japan</string> <!-- Japan -->
+    <string name="setting_marathi">Marathi</string> <!-- Marathi -->
+    <string name="setting_telugu">Telugu</string> <!-- Telugu -->
+    <string name="setting_turkish">Turkish</string> <!-- Turkish -->
+    <string name="setting_tamil">Tamil</string> <!-- Tamil -->
+    <string name="setting_korea">Korea</string> <!-- Korea -->
+    <string name="setting_italian">Italian</string> <!-- Italian -->
+    <string name="setting_thailand">Thailand</string> <!-- Thailand -->
+    <string name="setting_pt">Portuguese</string>
+    <string name="setting_de">German</string>
+    <string name="setting_fr">French</string>
+</resources>
