@@ -10,8 +10,9 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        jcenter()
     }
 }
 
-rootProject.name = "My Application"
+rootProject.name = "Screen Color"
 include(":app")

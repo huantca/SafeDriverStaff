@@ -4,7 +4,6 @@ import android.app.Application
 import com.bkplus.callscreen.ads.TrackingManager
 import com.harison.core.app.utils.timber.CrashlyticsTree
 import com.harison.core.app.utils.timber.MyDebugTree
-import com.harrison.common.FirebaseRemoteConfig
 import com.harrison.myapplication.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject

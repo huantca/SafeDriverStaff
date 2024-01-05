@@ -20,6 +20,15 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("key/bkplus")
+            storePassword = "bkplus@123"
+            keyAlias = "wifi_password"
+            keyPassword = "bkplus@123"
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -27,6 +36,30 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
+        }
+        debug {
+            isDebuggable = true
+        }
+    }
+    flavorDimensions += "version"
+    productFlavors {
+        create("dev") {
+            dimension = "version"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+            manifestPlaceholders["ad_app_id"] = "\"ca-app-pub-3940256099942544~3347511713\""
+            buildConfigField("String", "open_resume", "\"ca-app-pub-3940256099942544/9257395921\"")
+            buildConfigField("String", "inter_splash", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "native_language", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "native_onboard", "\"ca-app-pub-3940256099942544/2247696110\"")
+        }
+        create("production") {
+            manifestPlaceholders["ad_app_id"] = "\"ca-app-pub-3940256099942544~3347511713\""
+            buildConfigField("String", "open_resume", "\"ca-app-pub-3940256099942544/9257395921\"")
+            buildConfigField("String", "inter_splash", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "native_language", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "native_onboard", "\"ca-app-pub-3940256099942544/2247696110\"")
         }
     }
     compileOptions {
@@ -76,4 +109,10 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-messaging-ktx:23.4.0")
     implementation("com.google.firebase:firebase-crashlytics-ktx:18.6.0")
+    //Api
+    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 }

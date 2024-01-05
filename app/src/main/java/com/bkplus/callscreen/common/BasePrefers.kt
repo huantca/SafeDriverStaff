@@ -3,6 +3,8 @@ package com.bkplus.callscreen.common
 import android.content.Context
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
+import com.bkplus.callscreen.ultis.Constants
+import com.harrison.myapplication.BuildConfig
 import java.util.Calendar
 
 class BasePrefers(context: Context) {
@@ -21,6 +23,13 @@ class BasePrefers(context: Context) {
     private val prefsOpenResume = "prefsOpenResume"
 
     private val mPrefs = PreferenceManager.getDefaultSharedPreferences(context)
+
+    var app_version_force_update
+        get() = mPrefs.getString(getPrefName(Constants.app_version_force_update), BuildConfig.VERSION_NAME)
+        set(value) = mPrefs.edit { putString(getPrefName(Constants.app_version_force_update), value) }
+    var app_version_latest
+        get() = mPrefs.getString(getPrefName(Constants.app_version_latest), BuildConfig.VERSION_NAME)
+        set(value) = mPrefs.edit { putString(getPrefName(Constants.app_version_latest), value) }
 
     var newUser
         get() = mPrefs.getBoolean(prefsNewUser, true)
@@ -65,6 +74,20 @@ class BasePrefers(context: Context) {
         get() = mPrefs.getBoolean(prefsOpenResume, true)
         set(value) = mPrefs.edit { putBoolean(prefsOpenResume, value) }
 
+    //ID Ads
+    var id_open_resume
+        get() = mPrefs.getString(getPrefName(Constants.id_open_resume), BuildConfig.open_resume)
+        set(value) = mPrefs.edit { putString(getPrefName(Constants.id_open_resume), value) }
+    var id_inter_splash
+        get() = mPrefs.getString(getPrefName(Constants.id_inter_splash), BuildConfig.inter_splash)
+        set(value) = mPrefs.edit { putString(getPrefName(Constants.id_inter_splash), value) }
+    var id_native_language
+        get() = mPrefs.getString(getPrefName(Constants.id_native_language), BuildConfig.native_language)
+        set(value) = mPrefs.edit { putString(getPrefName(Constants.id_native_language), value) }
+    var id_native_onboard
+        get() = mPrefs.getString(getPrefName(Constants.id_native_onboard), BuildConfig.native_onboard)
+        set(value) = mPrefs.edit { putString(getPrefName(Constants.id_native_onboard), value) }
+
 
 
     companion object {
@@ -83,5 +106,8 @@ class BasePrefers(context: Context) {
         fun getPrefsInstance(): BasePrefers {
             return INSTANCE ?: error("GoPreferences not initialized!")
         }
+    }
+    private fun getPrefName(name: String): String {
+        return "pref$name"
     }
 }

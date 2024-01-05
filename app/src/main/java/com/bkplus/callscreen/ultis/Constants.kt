@@ -11,7 +11,6 @@ object Constants {
 
     const val app_version_force_update = "app_version_force_update"
     const val app_version_latest: String = "app_version_latest"
-    const val inter_back_to_home_cool_down = "inter_back_to_home_cool_down"
 
     const val inter_splash = "inter_splash"
     const val native_language = "native_language"
@@ -20,16 +19,15 @@ object Constants {
     const val inter_after_onboarding = "inter_after_onboarding"
     const val open_resume = "open_resume"
     const val cmp_enable = "cmp_enable"
-
-    const val id_reward_show_password = "id_reward_show_password"
-
-    const val type_plain_text = "plain/text"
-    const val email_support = "Trustedapp.help@gmail.com"
     const val store_uri = "market://details?id=${BuildConfig.APPLICATION_ID}"
-    const val request_code_share = 9999
     const val channel_id = "channel_id"
     const val channel_name = "channel_name"
-    const val KEY_TIME = "KEY_TIME"
+
+    const val id_ads_product = "id_ads_product"
+    const val id_open_resume = "id_open_resume"
+    const val id_inter_splash = "id_inter_splash"
+    const val id_native_language = "id_native_language"
+    const val id_native_onboard = "id_native_onboard"
 
     //URL
     const val LINK_STORE =

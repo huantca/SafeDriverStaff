@@ -10,7 +10,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
-import com.harison.core.app.R
+import com.harrison.myapplication.R
 import timber.log.Timber
 
 abstract class BaseFullScreenDialogFragment<T : ViewDataBinding> : DialogFragment() {
