@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import androidx.viewbinding.ViewBinding
 import timber.log.Timber
 
@@ -80,5 +82,10 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
             }
         }
         return if (result.isNotEmpty() && result[0] == '_') result.substring(1) else result.toString()
+    }
+    fun NavController.safeNavigateWithArgs(direction: NavDirections, bundle: Bundle? = Bundle()) {
+        currentDestination?.getAction(direction.actionId)?.run {
+            navigate(direction.actionId, bundle)
+        }
     }
 }
