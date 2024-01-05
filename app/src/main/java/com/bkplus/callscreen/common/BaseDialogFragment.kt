@@ -61,19 +61,23 @@ abstract class BaseDialogFragment<T : ViewDataBinding> : DialogFragment() {
     protected open fun setupData() {}
     protected open fun setupListener() {}
 
-    override fun show(fragmentManager: FragmentManager, tag: String?) {
-        if (!this.isAdded && fragmentManager.findFragmentByTag(mTag) == null
-        ) {
-            super.show(fragmentManager, mTag)
-            fragmentManager.executePendingTransactions()
+    override fun show(manager: FragmentManager, tag: String?) {
+        try {
+            val fragmentTransaction = manager.beginTransaction()
+            fragmentTransaction.add(this, mTag)
+            fragmentTransaction.commit()
+        } catch (e: Exception) {
+            Timber.d("Show Dialog Error: $mTag")
         }
     }
 
-    fun show(fragmentManager: FragmentManager) {
-        if (!this.isAdded && fragmentManager.findFragmentByTag(mTag) == null
-        ) {
-            super.show(fragmentManager, mTag)
-            fragmentManager.executePendingTransactions()
+    fun show(manager: FragmentManager) {
+        try {
+            val fragmentTransaction = manager.beginTransaction()
+            fragmentTransaction.add(this, mTag)
+            fragmentTransaction.commit()
+        } catch (e: Exception) {
+            Timber.d("Show Dialog Error: $mTag")
         }
     }
 }
