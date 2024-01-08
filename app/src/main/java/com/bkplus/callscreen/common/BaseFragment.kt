@@ -1,4 +1,4 @@
-package com.harison.core.app.platform
+package com.bkplus.callscreen.common
 
 import android.content.Context
 import android.os.Bundle
