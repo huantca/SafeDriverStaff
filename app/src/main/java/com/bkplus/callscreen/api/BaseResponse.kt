@@ -1,4 +1,4 @@
-package com.harison.core.app.api
+package com.bkplus.callscreen.api
 
 sealed class BaseResponse<out R> {
     data class Success<out R>(val result: R) : BaseResponse<R>()

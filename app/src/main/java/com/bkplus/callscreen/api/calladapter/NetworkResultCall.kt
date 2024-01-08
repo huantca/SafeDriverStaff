@@ -1,6 +1,6 @@
 package com.bkplus.callscreen.api.calladapter
 
-import com.harison.core.app.api.BaseResponse
+import com.bkplus.callscreen.api.BaseResponse
 import java.io.IOException
 import okhttp3.Request
 import okio.Timeout

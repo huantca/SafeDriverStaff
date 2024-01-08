@@ -1,7 +1,6 @@
 package com.bkplus.callscreen.api.calladapter
 
-import com.bkplus.callscreen.api.calladapter.NetworkResultCall
-import com.harison.core.app.api.BaseResponse
+import com.bkplus.callscreen.api.BaseResponse
 import java.lang.reflect.Type
 import retrofit2.Call
 import retrofit2.CallAdapter
