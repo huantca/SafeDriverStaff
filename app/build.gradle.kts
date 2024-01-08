@@ -4,6 +4,8 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("kotlin-kapt")
     id("com.google.devtools.ksp")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -73,6 +75,9 @@ android {
         dataBinding = true
         buildConfig = true
     }
+    packaging {
+        resources.excludes.add("META-INF/*")
+    }
 }
 
 dependencies {
@@ -112,6 +117,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-messaging-ktx:23.4.0")
     implementation("com.google.firebase:firebase-crashlytics-ktx:18.6.0")
+    implementation("com.google.gms:google-services:4.4.0")
     //Api
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

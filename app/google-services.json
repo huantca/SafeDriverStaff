@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "69748556012",
+    "project_id": "my-file-manager-bk-plus",
+    "storage_bucket": "my-file-manager-bk-plus.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:69748556012:android:d93ac5d8c4c56d94ace5c9",
+        "android_client_info": {
+          "package_name": "com.harrison.myapplication.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "69748556012-f0fansubju6ub0rl9skcqv5bib8p1nl0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrFBjgoS8ykWns1EdF_-ouiATsYbF_M4Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "69748556012-f0fansubju6ub0rl9skcqv5bib8p1nl0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
