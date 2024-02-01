@@ -3,9 +3,11 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
     id("kotlin-kapt")
+    id("androidx.navigation.safeargs.kotlin")
     id("com.google.devtools.ksp")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -18,6 +20,15 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+
+        archivesName.set(
+            "ScreenCall_v${versionName}(${versionCode})_${
+                SimpleDateFormat(
+                    "dd.MM.yyyy",
+                    Locale.US
+                ).format(Date())
+            }"
+        )
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -103,8 +114,9 @@ dependencies {
     //UI
     implementation("com.github.bumptech.glide:glide:4.16.0")
     ksp("com.github.bumptech.glide:ksp:4.16.0")
-    //Custom UI
-    implementation("com.romandanylyk:pageindicatorview:1.0.3")
+    implementation("com.airbnb.android:lottie:6.1.0")
+    //tbuomono dotIndicator
+    implementation("com.tbuonomo:dotsindicator:4.3")
     //Timber
     implementation("com.jakewharton.timber:timber:5.0.1")
     //Ads
@@ -130,4 +142,22 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
-}
+    //BK Ads Lib
+    implementation("com.bkplus.ads:library:1.0.3-alpha05")
+    //Appsflyer
+    implementation("com.appsflyer:adrevenue:6.9.0")
+    // https://mvnrepository.com/artifact/com.appsflyer/af-android-sdk
+    implementation("com.appsflyer:af-android-sdk:6.12.5")
+    implementation("com.android.installreferrer:installreferrer:2.2")
+    implementation("com.miui.referrer:homereferrer:1.0.0.6")
+    implementation("com.appsflyer:adrevenue:6.9.0")
+
+    //Mediation Ads
+    implementation("com.google.ads.mediation:applovin:12.1.0.0")
+    implementation("com.google.ads.mediation:inmobi:10.6.2.0")
+    implementation("com.google.ads.mediation:vungle:7.1.0.0") {
+        exclude(group = "com.google.protobuf")
+    }
+    implementation("com.google.ads.mediation:facebook:6.16.0.0")
+    implementation("com.google.ads.mediation:mintegral:16.5.91.1")
+    implementation("com.google.ads.mediation:pangle:5.7.0.2.0")
