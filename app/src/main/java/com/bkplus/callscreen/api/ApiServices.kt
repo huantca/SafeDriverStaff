@@ -1,6 +1,6 @@
 package com.bkplus.callscreen.api
 
-import com.harison.core.app.api.entity.ResponseApi
+import com.bkplus.callscreen.api.entity.ResponseApi
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.GET

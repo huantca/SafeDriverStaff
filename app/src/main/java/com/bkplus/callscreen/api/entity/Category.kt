@@ -1,4 +1,4 @@
-package com.harison.core.app.api.entity
+package com.bkplus.callscreen.api.entity
 
 
 import com.google.gson.annotations.SerializedName

@@ -8,6 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="transparent">#00000000</color>
+
     <!-- Primary-->
     <color name="Primary5">#FFECE5</color>
     <color name="Primary10">#FBDBD0</color>

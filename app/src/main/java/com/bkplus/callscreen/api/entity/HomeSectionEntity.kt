@@ -1,7 +1,6 @@
-package com.harison.core.app.api.entity
+package com.bkplus.callscreen.api.entity
 
 
-import com.bkplus.callscreen.api.entity.Item
 import com.google.gson.annotations.SerializedName
 
 data class HomeSectionEntity(
