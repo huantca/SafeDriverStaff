@@ -2,11 +2,18 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/settingFragment"
-    android:id="@+id/main_nav_graph">
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/settingFragment">
+
     <fragment
-        tools:layout="@layout/fragment_setting"
-        android:name="com.bkplus.callscreen.ui.setting.SettingFragment"
         android:id="@+id/settingFragment"
-        android:label="settingFragment" />
+        android:name="com.bkplus.callscreen.ui.setting.SettingFragment"
+        android:label="settingFragment"
+        tools:layout="@layout/fragment_setting" />
+
+    <fragment
+        android:id="@+id/fragmentHistory"
+        android:name="com.bkplus.callscreen.ui.main.history.FragmentHistory"
+        android:label="FragmentHistory"
+        tools:layout="@layout/fragment_history" />
 </navigation>
