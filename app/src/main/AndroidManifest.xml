@@ -30,7 +30,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
-        android:theme="@style/Theme.MyApplication"
+        android:theme="@style/Theme.Material3.DayNight.NoActionBar"
         tools:replace="android:fullBackupContent"
         tools:targetApi="31">
 

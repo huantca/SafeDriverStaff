@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_splash" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressBar"
+            style="@style/Widget.Material3.LinearProgressIndicator"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="32dp"
+            android:indeterminate="false"
+            app:indicatorColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.6"
+            app:trackColor="@color/white20"
+            app:trackCornerRadius="16dp"
+            app:trackThickness="12dp" />
+
+        <TextView
+            android:id="@+id/tv_4k"
+            style="@style/headingH1Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:gravity="center"
+            android:text="@string/_4k_wallpaper"
+            app:layout_constraintBottom_toTopOf="@id/tv_contain_ads" />
+
+        <TextView
+            android:id="@+id/tv_contain_ads"
+            style="@style/SubtextCaption1Regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:text="@string/the_action_may_contain_advertising"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/progressBar" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

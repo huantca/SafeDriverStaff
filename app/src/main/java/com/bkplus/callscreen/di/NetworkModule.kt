@@ -1,12 +1,15 @@
 package com.bkplus.callscreen.di
 
+import android.content.Context
+import com.bkplus.callscreen.api.ApiService
 import com.bkplus.callscreen.api.calladapter.NetworkResultCallAdapterFactory
 import com.bkplus.callscreen.ultis.Constants.BASE_URL
 import com.bkplus.callscreen.ultis.Constants.TIME_OUT
-import com.bkplus.callscreen.api.ApiService
+import com.bkplus.callscreen.ultis.NetworkState
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -57,4 +60,10 @@ object NetworkModule {
     fun provideAuthService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideNetworkState(@ApplicationContext appContext: Context): NetworkState = NetworkState(
+        appContext
+    )
 }
