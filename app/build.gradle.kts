@@ -1,3 +1,8 @@
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -115,6 +120,8 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     ksp("com.github.bumptech.glide:ksp:4.16.0")
     implementation("com.airbnb.android:lottie:6.1.0")
+    //Dimens
+    implementation ("com.intuit.sdp:sdp-android:1.1.0")
     //tbuomono dotIndicator
     implementation("com.tbuonomo:dotsindicator:4.3")
     //Timber
@@ -161,3 +168,4 @@ dependencies {
     implementation("com.google.ads.mediation:facebook:6.16.0.0")
     implementation("com.google.ads.mediation:mintegral:16.5.91.1")
     implementation("com.google.ads.mediation:pangle:5.7.0.2.0")
+}
