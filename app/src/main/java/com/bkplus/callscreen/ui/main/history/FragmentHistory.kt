@@ -1,9 +1,11 @@
 package com.bkplus.callscreen.ui.main.history
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableList
 import com.bkplus.callscreen.common.BaseFragment
+import com.bkplus.callscreen.ui.main.home.HomeFragment
 import com.bkplus.callscreen.ultis.gone
 import com.bkplus.callscreen.ultis.visible
 import com.harrison.myapplication.R
@@ -16,6 +18,14 @@ class FragmentHistory : BaseFragment<FragmentHistoryBinding>() {
 
     lateinit var adapter: HistoryRecyclerViewAdapter
 
+    companion object {
+        fun newInstance(): FragmentHistory {
+            val args = Bundle()
+            val fragment = FragmentHistory()
+            fragment.arguments = args
+            return fragment
+        }
+    }
     val testList = arrayListOf(
         HistoryItem(1, false),
         HistoryItem(2, false),
