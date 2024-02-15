@@ -36,4 +36,7 @@
     <string name="ob4_description">Let\'s explore 4k wallpapers with our hot themes now.</string>
     <string name="next">Next</string>
     <string name="get_started_btn">Get Started</string>
+    <string name="congratulations">Congratulations</string>
+    <string name="success_installing_text">You have successfully installed this</string>
+    <string name="home">Home</string>
 </resources>
