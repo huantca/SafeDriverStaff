@@ -30,5 +30,5 @@ dependencyResolutionManagement {
 
 }
 
-rootProject.name = "Screen Color"
+rootProject.name = "4K Wallpaper"
 include(":app")
