@@ -2,8 +2,13 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/settingFragment"
+    app:startDestination="@id/splashFragment"
     android:id="@+id/main_nav_graph">
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.bkplus.callscreen.ui.splash.SplashFragment"
+        android:label="splashFragment"
+        tools:layout="@layout/fragment_splash" />
     <fragment
         tools:layout="@layout/fragment_setting"
         android:name="com.bkplus.callscreen.ui.setting.SettingFragment"

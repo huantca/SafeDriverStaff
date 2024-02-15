@@ -1,6 +1,7 @@
 package com.bkplus.callscreen.common
 
 import android.app.Application
+import com.ads.bkplus_ads.core.BkPlusAdmobApplication
 import com.bkplus.callscreen.ads.TrackingManager
 import com.harison.core.app.utils.timber.CrashlyticsTree
 import com.harison.core.app.utils.timber.MyDebugTree
@@ -10,7 +11,7 @@ import javax.inject.Inject
 import timber.log.Timber
 
 @HiltAndroidApp
-class BaseApplication : Application() {
+class BaseApplication : BkPlusAdmobApplication() {
 
     @Inject
     lateinit var firebaseRemoteConfig: FirebaseRemoteConfig
