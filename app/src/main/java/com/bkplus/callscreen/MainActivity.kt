@@ -10,7 +10,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.ads.bkplus_ads.core.toastDebug
@@ -65,18 +64,43 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 when (destination.id) {
                     R.id.splashFragment,
                     -> {
-                        bottomNav.isVisible = false
-                        tabLayout.isVisible = false
+                        setVisibleBottomView(false)
+                    }
+
+                    R.id.homeFragment -> {
+                        setVisibleBottomView(true)
+                        tabLayout.getTabAt(0)?.select()
+                    }
+
+                    R.id.categoryFragment -> {
+                        setVisibleBottomView(true)
+                        tabLayout.getTabAt(1)?.select()
+                    }
+
+                    R.id.historyFragment -> {
+                        setVisibleBottomView(true)
+                        tabLayout.getTabAt(2)?.select()
+                    }
+
+                    R.id.settingFragment -> {
+                        setVisibleBottomView(true)
+                        tabLayout.getTabAt(3)?.select()
                     }
 
                     else -> {
-                        bottomNav.isVisible = true
-                        tabLayout.isVisible = true
+                        setVisibleBottomView(true)
                     }
                 }
             }
         }
 
+    }
+
+    open fun setVisibleBottomView(show: Boolean) {
+        binding.apply {
+            bottomNav.isVisible = show
+            tabLayout.isVisible = show
+        }
     }
 
     private fun setUpNoInternetDialog() {
