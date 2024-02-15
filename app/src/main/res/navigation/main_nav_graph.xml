@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/splashFragment"
     android:id="@+id/main_nav_graph">
+
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.bkplus.callscreen.ui.splash.SplashFragment"
@@ -14,4 +15,14 @@
         android:name="com.bkplus.callscreen.ui.setting.SettingFragment"
         android:id="@+id/settingFragment"
         android:label="settingFragment" />
+    <fragment
+        android:id="@+id/home_nav_fragment"
+        android:name="com.bkplus.callscreen.ui.main.home.HomeNavFragment"
+        android:label="HomeNavFragment"
+        tools:layout="@layout/fragment_home_nav" />
+    <fragment
+        android:id="@+id/fragmentHistory"
+        android:name="com.bkplus.callscreen.ui.main.history.FragmentHistory"
+        android:label="FragmentHistory"
+        tools:layout="@layout/fragment_history" />
 </navigation>
