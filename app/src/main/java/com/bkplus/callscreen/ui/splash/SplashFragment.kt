@@ -44,6 +44,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
     }
 
     private fun navigateNextScreen() {
+        findNavController().navigate(R.id.home_nav_fragment)
         if (BasePrefers.getPrefsInstance().newUser) {
 
         }

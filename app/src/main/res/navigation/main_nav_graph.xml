@@ -21,8 +21,20 @@
         android:label="HomeNavFragment"
         tools:layout="@layout/fragment_home_nav" />
     <fragment
-        android:id="@+id/fragmentHistory"
+        android:id="@+id/historyFragment"
         android:name="com.bkplus.callscreen.ui.main.history.FragmentHistory"
         android:label="FragmentHistory"
         tools:layout="@layout/fragment_history" />
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.bkplus.callscreen.ui.main.category.CategoryFragment"
+        android:label="categoryFragment"
+        tools:layout="@layout/fragment_category" />
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.bkplus.callscreen.ui.main.home.HomeFragment"
+        android:label="homeFragment"
+        tools:layout="@layout/fragment_home" />
+
 </navigation>

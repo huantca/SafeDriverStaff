@@ -8,8 +8,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.ads.bkplus_ads.core.toastDebug
 import com.bkplus.callscreen.common.BaseActivity
 import com.bkplus.callscreen.ui.widget.NoInternetDialogFragment
@@ -47,7 +50,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_main_fragment) as NavHostFragment
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
         registerBackPress()
         setUpNoInternetDialog()
@@ -56,6 +59,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     private fun setUpBottomNavigation() {
+        binding.apply {
+            navController?.let { bottomNav.setupWithNavController(it) }
+            navController?.addOnDestinationChangedListener { controller, destination, arguments ->
+                when (destination.id) {
+                    R.id.splashFragment,
+                    -> {
+                        bottomNav.isVisible = false
+                        tabLayout.isVisible = false
+                    }
+
+                    else -> {
+                        bottomNav.isVisible = true
+                        tabLayout.isVisible = true
+                    }
+                }
+            }
+        }
 
     }
 
