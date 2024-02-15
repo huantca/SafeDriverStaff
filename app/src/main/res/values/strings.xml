@@ -26,4 +26,14 @@
     <string name="the_action_may_contain_advertising">The action may contain advertising</string>
     <string name="no_internet">Your internet connection is not working. Please check your network and try to connect again.</string>
     <string name="connect">Connect</string>
+    <string name="ob1_title">Trendy Wallpapers</string>
+    <string name="ob2_title">Personalize Wallpaper Creation</string>
+    <string name="ob3_title">Set Wallpaper</string>
+    <string name="ob4_title">Many interesting Categories</string>
+    <string name="ob1_description">Explore hot trend wallpapers and real-time updates. Choose and download images you love.</string>
+    <string name="ob2_description">Customize your wallpaper using unique creation tools. Design wallpapers to your liking.</string>
+    <string name="ob3_description">Easily set your favorite wallpaper on your phone. Change your wallpaper anytime you want.</string>
+    <string name="ob4_description">Let\'s explore 4k wallpapers with our hot themes now.</string>
+    <string name="next">Next</string>
+    <string name="get_started_btn">Get Started</string>
 </resources>

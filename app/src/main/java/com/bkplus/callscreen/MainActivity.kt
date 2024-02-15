@@ -63,6 +63,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             navController?.addOnDestinationChangedListener { controller, destination, arguments ->
                 when (destination.id) {
                     R.id.splashFragment,
+                    R.id.onboardFragment,
                     -> {
                         setVisibleBottomView(false)
                     }
@@ -88,7 +89,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     }
 
                     else -> {
-                        setVisibleBottomView(true)
+                        setVisibleBottomView(false)
                     }
                 }
             }

@@ -56,4 +56,7 @@
     <color name="dark1">#10151B</color>
     <color name="dark2">#1C232C</color>
     <color name="dark5">#374454</color>
+    <!-- navi Color-->
+    <color name="naviColor">#141726</color>
+    <color name="naviColor2">#34384B</color>
 </resources>

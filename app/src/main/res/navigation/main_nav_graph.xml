@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/splashFragment"
+    app:startDestination="@id/onboardFragment"
     android:id="@+id/main_nav_graph">
 
     <fragment
@@ -15,11 +15,6 @@
         android:name="com.bkplus.callscreen.ui.setting.SettingFragment"
         android:id="@+id/settingFragment"
         android:label="settingFragment" />
-    <fragment
-        android:id="@+id/home_nav_fragment"
-        android:name="com.bkplus.callscreen.ui.main.home.HomeNavFragment"
-        android:label="HomeNavFragment"
-        tools:layout="@layout/fragment_home_nav" />
     <fragment
         android:id="@+id/historyFragment"
         android:name="com.bkplus.callscreen.ui.main.history.FragmentHistory"
@@ -36,5 +31,10 @@
         android:name="com.bkplus.callscreen.ui.main.home.HomeFragment"
         android:label="homeFragment"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/onboardFragment"
+        android:name="com.bkplus.callscreen.ui.splash.onboard.OnboardFragment"
+        android:label="OnboardFragment"
+        tools:layout="@layout/fragment_onboard" />
 
 </navigation>
