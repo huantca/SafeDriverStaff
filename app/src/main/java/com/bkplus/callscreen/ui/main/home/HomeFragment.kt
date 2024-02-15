@@ -1,4 +1,4 @@
-package com.bkplus.callscreen.ui.home
+package com.bkplus.callscreen.ui.main.home
 
 import android.os.Bundle
 import com.bkplus.callscreen.common.BaseFragment

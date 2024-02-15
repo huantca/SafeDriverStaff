@@ -1,11 +1,11 @@
-package com.bkplus.callscreen.ui.home
+package com.bkplus.callscreen.ui.main.home
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.bkplus.callscreen.common.BaseFragment
-import com.bkplus.callscreen.ui.category.CategoryFragment
-import com.bkplus.callscreen.ui.history.HistoryFragment
+import com.bkplus.callscreen.ui.main.category.CategoryFragment
+import com.bkplus.callscreen.ui.main.history.FragmentHistory
 import com.bkplus.callscreen.ui.setting.SettingFragment
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.tabs.TabLayoutMediator
@@ -19,7 +19,7 @@ class HomeNavFragment : BaseFragment<FragmentHomeNavBinding>() {
     private var mHomeFragment: HomeFragment? = null
     private var mSettingFragment : SettingFragment?= null
     private var mCategoryFragment : CategoryFragment?= null
-    private var mHistoryFragment : HistoryFragment?= null
+    private var mHistoryFragment : FragmentHistory?= null
     private val mOnNavigationItemSelectedListener =
         NavigationBarView.OnItemSelectedListener { item ->
             when (item.itemId) {
@@ -100,7 +100,7 @@ class HomeNavFragment : BaseFragment<FragmentHomeNavBinding>() {
     private fun initFragmentAt(position: Int): Fragment {
         when (position) {
             1 -> mCategoryFragment = CategoryFragment.newInstance()
-            2 -> mHistoryFragment = HistoryFragment.newInstance()
+            2 -> mHistoryFragment = FragmentHistory.newInstance()
             3 -> mSettingFragment = SettingFragment.newInstance()
             else -> mHomeFragment = HomeFragment.newInstance()
         }
@@ -109,7 +109,7 @@ class HomeNavFragment : BaseFragment<FragmentHomeNavBinding>() {
 
     private fun getFragmentForIndex(index: Int) = when (index) {
         1 -> mCategoryFragment ?: initFragmentAt(index)
-        2 -> mHistoryFragment ?: initFragmentAt(index)
+        2 ->  mHistoryFragment ?: initFragmentAt(index)
         3 -> mSettingFragment ?: initFragmentAt(index)
         else -> mHomeFragment ?: initFragmentAt(index)
     }

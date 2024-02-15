@@ -2,7 +2,7 @@ package com.bkplus.callscreen.ui.setting
 
 import android.os.Bundle
 import com.bkplus.callscreen.common.BaseFragment
-import com.bkplus.callscreen.ui.home.HomeFragment
+import com.bkplus.callscreen.ui.main.home.HomeFragment
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentSettingBinding
 
