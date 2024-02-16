@@ -71,7 +71,9 @@ class FragmentHistory : BaseFragment<FragmentHistoryBinding>() {
         }
 
         binding.deleteButton.setOnClickListener {
-
+            testList.removeIf { it.isSelected }
+            binding.selectAll.performClick()
+            adapter.notifyDataSetChanged()
         }
 
         binding.textSelectAll.setOnClickListener {
