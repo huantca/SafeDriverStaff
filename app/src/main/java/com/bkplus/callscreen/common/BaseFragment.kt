@@ -1,5 +1,6 @@
 package com.bkplus.callscreen.common
 
+import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -27,7 +28,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         nameScreen = getNameScreen()
-        Timber.tag("onCreate:").d(this.javaClass.simpleName)
+        Timber.tag("----onCreate:").d(this.javaClass.simpleName)
         setupData()
         setupUI()
         setupListener()
@@ -35,8 +36,9 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
 
     protected abstract val layoutId: Int
     protected lateinit var binding: T
+    private var dialog: Dialog? = null
     override fun onResume() {
-        Timber.tag("----screen:").d(this.javaClass.simpleName)
+        Timber.tag("Resume:").d(this.javaClass.simpleName)
         super.onResume()
     }
 
@@ -83,6 +85,7 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
         }
         return if (result.isNotEmpty() && result[0] == '_') result.substring(1) else result.toString()
     }
+
     fun NavController.safeNavigateWithArgs(direction: NavDirections, bundle: Bundle? = Bundle()) {
         currentDestination?.getAction(direction.actionId)?.run {
             navigate(direction.actionId, bundle)

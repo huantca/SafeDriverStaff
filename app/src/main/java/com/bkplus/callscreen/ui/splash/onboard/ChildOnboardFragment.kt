@@ -45,7 +45,7 @@ class ChildOnboardFragment : BaseFragment<FragmentOnboardChildBinding>() {
     override fun setupUI() {
         super.setupUI()
         binding.apply {
-            imageOnboard.setImageResource(R.drawable.ob1)
+            imageOnboard.setImageResource(image)
             tvTitle.text = textTitle
             tvDescription.text = textDescription
         }

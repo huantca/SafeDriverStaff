@@ -41,6 +41,7 @@ class OnboardFragment : BaseFragment<FragmentOnboardBinding>() {
         )
         adapterVP.init(listFragment)
         binding.viewpagerOnboard.adapter = adapterVP
+        binding.viewpagerOnboard.offscreenPageLimit = 4
         binding.indicatorView.attachTo(binding.viewpagerOnboard)
     }
 

@@ -2,21 +2,22 @@ package com.bkplus.callscreen.ui.main.history
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.databinding.ObservableArrayList
-import androidx.databinding.ObservableList
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.bkplus.callscreen.common.BaseFragment
-import com.bkplus.callscreen.ui.main.home.HomeFragment
-import com.bkplus.callscreen.ultis.gone
-import com.bkplus.callscreen.ultis.visible
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentHistoryBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class FragmentHistory : BaseFragment<FragmentHistoryBinding>() {
+    private val viewModel: HistoryViewModel by viewModels()
     override val layoutId: Int
         get() = R.layout.fragment_history
 
-    lateinit var adapter: HistoryRecyclerViewAdapter
+    private lateinit var adapter: HistoryRecyclerViewAdapter
 
     companion object {
         fun newInstance(): FragmentHistory {
@@ -59,7 +60,10 @@ class FragmentHistory : BaseFragment<FragmentHistoryBinding>() {
             updateDeleteText()
         })
         binding.recyclerView.adapter = adapter
-        adapter.updateItems(testList)
+        lifecycleScope.launch {
+            delay(500L)
+            adapter.updateItems(testList)
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
