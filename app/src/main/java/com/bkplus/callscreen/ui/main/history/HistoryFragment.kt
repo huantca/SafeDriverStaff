@@ -2,26 +2,21 @@ package com.bkplus.callscreen.ui.main.history
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.databinding.ObservableArrayList
-import androidx.databinding.ObservableList
 import com.bkplus.callscreen.common.BaseFragment
-import com.bkplus.callscreen.ui.main.home.HomeFragment
-import com.bkplus.callscreen.ultis.gone
-import com.bkplus.callscreen.ultis.visible
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentHistoryBinding
 
 
-class FragmentHistory : BaseFragment<FragmentHistoryBinding>() {
+class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_history
 
     lateinit var adapter: HistoryRecyclerViewAdapter
 
     companion object {
-        fun newInstance(): FragmentHistory {
+        fun newInstance(): HistoryFragment {
             val args = Bundle()
-            val fragment = FragmentHistory()
+            val fragment = HistoryFragment()
             fragment.arguments = args
             return fragment
         }
