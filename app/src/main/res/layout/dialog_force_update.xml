@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_radius_16"
+        android:backgroundTint="@color/navi1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/icForce"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/bg_ic_update"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/application_update"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/your_are_has_new"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="normal" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnUpdateNow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_radius_8"
+            android:backgroundTint="@color/Primary100"
+            android:elevation="32dp"
+            style="@style/NormalTextButton1Medium"
+            android:gravity="center"
+            android:text="@string/update_now"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:cornerRadius="30dp" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/btnOptionUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="24dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_radius_8"
+                android:backgroundTint="@color/naviColor2"
+                android:elevation="32dp"
+                style="@style/NormalTextButton1Medium"
+                android:gravity="center"
+                android:text="@string/cancel"
+                android:textAllCaps="false"
+                android:textColor="#FFF"
+                android:paddingVertical="6dp"
+                android:paddingHorizontal="40dp"
+                android:textSize="16sp"
+                app:cornerRadius="30dp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnUpdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_radius_8"
+                android:backgroundTint="@color/Primary100"
+                android:elevation="32dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="12dp"
+                style="@style/NormalTextButton1Medium"
+                android:gravity="center"
+                android:text="@string/update"
+                android:textAllCaps="false"
+                android:paddingVertical="6dp"
+                android:paddingHorizontal="40dp"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:cornerRadius="30dp" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </LinearLayout>
+
+</layout>

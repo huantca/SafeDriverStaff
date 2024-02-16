@@ -32,6 +32,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
+            android:id="@+id/tvHeart"
             style="@style/SubtextCaption1Regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,6 +42,7 @@
             app:layout_constraintStart_toEndOf="@id/imgHeart" />
 
         <ImageView
+            android:id="@+id/imgReward"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_margin="4dp"

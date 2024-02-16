@@ -52,4 +52,5 @@
         android:label="LanguageFragment"
         tools:layout="@layout/fragment_language" />
 
+
 </navigation>

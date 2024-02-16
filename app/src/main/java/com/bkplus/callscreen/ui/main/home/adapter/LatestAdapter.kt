@@ -1,6 +1,7 @@
 package com.bkplus.callscreen.ui.main.home.adapter
 
 import android.app.Activity
+import androidx.core.view.isVisible
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -64,7 +65,9 @@ class LatestAdapter : BaseRecyclerViewAdapter<Latest,ViewDataBinding>() {
 
     private fun bindItem(item: Latest, binding: LayoutItemLatestBinding) {
         binding.apply {
-            Glide.with(root.context).load(R.mipmap.sample_image).into(imgBackground)
+            Glide.with(root.context).load(item.url).into(imgBackground)
+            imgReward.isVisible = item.free != true
+            tvHeart.text = item.loves.toString()
         }
     }
 
