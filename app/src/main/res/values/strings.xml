@@ -56,4 +56,9 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="term_of_users">Term of Users</string>
     <string name="version_app">Version App</string>
+    <string name="application_update">Application Updates</string>
+    <string name="your_are_has_new">Your app has a new updated version \n Please update for a better experience</string>
+    <string name="update_now">Update now!</string>
+    <string name="update">Update</string>
+    <string name="cancel">Cancel</string>
 </resources>

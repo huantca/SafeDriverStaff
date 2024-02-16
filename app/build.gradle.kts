@@ -1,7 +1,8 @@
+
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 
 plugins {
     id("com.android.application")
@@ -101,6 +102,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -172,4 +174,6 @@ dependencies {
     implementation("com.google.ads.mediation:facebook:6.16.0.0")
     implementation("com.google.ads.mediation:mintegral:16.5.91.1")
     implementation("com.google.ads.mediation:pangle:5.7.0.2.0")
+    //spin
+    implementation ("com.github.ybq:Android-SpinKit:1.4.0")
 }

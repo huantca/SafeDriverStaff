@@ -5,7 +5,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/navi1"
         android:orientation="vertical">
 
@@ -42,23 +42,5 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/layout_item_top_trendy" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/latest"
-            android:layout_marginTop="17dp"
-            android:textSize="16sp"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/white" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcyLatest"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="-8dp"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            android:orientation="vertical"
-            app:spanCount="3"
-            tools:listitem="@layout/layout_item_latest"/>
     </LinearLayout>
 </layout>
