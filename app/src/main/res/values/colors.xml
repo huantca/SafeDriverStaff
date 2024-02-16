@@ -60,5 +60,6 @@
     <color name="navi1">#141726</color>
     <!-- navi Color-->
     <color name="naviColor">#141726</color>
+    <color name="naviColor1">#212538</color>
     <color name="naviColor2">#34384B</color>
 </resources>

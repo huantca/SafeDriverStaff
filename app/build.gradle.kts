@@ -121,6 +121,9 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     ksp("com.github.bumptech.glide:ksp:4.16.0")
     implementation("com.airbnb.android:lottie:6.1.0")
+    //GroupieAdapter
+    implementation("com.xwray:groupie:2.8.1")
+    implementation("com.xwray:groupie-viewbinding:2.8.1")
     //Dimens
     implementation ("com.intuit.sdp:sdp-android:1.1.0")
     //tbuomono dotIndicator

@@ -22,6 +22,13 @@
     <string name="setting_pt">Portuguese</string>
     <string name="setting_de">German</string>
     <string name="setting_fr">French</string>
+
+    <!-- Setting-->
+    <string name="your_friend">\"Your friend \"</string>
+    <string name="visit_app">\" wants you to check out our app!. Visit us at: \"</string>
+    <string name="choose_way_share">Choose a way to share:</string>
+
+    <!-- App-->
     <string name="top_trendy">Top Trendy</string>
     <string name="view_all">View All</string>
     <string name="latest">Latest</string>
@@ -42,4 +49,11 @@
     <string name="congratulations">Congratulations</string>
     <string name="success_installing_text">You have successfully installed this</string>
     <string name="home">Home</string>
+    <string name="setting">Setting</string>
+    <string name="language">Language</string>
+    <string name="rate_app">Rate app</string>
+    <string name="share_us">Share Us</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="term_of_users">Term of Users</string>
+    <string name="version_app">Version App</string>
 </resources>

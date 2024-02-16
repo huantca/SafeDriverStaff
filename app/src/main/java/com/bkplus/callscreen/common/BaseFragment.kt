@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.viewbinding.ViewBinding
+import com.ads.bkplus_ads.core.callforward.BkPlusAppOpenAdManager
 import timber.log.Timber
 
 abstract class BaseFragment<T : ViewBinding> : Fragment() {
@@ -37,11 +38,11 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
     protected abstract val layoutId: Int
     protected lateinit var binding: T
     private var dialog: Dialog? = null
+
     override fun onResume() {
         Timber.tag("Resume:").d(this.javaClass.simpleName)
         super.onResume()
     }
-
 
     protected open fun setupUI() {}
     protected open fun setupData() {}
@@ -49,18 +50,6 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
     fun requireContext(action: (nonNullContext: Context) -> Unit) {
         context?.let(action)
     }
-
-//    fun populateNative(
-//        adsNative: ApNativeAd,
-//        adPlaceHolder: FrameLayout,
-//        shimmer: ShimmerFrameLayout
-//    ) {
-//        activity?.let {
-//            AperoAd.getInstance().populateNativeAdView(
-//                it, adsNative, adPlaceHolder, shimmer
-//            )
-//        }
-//    }
 
     fun toast(message: String, isLong: Boolean? = false) {
         context?.let {

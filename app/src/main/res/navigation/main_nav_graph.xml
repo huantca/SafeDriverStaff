@@ -45,6 +45,11 @@
         android:id="@+id/searchFragment"
         android:name="com.bkplus.callscreen.ui.main.home.search.SearchFragment"
         android:label="SearchFragment"
-        tools:layout="@layout/fragment_search"/>
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/languageFragment"
+        android:name="com.bkplus.callscreen.ui.setting.language.LanguageFragment"
+        android:label="LanguageFragment"
+        tools:layout="@layout/fragment_language" />
 
 </navigation>

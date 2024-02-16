@@ -1,13 +1,224 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:background="@color/naviColor"
+        android:orientation="vertical"
+        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            style="@style/headingH1Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:text="@string/setting" />
+
+        <LinearLayout
+            android:id="@+id/btn_language"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_radius_16"
+            android:backgroundTint="@color/naviColor1"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@string/setting"
+                android:src="@drawable/ic_language" />
+
+            <TextView
+                style="@style/NormalTextButton1Regular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:text="@string/language"
+                android:textColor="@color/white" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical|end"
+                android:contentDescription="@string/setting"
+                android:src="@drawable/ic_arrow_forward" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_rate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_radius_16"
+            android:backgroundTint="@color/naviColor1"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@string/setting"
+                android:src="@drawable/ic_rate" />
+
+            <TextView
+                style="@style/NormalTextButton1Regular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:text="@string/rate_app"
+                android:textColor="@color/white" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical|end"
+                android:contentDescription="@string/setting"
+                android:src="@drawable/ic_arrow_forward" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_share"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_radius_16"
+            android:backgroundTint="@color/naviColor1"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@string/setting"
+                android:src="@drawable/ic_share" />
+
+            <TextView
+                style="@style/NormalTextButton1Regular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:text="@string/share_us"
+                android:textColor="@color/white" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical|end"
+                android:contentDescription="@string/setting"
+                android:src="@drawable/ic_arrow_forward" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_policy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_radius_16"
+            android:backgroundTint="@color/naviColor1"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@string/setting"
+                android:src="@drawable/ic_policy" />
+
+            <TextView
+                style="@style/NormalTextButton1Regular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:text="@string/privacy_policy"
+                android:textColor="@color/white" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical|end"
+                android:contentDescription="@string/setting"
+                android:src="@drawable/ic_arrow_forward" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_term"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_radius_16"
+            android:backgroundTint="@color/naviColor1"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@string/setting"
+                android:src="@drawable/ic_term" />
+
+            <TextView
+                style="@style/NormalTextButton1Regular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:text="@string/term_of_users"
+                android:textColor="@color/white" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical|end"
+                android:contentDescription="@string/setting"
+                android:src="@drawable/ic_arrow_forward" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/bg_radius_16"
+            android:backgroundTint="@color/naviColor1"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@string/setting"
+                android:src="@drawable/ic_version" />
+
+            <TextView
+                style="@style/NormalTextButton1Regular"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:text="@string/version_app"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tvVersion"
+                style="@style/SubtextCaption1Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginStart="12dp"
+                android:textColor="@color/neutral40"
+                tools:text="Ver 1.0.0" />
+        </LinearLayout>
+
+    </LinearLayout>
 </layout>
