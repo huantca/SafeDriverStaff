@@ -1,14 +1,16 @@
 package com.bkplus.callscreen.ui.main.home
 
 import android.os.Bundle
+import com.bkplus.callscreen.api.entity.HomeSectionEntity
 import com.bkplus.callscreen.common.BaseFragment
+import com.bkplus.callscreen.ui.main.home.adapter.HomeAdapter
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentHomeBinding
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_home
-
+    private var adapter: HomeAdapter? = null
     companion object {
         fun newInstance(): HomeFragment {
             val args = Bundle()
@@ -18,4 +20,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
+    override fun setupData() {
+        super.setupData()
+        adapter = HomeAdapter()
+        val arrayList = ArrayList<HomeSectionEntity>()
+        arrayList.add(HomeSectionEntity())
+        adapter?.updateItems(arrayList)
+        binding.rcyHome.adapter = adapter
+        binding.rcyHome.setHasFixedSize(true)
+    }
 }
