@@ -20,9 +20,9 @@ class FragmentHistory : BaseFragment<FragmentHistoryBinding>() {
     private lateinit var adapter: HistoryRecyclerViewAdapter
 
     companion object {
-        fun newInstance(): FragmentHistory {
+        fun newInstance(): HistoryFragment {
             val args = Bundle()
-            val fragment = FragmentHistory()
+            val fragment = HistoryFragment()
             fragment.arguments = args
             return fragment
         }
@@ -75,7 +75,9 @@ class FragmentHistory : BaseFragment<FragmentHistoryBinding>() {
         }
 
         binding.deleteButton.setOnClickListener {
-
+            testList.removeIf { it.isSelected }
+            binding.selectAll.performClick()
+            adapter.notifyDataSetChanged()
         }
 
         binding.textSelectAll.setOnClickListener {

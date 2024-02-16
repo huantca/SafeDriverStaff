@@ -22,6 +22,9 @@
     <string name="setting_pt">Portuguese</string>
     <string name="setting_de">German</string>
     <string name="setting_fr">French</string>
+    <string name="top_trendy">Top Trendy</string>
+    <string name="view_all">View All</string>
+    <string name="latest">Latest</string>
     <string name="_4k_wallpaper">4K Wallpaper</string>
     <string name="the_action_may_contain_advertising">The action may contain advertising</string>
     <string name="no_internet">Your internet connection is not working. Please check your network and try to connect again.</string>
@@ -36,4 +39,7 @@
     <string name="ob4_description">Let\'s explore 4k wallpapers with our hot themes now.</string>
     <string name="next">Next</string>
     <string name="get_started_btn">Get Started</string>
+    <string name="congratulations">Congratulations</string>
+    <string name="success_installing_text">You have successfully installed this</string>
+    <string name="home">Home</string>
 </resources>
