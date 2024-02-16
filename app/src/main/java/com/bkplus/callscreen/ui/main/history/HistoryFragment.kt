@@ -12,7 +12,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class FragmentHistory : BaseFragment<FragmentHistoryBinding>() {
+class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
     private val viewModel: HistoryViewModel by viewModels()
     override val layoutId: Int
         get() = R.layout.fragment_history
