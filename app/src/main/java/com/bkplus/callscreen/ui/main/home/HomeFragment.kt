@@ -2,6 +2,7 @@ package com.bkplus.callscreen.ui.main.home
 
 import android.os.Bundle
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.bkplus.callscreen.api.entity.HomeSectionEntity
 import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.common.BasePrefers
@@ -48,7 +49,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             topTrendyFragment.dismissDialog = {
 
             }
-            topTrendyFragment.show(childFragmentManager,"")
+            topTrendyFragment.show(childFragmentManager, "")
         }
         viewModel.homeSectionLiveData.observe(viewLifecycleOwner) {
             adapter?.updateItems(it)
@@ -57,6 +58,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.rcyHome.adapter = adapter
     }
 
+    override fun setupListener() {
+        super.setupListener()
+        binding.apply {
+            imgSearch.setOnClickListener {
+                findNavController().navigate(R.id.searchFragment)
+            }
+        }
+    }
 
 
     private fun setupShowForceUpdate() {
