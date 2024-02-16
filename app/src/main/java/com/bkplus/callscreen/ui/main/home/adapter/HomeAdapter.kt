@@ -21,7 +21,7 @@ class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBind
         val item = items[position]
         holder.binding.apply {
             setupDataTopTrendy(rcyTopTrendy)
-            setupDataLatest(rcyTopTrendy)
+            setupDataLatest(rcyLatest)
             tvViewAll.setOnSingleClickListener {
 
             }
