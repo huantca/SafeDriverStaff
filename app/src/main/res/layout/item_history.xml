@@ -4,16 +4,6 @@
 
     <data>
 
-        <variable
-            name="isSelected"
-            type="Boolean" />
-
-        <variable
-            name="isSelecting"
-            type="Boolean" />
-
-        <import type="android.view.View" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,7 +36,7 @@
             android:elevation="1dp"
             android:padding="4dp"
             android:src="@drawable/check_box"
-            android:visibility="@{isSelecting &amp;&amp; isSelected? View.VISIBLE : View.GONE}"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@+id/card_view"
             app:layout_constraintTop_toTopOf="@+id/card_view" />
 
@@ -57,7 +47,7 @@
             android:elevation="1dp"
             android:padding="4dp"
             android:src="@drawable/check_box_outline_blank"
-            android:visibility="@{isSelecting &amp;&amp; !isSelected? View.VISIBLE : View.GONE}"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@+id/card_view"
             app:layout_constraintTop_toTopOf="@+id/card_view" />
     </androidx.constraintlayout.widget.ConstraintLayout>
