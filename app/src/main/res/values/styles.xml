@@ -125,4 +125,11 @@
     <style name="SubtextCaption1SemiBold" parent="SubtextCaption1Regular">
         <item name="fontFamily">@font/roboto_bold</item>
     </style>
+
+    <style name="normal_iv">
+        <item name="placeholderImage">@drawable/ic_4k</item>
+        <item name="progressBarImage">@drawable/ic_loading</item>
+        <item name="placeholderImageScaleType">centerCrop</item>
+        <item name="actualImageScaleType">centerCrop</item>
+    </style>
 </resources>
