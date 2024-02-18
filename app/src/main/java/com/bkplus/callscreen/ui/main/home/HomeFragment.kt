@@ -9,8 +9,6 @@ import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ui.main.home.adapter.HomeAdapter
 import com.bkplus.callscreen.ui.main.home.viewmodel.HomeViewModel
 import com.bkplus.callscreen.ui.widget.ForceUpdateDialog
-import com.bkplus.callscreen.ultis.gone
-import com.bkplus.callscreen.ultis.visible
 import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentHomeBinding
@@ -39,21 +37,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun setupData() {
         super.setupData()
-        binding.progressBar.visible()
         viewModel.getHomeSection()
         adapter = HomeAdapter()
         adapter?.viewAll = {
             val topTrendyFragment = TopTrendyFragment().apply {
                 setData(it)
             }
-            topTrendyFragment.dismissDialog = {
 
+            topTrendyFragment.dismissDialog = {
             }
             topTrendyFragment.show(childFragmentManager, "")
         }
         viewModel.homeSectionLiveData.observe(viewLifecycleOwner) {
             adapter?.updateItems(it)
-            binding.progressBar.gone()
         }
         binding.rcyHome.adapter = adapter
     }

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ads.bkplus_ads.core.model.BkNativeAd
 import com.bkplus.callscreen.ui.main.home.model.Latest
-import com.bumptech.glide.Glide
+import com.bkplus.callscreen.ultis.loadImage
 import com.harison.core.app.platform.BaseRecyclerViewAdapter
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.ItemNativeOnboardBinding
@@ -65,7 +65,7 @@ class LatestAdapter : BaseRecyclerViewAdapter<Latest,ViewDataBinding>() {
 
     private fun bindItem(item: Latest, binding: LayoutItemLatestBinding) {
         binding.apply {
-            Glide.with(root.context).load(item.url).into(imgBackground)
+            imgBackground.loadImage(item.url)
             imgReward.isVisible = item.free != true
             tvHeart.text = item.loves.toString()
         }

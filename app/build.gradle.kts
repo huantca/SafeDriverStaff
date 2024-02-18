@@ -174,6 +174,5 @@ dependencies {
     implementation("com.google.ads.mediation:facebook:6.16.0.0")
     implementation("com.google.ads.mediation:mintegral:16.5.91.1")
     implementation("com.google.ads.mediation:pangle:5.7.0.2.0")
-    //spin
-    implementation ("com.github.ybq:Android-SpinKit:1.4.0")
+    implementation("com.facebook.fresco:fresco:2.3.0")
 }

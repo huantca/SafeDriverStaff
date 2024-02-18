@@ -12,6 +12,7 @@ import com.harrison.myapplication.databinding.LayoutRcyHomeBinding
 class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBinding>() {
 
     var viewAll: (arrayList: ArrayList<Item>) -> Unit? = {}
+
     companion object {
         const val TRENDY = 0
         const val LATEST = 1
@@ -23,12 +24,14 @@ class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBind
             else -> R.layout.layout_home_trendy
         }
     }
+
     override fun getItemViewType(position: Int): Int {
         return when (position) {
             0 -> TRENDY
             else -> LATEST
         }
     }
+
     override fun onBindViewHolder(
         holder: BaseViewHolder<LayoutRcyHomeBinding, HomeSectionEntity>,
         position: Int
@@ -52,15 +55,21 @@ class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBind
     ) {
         val topTrendyAdapter = TopTrendyAdapter()
         val listTrendy = ArrayList<Item>()
+        val listViewAll = ArrayList<Item>()
         if (homeSectionEntity.id == 1) {
-            homeSectionEntity.items?.forEach{  item ->
-                item?.let { listTrendy.add(it) }
+            val shuffled = homeSectionEntity.items?.shuffled()
+            val randomList = shuffled?.subList(0,15)
+            randomList?.forEach {
+                it?.let { listTrendy.add(it) }
+            }
+            homeSectionEntity.items?.forEach {
+                it?.let { listViewAll.add(it) }
             }
         }
         topTrendyAdapter.updateItems(listTrendy)
         binding.rcyTopTrendy.adapter = topTrendyAdapter
         binding.tvViewAll.setOnClickListener {
-            viewAll.invoke(listTrendy)
+            viewAll.invoke(listViewAll)
         }
     }
 
@@ -71,7 +80,9 @@ class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBind
         val latestAdapter = LatestAdapter()
         val listLatest = ArrayList<Latest>()
         if (homeSectionEntity.id == 2) {
-            homeSectionEntity.items?.forEachIndexed { index, item ->
+            val shuffled = homeSectionEntity.items?.shuffled()
+            val randomList = shuffled?.subList(0,15)
+            randomList?.forEachIndexed { index, item ->
                 val count = index + 1;
                 listLatest.add(
                     Latest(
@@ -91,4 +102,5 @@ class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBind
         latestAdapter.updateItems(listLatest)
         binding.rcyLatest.adapter = latestAdapter
     }
+
 }

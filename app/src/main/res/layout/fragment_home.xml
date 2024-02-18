@@ -44,34 +44,25 @@
 
         </RelativeLayout>
 
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rltHeader" >
+
+            <include layout="@layout/layout_rcy_home"/>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcyHome"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@id/rltHeader"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:listitem="@layout/layout_rcy_home" />
-
-        <LinearLayout
-            android:id="@+id/progressBar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:visibility="gone"
-            android:gravity="center">
-
-            <com.github.ybq.android.spinkit.SpinKitView
-                android:id="@+id/spinKit"
-                style="@style/SpinKitView.Large.Circle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:SpinKit_Color="#ED9A41"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@id/rltHeader"
+            tools:listitem="@layout/layout_rcy_home"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
