@@ -3,7 +3,9 @@ package com.bkplus.callscreen.ui.viewlike
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class ViewLikeAdapter(private val type: String) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ViewLikeAdapter(
+    private val type: String
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         TODO("Not yet implemented")

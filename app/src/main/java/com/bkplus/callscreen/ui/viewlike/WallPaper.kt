@@ -2,5 +2,8 @@ package com.bkplus.callscreen.ui.viewlike
 
 data class WallPaper(
     var isLiked: Boolean = false,
-    val imageUrl: String? = null
+    val id: Int,
+    val url: String? = null,
+    val categoryId: Int,
+    var likes: Int
 )
