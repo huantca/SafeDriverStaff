@@ -3,13 +3,11 @@ package com.bkplus.callscreen.ui.main.history
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.bkplus.callscreen.common.BaseFragment
+import com.bkplus.callscreen.ultis.deleteFileIfExist
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentHistoryBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
@@ -27,29 +25,9 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
             return fragment
         }
     }
-    val testList = arrayListOf(
-        HistoryItem(1, false),
-        HistoryItem(2, false),
-        HistoryItem(3, false),
-        HistoryItem(4, false),
-        HistoryItem(5, false),
-        HistoryItem(6, false),
-        HistoryItem(7, false),
-        HistoryItem(8, false),
-        HistoryItem(9, false),
-        HistoryItem(5, false),
-        HistoryItem(6, false),
-        HistoryItem(7, false),
-        HistoryItem(8, false),
-        HistoryItem(9, false),
-        HistoryItem(5, false),
-        HistoryItem(6, false),
-        HistoryItem(7, false),
-        HistoryItem(8, false),
-        HistoryItem(9, false),
-    )
 
     override fun setupData() {
+        viewModel.getData()
         binding.isSelecting = false
         binding.isSelectedAll = false
         adapter = HistoryRecyclerViewAdapter({
@@ -60,9 +38,10 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
             updateDeleteText()
         })
         binding.recyclerView.adapter = adapter
-        lifecycleScope.launch {
-            delay(500L)
-            adapter.updateItems(testList)
+        viewModel.list.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                adapter.updateItems(ArrayList(it))
+            }
         }
     }
 
@@ -75,20 +54,24 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
         }
 
         binding.deleteButton.setOnClickListener {
-            testList.removeIf { it.isSelected }
+            adapter.items.forEach {
+                if (it.isSelected) viewModel.delete(it)
+                it.imageUri?.deleteFileIfExist()
+            }
+            adapter.items.removeIf { it.isSelected }
             binding.selectAll.performClick()
             adapter.notifyDataSetChanged()
         }
 
         binding.textSelectAll.setOnClickListener {
-            testList.forEach { it.isSelected = true }
+            adapter.items.forEach { it.isSelected = true }
             adapter.notifyDataSetChanged()
             binding.isSelectedAll = true
             updateDeleteText()
         }
 
         binding.textDeSelectAll.setOnClickListener {
-            testList.forEach { it.isSelected = false }
+            adapter.items.forEach { it.isSelected = false }
             binding.selectAll.performClick()
             binding.isSelectedAll = false
             updateDeleteText()

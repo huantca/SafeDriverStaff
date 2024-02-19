@@ -11,7 +11,7 @@ import androidx.viewbinding.ViewBinding
 abstract class BaseRecyclerViewAdapter<T, VB : ViewBinding> :
     RecyclerView.Adapter<BaseRecyclerViewAdapter.BaseViewHolder<VB,T>>() {
 
-    protected var items = arrayListOf<T>()
+    var items = arrayListOf<T>()
     var listener: ((view: View, item: T, position: Int) -> Unit)? = null
 
     /**
