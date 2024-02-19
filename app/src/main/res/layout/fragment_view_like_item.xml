@@ -6,7 +6,8 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/wall_paper_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:cardCornerRadius="16dp">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/wall_paper_image"

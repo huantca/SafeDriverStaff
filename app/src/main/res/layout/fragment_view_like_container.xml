@@ -6,7 +6,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/dark1">
+        android:background="@color/dark1"
+        android:clipChildren="false"
+        android:clipToPadding="false">
         
         <LinearLayout
             android:id="@+id/action_bar"
