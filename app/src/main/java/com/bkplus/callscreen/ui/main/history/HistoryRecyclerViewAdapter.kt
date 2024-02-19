@@ -1,6 +1,8 @@
 package com.bkplus.callscreen.ui.main.history
 
+import com.bkplus.callscreen.database.WallpaperEntity
 import com.bkplus.callscreen.ultis.gone
+import com.bkplus.callscreen.ultis.loadImage
 import com.bkplus.callscreen.ultis.visible
 import com.harison.core.app.platform.BaseRecyclerViewAdapter
 import com.harrison.myapplication.R
@@ -10,7 +12,7 @@ class HistoryRecyclerViewAdapter(
     val onSelectedAll: () -> Unit = {},
     val onNotSelectedAll: () -> Unit = {},
     val onClicked: () -> Unit = {},
-) : BaseRecyclerViewAdapter<HistoryItem, ItemHistoryBinding>() {
+) : BaseRecyclerViewAdapter<WallpaperEntity, ItemHistoryBinding>() {
     override fun getLayoutId(viewType: Int): Int {
         return R.layout.item_history
     }
@@ -20,8 +22,9 @@ class HistoryRecyclerViewAdapter(
         get() = items.count { it.isSelected }
 
     override fun onBindViewHolder(
-        holder: BaseViewHolder<ItemHistoryBinding, HistoryItem>, position: Int
+        holder: BaseViewHolder<ItemHistoryBinding, WallpaperEntity>, position: Int
     ) {
+        holder.binding.image.loadImage(items[position].imageUrl)
         val checkSelecting = {
             holder.binding.apply {
                 if (isSelecting && items[position].isSelected) {
@@ -39,7 +42,7 @@ class HistoryRecyclerViewAdapter(
             }
         }
         checkSelecting()
-        holder.binding.cardView.setOnClickListener {
+        holder.binding.image.setOnClickListener {
             items[position].isSelected = items[position].isSelected.not()
             if (items[position].isSelected) selectedCount++
             else selectedCount--
@@ -50,8 +53,3 @@ class HistoryRecyclerViewAdapter(
         }
     }
 }
-
-data class HistoryItem(
-    val id: Int,
-    var isSelected: Boolean,
-)

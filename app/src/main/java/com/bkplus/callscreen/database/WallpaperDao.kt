@@ -32,4 +32,6 @@ interface WallpaperDao {
 
     @Query("Delete From WallpaperDB where generateId = :id")
     fun deleteItem(id: Int)
+    @Query("SELECT COUNT(generateId) FROM WallpaperDB")
+    fun getCount(): Int
 }
