@@ -4,7 +4,7 @@ import com.harrison.myapplication.BuildConfig
 
 
 object Constants {
-    const val BASE_URL = "https://charging-battery.ap-south-1.linodeobjects.com/"
+    const val BASE_URL = "https://fb003-4k-wallpaper.ap-south-1.linodeobjects.com/"
 
     //TIMEOUT
     const val TIME_OUT = 30000L
@@ -28,6 +28,7 @@ object Constants {
     const val id_inter_splash = "id_inter_splash"
     const val id_native_language = "id_native_language"
     const val id_native_onboard = "id_native_onboard"
+    const val request_code_share = 9999
 
     //URL
     const val LINK_STORE =

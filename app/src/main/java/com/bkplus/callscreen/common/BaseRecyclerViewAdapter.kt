@@ -18,7 +18,7 @@ abstract class BaseRecyclerViewAdapter<T, VB : ViewBinding> :
      * BaseRecyclerViewAdapter: Submit data by DiffUtil.
      * @param items is ArrayList<T>
      */
-    fun updateItems(items: ArrayList<T>) {
+    open fun updateItems(items: ArrayList<T>) {
         val taskDiffCallBack = BaseDiffCallBack<T>(this.items, items)
         val diffResult = DiffUtil.calculateDiff(taskDiffCallBack)
         diffResult.dispatchUpdatesTo(this)

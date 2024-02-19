@@ -1,7 +1,8 @@
+
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 
 plugins {
     id("com.android.application")
@@ -97,9 +98,11 @@ android {
 }
 
 dependencies {
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -120,6 +123,9 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     ksp("com.github.bumptech.glide:ksp:4.16.0")
     implementation("com.airbnb.android:lottie:6.1.0")
+    //GroupieAdapter
+    implementation("com.xwray:groupie:2.8.1")
+    implementation("com.xwray:groupie-viewbinding:2.8.1")
     //Dimens
     implementation ("com.intuit.sdp:sdp-android:1.1.0")
     //tbuomono dotIndicator
@@ -168,4 +174,5 @@ dependencies {
     implementation("com.google.ads.mediation:facebook:6.16.0.0")
     implementation("com.google.ads.mediation:mintegral:16.5.91.1")
     implementation("com.google.ads.mediation:pangle:5.7.0.2.0")
+    implementation("com.facebook.fresco:fresco:2.3.0")
 }

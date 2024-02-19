@@ -10,16 +10,19 @@
         android:name="com.bkplus.callscreen.ui.splash.SplashFragment"
         android:label="splashFragment"
         tools:layout="@layout/fragment_splash" />
+
     <fragment
         tools:layout="@layout/fragment_setting"
         android:name="com.bkplus.callscreen.ui.setting.SettingFragment"
         android:id="@+id/settingFragment"
         android:label="settingFragment" />
+
     <fragment
         android:id="@+id/historyFragment"
-        android:name="com.bkplus.callscreen.ui.main.history.FragmentHistory"
+        android:name="com.bkplus.callscreen.ui.main.history.HistoryFragment"
         android:label="FragmentHistory"
         tools:layout="@layout/fragment_history" />
+
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.bkplus.callscreen.ui.main.category.CategoryFragment"
@@ -31,10 +34,23 @@
         android:name="com.bkplus.callscreen.ui.main.home.HomeFragment"
         android:label="homeFragment"
         tools:layout="@layout/fragment_home" />
+
     <fragment
         android:id="@+id/onboardFragment"
         android:name="com.bkplus.callscreen.ui.splash.onboard.OnboardFragment"
         android:label="OnboardFragment"
         tools:layout="@layout/fragment_onboard" />
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.bkplus.callscreen.ui.main.home.search.SearchFragment"
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/languageFragment"
+        android:name="com.bkplus.callscreen.ui.setting.language.LanguageFragment"
+        android:label="LanguageFragment"
+        tools:layout="@layout/fragment_language" />
+
 
 </navigation>

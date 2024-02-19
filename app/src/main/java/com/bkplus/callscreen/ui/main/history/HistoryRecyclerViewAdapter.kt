@@ -1,5 +1,7 @@
 package com.bkplus.callscreen.ui.main.history
 
+import com.bkplus.callscreen.ultis.gone
+import com.bkplus.callscreen.ultis.visible
 import com.harison.core.app.platform.BaseRecyclerViewAdapter
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.ItemHistoryBinding
@@ -20,19 +22,31 @@ class HistoryRecyclerViewAdapter(
     override fun onBindViewHolder(
         holder: BaseViewHolder<ItemHistoryBinding, HistoryItem>, position: Int
     ) {
-        holder.binding.apply {
-            isSelecting = this@HistoryRecyclerViewAdapter.isSelecting
-            if (isSelecting == false) isSelected = false
-            isSelected = items[position].isSelected
-            cardView.setOnClickListener {
-                items[position].isSelected = items[position].isSelected.not()
-                isSelected = items[position].isSelected
-                if (isSelected == true) selectedCount++
-                else selectedCount--
-                if (selectedCount == itemCount) onSelectedAll()
-                else onNotSelectedAll()
-                onClicked()
+        val checkSelecting = {
+            holder.binding.apply {
+                if (isSelecting && items[position].isSelected) {
+                    checkBox.visible()
+                    checkBoxBlank.gone()
+                }
+                if (isSelecting && !items[position].isSelected) {
+                    checkBoxBlank.visible()
+                    checkBox.gone()
+                }
+                if (!isSelecting) {
+                    checkBox.gone()
+                    checkBoxBlank.gone()
+                }
             }
+        }
+        checkSelecting()
+        holder.binding.cardView.setOnClickListener {
+            items[position].isSelected = items[position].isSelected.not()
+            if (items[position].isSelected) selectedCount++
+            else selectedCount--
+            if (selectedCount == itemCount) onSelectedAll()
+            else onNotSelectedAll()
+            onClicked()
+            checkSelecting()
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.bkplus.callscreen.api
 
-import com.bkplus.callscreen.api.entity.ResponseApi
+import com.bkplus.callscreen.api.entity.HomeSectionEntity
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.GET
@@ -10,6 +10,6 @@ interface ApiService {
     @GET
     suspend fun downloadFile(@Url fileUrl: String): Response<ResponseBody>
 
-    @GET("home_section.json")
-    suspend fun getApiData(): BaseResponse<ResponseApi>
+    @GET("home-sections.json")
+    suspend fun getApiData(): BaseResponse<ArrayList<HomeSectionEntity>>
 }
