@@ -1,11 +1,14 @@
 package com.bkplus.callscreen.ui.viewlike
 
 import android.app.WallpaperManager
+import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.CompositePageTransformer
@@ -18,11 +21,23 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentViewLikeContainerBinding
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
+@Suppress("DEPRECATION")
 class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>() {
 
     override val layoutId: Int
         get() = R.layout.fragment_view_like_container
+
+    private var currentPosition: Int = -1
+    private val coroutineScope =
+        CoroutineScope(SupervisorJob() + Dispatchers.Main + CoroutineExceptionHandler { _, _ ->
+        })
+    private var ct: Context? = null
 
     val list = arrayListOf<WallPaper>(
         WallPaper(
@@ -97,6 +112,7 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
         override fun createFragment(position: Int): Fragment {
             val fragment = ViewLikeItemFragment()
             fragment.initData(items[position])
+            currentPosition = position
             return fragment
         }
     }
@@ -126,37 +142,53 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
                 positionOffsetPixels: Int
             ) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-
+                Log.d(this@ViewLikeContainerFragment.javaClass.simpleName, "onPageScrolled: $position")
+                currentPosition = position
             }
         })
+    }
+
+    private fun goToSuccess() {
+        findNavController().navigate(R.id.congratulationsFragment)
     }
 
     override fun setupListener() {
         super.setupListener()
         binding.apply {
             setWallpaperBtn.setOnSingleClickListener {
-                requireContext { ct ->
-                    val currentImage = list.getOrNull(viewPager.currentItem)
-                    Glide.with(ct)
-                        .asBitmap()
-                        .load(currentImage?.url)
-                        .into(object : CustomTarget<Bitmap>() {
-                            override fun onResourceReady(
-                                resource: Bitmap,
-                                transition: Transition<in Bitmap>?
-                            ) {
-                                WallpaperManager.getInstance(ct).setBitmap(resource)
-                                toast(getString(R.string.set_wallpaper))
-                            }
+                setWallpaper()
+            }
 
-                            override fun onLoadCleared(placeholder: Drawable?) {
-                                // this is called when imageView is cleared on lifecycle call or for
-                                // some other reason.
-                            }
-                        })
-                }
+            backBtn.setOnSingleClickListener {
+                findNavController().popBackStack()
             }
         }
     }
 
+    private fun setWallpaper() {
+        requireContext { ct ->
+            val currentImage = list.getOrNull(binding.viewPager.currentItem)
+            Glide.with(ct)
+                .asBitmap()
+                .load(currentImage?.url)
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        WallpaperManager.getInstance(ct).setBitmap(resource)
+                        toast(getString(R.string.set_wallpaper))
+                    }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        // this is called when imageView is cleared on lifecycle call or for
+                        // some other reason.
+                    }
+                })
+        }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            goToSuccess()
+        }
+    }
 }
