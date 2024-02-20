@@ -70,7 +70,7 @@ class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBind
             }
         }
         topTrendingAdapter.updateItems(listTrendy)
-        binding.rcyTopTrending.adapter = topTrendyAdapter
+        binding.rcyTopTrending.adapter = topTrendingAdapter
         binding.title.text = homeSectionEntity.name
         topTrendingAdapter.onItemClick = { onItemRcvClick(it, listTrendy) }
         binding.tvViewAll.setOnClickListener {

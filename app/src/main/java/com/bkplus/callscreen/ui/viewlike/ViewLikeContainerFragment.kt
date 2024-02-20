@@ -4,8 +4,11 @@ import android.app.WallpaperManager
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -19,6 +22,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentViewLikeContainerBinding
+import kotlinx.coroutines.launch
 
 class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>() {
 
@@ -128,7 +132,7 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
                 })
         }
 
-        CoroutineScope(Dispatchers.Main).launch {
+        lifecycleScope.launch {
             goToSuccess()
         }
     }
