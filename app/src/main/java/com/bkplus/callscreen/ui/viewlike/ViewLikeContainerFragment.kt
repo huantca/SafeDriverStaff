@@ -1,14 +1,15 @@
 package com.bkplus.callscreen.ui.viewlike
 
 import android.app.WallpaperManager
-import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.CompositePageTransformer
@@ -21,84 +22,28 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentViewLikeContainerBinding
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
-@Suppress("DEPRECATION")
 class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>() {
 
     override val layoutId: Int
         get() = R.layout.fragment_view_like_container
 
-    private var currentPosition: Int = -1
-    private val coroutineScope =
-        CoroutineScope(SupervisorJob() + Dispatchers.Main + CoroutineExceptionHandler { _, _ ->
-        })
-    private var ct: Context? = null
-
-    val list = arrayListOf<WallPaper>(
-        WallPaper(
-            isLiked = false,
-            id = 0,
-            url = "https://i.pinimg.com/736x/39/11/6c/39116c247669762f4ce72be4ce2b862e.jpg",
-            likes = 10
-        ),
-        WallPaper(
-            isLiked = false,
-            id = 0,
-            url = "https://i.pinimg.com/736x/39/11/6c/39116c247669762f4ce72be4ce2b862e.jpg",
-            likes = 10
-        ),
-        WallPaper(
-            isLiked = false,
-            id = 0,
-            url = "https://i.pinimg.com/736x/39/11/6c/39116c247669762f4ce72be4ce2b862e.jpg",
-            likes = 10
-        ),
-        WallPaper(
-            isLiked = false,
-            id = 0,
-            url = "https://i.pinimg.com/736x/39/11/6c/39116c247669762f4ce72be4ce2b862e.jpg",
-            likes = 10
-        ),
-        WallPaper(
-            isLiked = false,
-            id = 0,
-            url = "https://i.pinimg.com/736x/39/11/6c/39116c247669762f4ce72be4ce2b862e.jpg",
-            likes = 10
-        ),
-        WallPaper(
-            isLiked = false,
-            id = 0,
-            url = "https://i.pinimg.com/736x/39/11/6c/39116c247669762f4ce72be4ce2b862e.jpg",
-            likes = 10
-        ),
-        WallPaper(
-            isLiked = false,
-            id = 0,
-            url = "https://i.pinimg.com/736x/39/11/6c/39116c247669762f4ce72be4ce2b862e.jpg",
-            likes = 10
-        ),
-        WallPaper(
-            isLiked = false,
-            id = 0,
-            url = "https://i.pinimg.com/736x/39/11/6c/39116c247669762f4ce72be4ce2b862e.jpg",
-            likes = 10
-        ),
-        WallPaper(
-            isLiked = false,
-            id = 0,
-            url = "https://i.pinimg.com/736x/39/11/6c/39116c247669762f4ce72be4ce2b862e.jpg",
-            likes = 10
-        )
-    )
+    var list = arrayListOf<WallPaper>()
+    private var currentPosition = 0
+    private val args by navArgs<ViewLikeContainerFragmentArgs>()
+    override fun setupData() {
+        super.setupData()
+        list.clear()
+        list.addAll(args.listData)
+        val pos = args.listData.indexOfFirst {
+            it.url == args.item.url
+        }
+        currentPosition = if (pos >= 0) pos else 0
+    }
 
     override fun setupUI() {
         super.setupUI()
-
         val pagerAdapter = ScreenSlidePagerAdapter(requireActivity(), list)
         binding.viewPager.adapter = pagerAdapter
         initViewPager()
@@ -112,7 +57,6 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
         override fun createFragment(position: Int): Fragment {
             val fragment = ViewLikeItemFragment()
             fragment.initData(items[position])
-            currentPosition = position
             return fragment
         }
     }
@@ -146,6 +90,7 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
                 currentPosition = position
             }
         })
+        binding.viewPager.setCurrentItem(currentPosition, true)
     }
 
     private fun goToSuccess() {
@@ -187,8 +132,9 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
                 })
         }
 
-        CoroutineScope(Dispatchers.Main).launch {
+        lifecycleScope.launch {
             goToSuccess()
         }
     }
+
 }

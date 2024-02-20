@@ -9,5 +9,5 @@ data class HomeSectionEntity(
     @SerializedName("name")
     val name: String? = null,
     @SerializedName("wallpapers")
-    val items: List<Item?>? = null
+    val items: List<Item>? = null
 )

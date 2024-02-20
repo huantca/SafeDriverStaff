@@ -3,6 +3,7 @@ package com.bkplus.callscreen.ui.main.home.adapter
 import com.bkplus.callscreen.api.entity.HomeSectionEntity
 import com.bkplus.callscreen.api.entity.Item
 import com.bkplus.callscreen.ui.main.home.model.Latest
+import com.bkplus.callscreen.ultis.toArrayList
 import com.harison.core.app.platform.BaseRecyclerViewAdapter
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.LayoutHomeLatestBinding
@@ -12,6 +13,8 @@ import com.harrison.myapplication.databinding.LayoutRcyHomeBinding
 class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBinding>() {
 
     var viewAll: (arrayList: ArrayList<Item>) -> Unit? = {}
+    var onItemRcvClick: (Item, listData: ArrayList<Item>) -> Unit? =
+        { item: Item, listData: ArrayList<Item> -> }
 
     companion object {
         const val TRENDY = 0
@@ -53,21 +56,27 @@ class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBind
         homeSectionEntity: HomeSectionEntity,
         binding: LayoutHomeTrendyBinding
     ) {
-        val topTrendyAdapter = TopTrendyAdapter()
+        val topTrendingAdapter = TopTrendingAdapter()
         val listTrendy = ArrayList<Item>()
         val listViewAll = ArrayList<Item>()
         if (homeSectionEntity.id == 1) {
             val shuffled = homeSectionEntity.items?.shuffled()
             val randomList = shuffled?.subList(0,15)
             randomList?.forEach {
-                it?.let { listTrendy.add(it) }
+                it.let { listTrendy.add(it) }
             }
             homeSectionEntity.items?.forEach {
-                it?.let { listViewAll.add(it) }
+                it.let { listViewAll.add(it) }
             }
         }
-        topTrendyAdapter.updateItems(listTrendy)
-        binding.rcyTopTrendy.adapter = topTrendyAdapter
+        topTrendingAdapter.updateItems(listTrendy)
+        binding.rcyTopTrending.adapter = topTrendingAdapter
+        binding.title.text = homeSectionEntity.name
+        topTrendingAdapter.onItemClick = {
+            homeSectionEntity.items?.let { list ->
+                onItemRcvClick(it, list.toArrayList())
+            }
+        }
         binding.tvViewAll.setOnClickListener {
             viewAll.invoke(listViewAll)
         }
@@ -86,10 +95,10 @@ class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBind
                 val count = index + 1;
                 listLatest.add(
                     Latest(
-                        item?.url,
-                        item?.category,
-                        item?.loves,
-                        item?.free,
+                        item.url,
+                        item.category,
+                        item.loves,
+                        item.free,
                         null,
                         LatestAdapter.ITEM
                     )
@@ -99,8 +108,14 @@ class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBind
                 }
             }
         }
+        binding.tvLatest.text = homeSectionEntity.name
         latestAdapter.updateItems(listLatest)
         binding.rcyLatest.adapter = latestAdapter
+        latestAdapter.itemAction = {
+            homeSectionEntity.items?.let { it1 ->
+                onItemRcvClick(it, it1.toArrayList())
+            }
+        }
     }
 
 }

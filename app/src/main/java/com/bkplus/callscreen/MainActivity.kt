@@ -14,6 +14,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.ads.bkplus_ads.core.toastDebug
 import com.bkplus.callscreen.common.BaseActivity
+import com.bkplus.callscreen.ui.main.home.viewmodel.HomeViewModel
 import com.bkplus.callscreen.ui.widget.NoInternetDialogFragment
 import com.bkplus.callscreen.ultis.NetworkState
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -25,7 +26,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
-    private val viewModel: SharedViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels()
     private var navController: NavController? = null
     override val layoutId: Int
         get() = R.layout.activity_main
@@ -57,6 +58,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         setUpNoInternetDialog()
         setUpBottomNavigation()
         requestNotificationPermissionAndroid13()
+        viewModel.getHomeSection()
     }
 
     private fun setUpBottomNavigation() {
@@ -123,10 +125,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 override fun handleOnBackPressed() {
                     when (navController?.currentDestination?.id) {
                         R.id.splashFragment,
-//                        R.id.onboardFragment,
-//                        R.id.firstLanguageFragment,
-//                        R.id.welcomeFragment,
-//                        R.id.homeFragment
+                        R.id.onboardFragment,
+                        R.id.firstLanguageFragment,
+                        R.id.welcomeFragment,
+                        R.id.homeFragment
                         -> {
                             toastDebug(this@MainActivity, "Show Dialog Exit")
                         }

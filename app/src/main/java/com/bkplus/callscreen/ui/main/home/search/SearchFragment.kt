@@ -89,18 +89,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                     trendingAdapter.updateItems(ArrayList(items))
                 }
             }
-            homeSection?.forEach { section ->
-                section.items?.forEach { item ->
-                    item?.category?.let { category ->
-                        categoryList?.apply {
-                            val found = firstOrNull { it.name == category }
-                            found?.let {
-                                it.number++
-                            }
-                        }
-                    }
-                }
-            }
             categoryList?.let { categories ->
                 categories.sortByDescending { it.number }
                 categoryAdapter.updateItems(categories)
@@ -113,10 +101,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             val searchList = ArrayList<Item>()
             homeSection?.forEach { section ->
                 section.items?.filter {
-                    it?.category?.lowercase(Locale.ROOT)
+                    it.category?.lowercase(Locale.ROOT)
                         ?.contains(category.lowercase(Locale.ROOT)) == true
                 }?.forEach { item ->
-                    item?.let {
+                    item.let {
                         searchList.add(it)
                     }
                 }

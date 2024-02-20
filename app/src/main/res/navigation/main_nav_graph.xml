@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/onboardFragment"
+    app:startDestination="@id/splashFragment"
     android:id="@+id/main_nav_graph">
 
     <fragment
@@ -33,7 +33,18 @@
         android:id="@+id/homeFragment"
         android:name="com.bkplus.callscreen.ui.main.home.HomeFragment"
         android:label="homeFragment"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_viewLikeContainerFragment"
+            app:destination="@id/viewLikeContainerFragment">
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/firstLanguageFragment"
+        android:name="com.bkplus.callscreen.ui.splash.firstlanguage.FirstLanguageFragment"
+        android:label="FirstLanguageFragment"
+        tools:layout="@layout/fragment_first_language" />
 
     <fragment
         android:id="@+id/onboardFragment"
@@ -62,10 +73,13 @@
         android:id="@+id/viewLikeContainerFragment"
         android:name="com.bkplus.callscreen.ui.viewlike.ViewLikeContainerFragment"
         android:label="ViewLikeContainerFragment"
-        tools:layout="@layout/fragment_view_like_container">
+        tools:layout="@layout/fragment_view_like_container" >
         <argument
-            android:name="position"
-            app:argType="integer" />
+            android:name="item"
+            app:argType="com.bkplus.callscreen.ui.viewlike.WallPaper" />
+        <argument
+            android:name="listData"
+            app:argType="com.bkplus.callscreen.ui.viewlike.WallPaper[]" />
     </fragment>
 
     <fragment
@@ -83,4 +97,10 @@
     <action
         android:id="@+id/goToViewLikeContainer"
         app:destination="@+id/viewLikeContainerFragment"/>
+
+    <fragment
+        android:id="@+id/categoryDetailFragment"
+        android:name="com.bkplus.callscreen.ui.main.category.CategoryDetailFragment"
+        android:label="CategoryDetailFragment"
+        tools:layout="@layout/fragment_category_detail"/>
 </navigation>

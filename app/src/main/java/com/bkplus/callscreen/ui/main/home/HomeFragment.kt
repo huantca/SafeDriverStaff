@@ -1,6 +1,7 @@
 package com.bkplus.callscreen.ui.main.home
 
 import android.os.Bundle
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bkplus.callscreen.api.entity.HomeSectionEntity
@@ -8,6 +9,7 @@ import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ui.main.home.adapter.HomeAdapter
 import com.bkplus.callscreen.ui.main.home.viewmodel.HomeViewModel
+import com.bkplus.callscreen.ui.viewlike.WallPaper
 import com.bkplus.callscreen.ui.widget.ForceUpdateDialog
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.harrison.myapplication.BuildConfig
@@ -22,7 +24,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_home
     private var adapter: HomeAdapter? = null
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by activityViewModels()
 
     companion object {
         fun newInstance(): HomeFragment {
@@ -38,8 +40,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun setupData() {
         super.setupData()
-        viewModel.getHomeSection()
+//        viewModel.getHomeSection()
         adapter = HomeAdapter()
+        adapter?.onItemRcvClick = { item, listData ->
+            val item = WallPaper(id = item.id, url = item.url)
+            val listItem = listData.map { item ->
+                WallPaper(id = item.id, url = item.url)
+            }.toTypedArray()
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToViewLikeContainerFragment(
+                    item,
+                    listItem
+                )
+            )
+        }
         adapter?.viewAll = {
             val topTrendyFragment = TopTrendyFragment().apply {
                 setData(it)
