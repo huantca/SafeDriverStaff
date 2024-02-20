@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/onboardFragment"
+    app:startDestination="@id/splashFragment"
     android:id="@+id/main_nav_graph">
 
     <fragment
@@ -34,6 +34,12 @@
         android:name="com.bkplus.callscreen.ui.main.home.HomeFragment"
         android:label="homeFragment"
         tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/firstLanguageFragment"
+        android:name="com.bkplus.callscreen.ui.splash.firstlanguage.FirstLanguageFragment"
+        android:label="FirstLanguageFragment"
+        tools:layout="@layout/fragment_first_language" />
 
     <fragment
         android:id="@+id/onboardFragment"
