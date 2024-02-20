@@ -50,8 +50,8 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
         val doneWelcome = BasePrefers.getPrefsInstance().doneWelcome
         findNavController().navigate(
             if (newUser) R.id.firstLanguageFragment
-            else if (doneOnboard) R.id.onboardFragment
-            else if (doneWelcome) R.id.welcomeFragment
+            else if (!doneOnboard) R.id.onboardFragment
+            else if (!doneWelcome) R.id.welcomeFragment
             else R.id.homeFragment
         )
     }
