@@ -1,14 +1,14 @@
 package com.bkplus.callscreen.common
 
-import android.app.Application
 import com.ads.bkplus_ads.core.BkPlusAdmobApplication
 import com.bkplus.callscreen.ads.TrackingManager
+import com.facebook.drawee.backends.pipeline.Fresco
 import com.harison.core.app.utils.timber.CrashlyticsTree
 import com.harison.core.app.utils.timber.MyDebugTree
 import com.harrison.myapplication.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
-import javax.inject.Inject
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltAndroidApp
 class BaseApplication : BkPlusAdmobApplication() {
@@ -18,7 +18,7 @@ class BaseApplication : BkPlusAdmobApplication() {
 
     override fun onCreate() {
         super.onCreate()
-
+        Fresco.initialize(this)
         BasePrefers.initPrefs(applicationContext)
         fetchRemoteConfig()
         setupTimber()
