@@ -68,6 +68,12 @@
             app:argType="integer" />
     </fragment>
 
+    <fragment
+        android:id="@+id/congratulationsFragment"
+        android:name="com.bkplus.callscreen.ui.congratulations.CongratulationsFragment"
+        android:label="CongratulationsFragment"
+        tools:layout="@layout/fragment_congratulations"/>
+
     <action
         android:id="@+id/goToViewLikeContainer"
         app:destination="@+id/viewLikeContainerFragment"/>

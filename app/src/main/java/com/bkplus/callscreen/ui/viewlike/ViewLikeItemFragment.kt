@@ -1,10 +1,22 @@
 package com.bkplus.callscreen.ui.viewlike
 
+import android.app.WallpaperManager
+import android.content.Context
+import android.graphics.BitmapFactory
+import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.bumptech.glide.Glide
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentViewLikeItemBinding
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.net.URL
 
 class ViewLikeItemFragment : BaseFragment<FragmentViewLikeItemBinding>() {
 
@@ -29,6 +41,17 @@ class ViewLikeItemFragment : BaseFragment<FragmentViewLikeItemBinding>() {
         super.setupListener()
 
         binding.apply {
+
+            likeBtn.setOnClickListener() {
+                if (wallPaper?.isLiked == true) {
+                    likeBtn.setImageResource(R.drawable.ic_heart_unfill)
+                    wallPaper?.isLiked = false
+                } else {
+                    likeBtn.setImageResource(R.drawable.ic_heart_fill)
+                    wallPaper?.isLiked = true
+                }
+            }
+
             previewBtn.setOnSingleClickListener {
                 PreviewDialogFragment.newInstance(
                     item = wallPaper,
