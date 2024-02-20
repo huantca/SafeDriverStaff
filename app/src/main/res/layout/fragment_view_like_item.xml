@@ -31,6 +31,7 @@
                 android:layout_marginEnd="30dp">
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/like_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_heart_unfill"
@@ -52,6 +53,7 @@
                 android:layout_marginEnd="30dp">
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/share_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_share_fill"
@@ -72,6 +74,7 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/preview_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_preview"

@@ -1,6 +1,7 @@
 package com.bkplus.callscreen.ui.viewlike
 
 import com.bkplus.callscreen.common.BaseFragment
+import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.bumptech.glide.Glide
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentViewLikeItemBinding
@@ -21,6 +22,16 @@ class ViewLikeItemFragment : BaseFragment<FragmentViewLikeItemBinding>() {
 
         wallPaper?.let { item ->
             Glide.with(binding.wallPaperImage.context).load(item.url).into(binding.wallPaperImage)
+        }
+    }
+
+    override fun setupListener() {
+        super.setupListener()
+
+        binding.apply {
+            previewBtn.setOnSingleClickListener {
+                PreviewDialogFragment.
+            }
         }
     }
 }
