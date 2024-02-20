@@ -3,6 +3,7 @@ package com.bkplus.callscreen.ui.main.home.adapter
 import com.bkplus.callscreen.api.entity.HomeSectionEntity
 import com.bkplus.callscreen.api.entity.Item
 import com.bkplus.callscreen.ui.main.home.model.Latest
+import com.bkplus.callscreen.ultis.toArrayList
 import com.harison.core.app.platform.BaseRecyclerViewAdapter
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.LayoutHomeLatestBinding
@@ -12,6 +13,8 @@ import com.harrison.myapplication.databinding.LayoutRcyHomeBinding
 class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBinding>() {
 
     var viewAll: (arrayList: ArrayList<Item>) -> Unit? = {}
+    var onItemRcvClick: (Item, listData: ArrayList<Item>) -> Unit? =
+        { item: Item, listData: ArrayList<Item> -> }
 
     companion object {
         const val TRENDY = 0
@@ -68,6 +71,7 @@ class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBind
         }
         topTrendyAdapter.updateItems(listTrendy)
         binding.rcyTopTrendy.adapter = topTrendyAdapter
+        topTrendyAdapter.onItemClick = { onItemRcvClick(it, listTrendy) }
         binding.tvViewAll.setOnClickListener {
             viewAll.invoke(listViewAll)
         }
@@ -101,6 +105,11 @@ class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBind
         }
         latestAdapter.updateItems(listLatest)
         binding.rcyLatest.adapter = latestAdapter
+        latestAdapter.itemAction = {
+            homeSectionEntity.items?.let { it1 ->
+                onItemRcvClick(it, it1.toArrayList())
+            }
+        }
     }
 
 }

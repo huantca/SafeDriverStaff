@@ -8,6 +8,7 @@ import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ui.main.home.adapter.HomeAdapter
 import com.bkplus.callscreen.ui.main.home.viewmodel.HomeViewModel
+import com.bkplus.callscreen.ui.viewlike.WallPaper
 import com.bkplus.callscreen.ui.widget.ForceUpdateDialog
 import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
@@ -39,6 +40,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         super.setupData()
         viewModel.getHomeSection()
         adapter = HomeAdapter()
+        adapter?.onItemRcvClick = { item, listData ->
+            val item = WallPaper(id = item.id, url = item.url)
+            val listItem = listData.map { item ->
+                WallPaper(id = item.id, url = item.url)
+            }.toTypedArray()
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToViewLikeContainerFragment(
+                    item,
+                    listItem
+                )
+            )
+        }
         adapter?.viewAll = {
             val topTrendyFragment = TopTrendyFragment().apply {
                 setData(it)

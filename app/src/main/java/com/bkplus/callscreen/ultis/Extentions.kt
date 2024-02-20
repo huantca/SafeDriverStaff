@@ -18,6 +18,7 @@ fun ImageView.loadImage(string: String?) {
 fun ImageView.loadImage(file: File) {
     Glide.with(this).load(file).into(this)
 }
+fun <T> List<T>.toArrayList(): ArrayList<T> { return ArrayList(this) }
 
 fun String.deleteFileIfExist() {
     try {

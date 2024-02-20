@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.CompositePageTransformer
@@ -24,66 +25,21 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
     override val layoutId: Int
         get() = R.layout.fragment_view_like_container
 
-    val list = arrayListOf<WallPaper>(
-        WallPaper(
-            isLiked = false,
-            id = 0,
-            url = "https://i.pinimg.com/736x/39/11/6c/39116c247669762f4ce72be4ce2b862e.jpg",
-            likes = 10
-        ),
-        WallPaper(
-            isLiked = false,
-            id = 0,
-            url = "https://i.pinimg.com/736x/39/11/6c/39116c247669762f4ce72be4ce2b862e.jpg",
-            likes = 10
-        ),
-        WallPaper(
-            isLiked = false,
-            id = 0,
-            url = "https://i.pinimg.com/736x/39/11/6c/39116c247669762f4ce72be4ce2b862e.jpg",
-            likes = 10
-        ),
-        WallPaper(
-            isLiked = false,
-            id = 0,
-            url = "https://i.pinimg.com/736x/39/11/6c/39116c247669762f4ce72be4ce2b862e.jpg",
-            likes = 10
-        ),
-        WallPaper(
-            isLiked = false,
-            id = 0,
-            url = "https://i.pinimg.com/736x/39/11/6c/39116c247669762f4ce72be4ce2b862e.jpg",
-            likes = 10
-        ),
-        WallPaper(
-            isLiked = false,
-            id = 0,
-            url = "https://i.pinimg.com/736x/39/11/6c/39116c247669762f4ce72be4ce2b862e.jpg",
-            likes = 10
-        ),
-        WallPaper(
-            isLiked = false,
-            id = 0,
-            url = "https://i.pinimg.com/736x/39/11/6c/39116c247669762f4ce72be4ce2b862e.jpg",
-            likes = 10
-        ),
-        WallPaper(
-            isLiked = false,
-            id = 0,
-            url = "https://i.pinimg.com/736x/39/11/6c/39116c247669762f4ce72be4ce2b862e.jpg",
-            likes = 10
-        ),
-        WallPaper(
-            isLiked = false,
-            id = 0,
-            url = "https://i.pinimg.com/736x/39/11/6c/39116c247669762f4ce72be4ce2b862e.jpg",
-            likes = 10
-        )
-    )
+    var list = arrayListOf<WallPaper>()
+    private var currentPosition = 0
+    private val args by navArgs<ViewLikeContainerFragmentArgs>()
+    override fun setupData() {
+        super.setupData()
+        list.clear()
+        list.addAll(args.listData)
+        val pos = args.listData.indexOfFirst {
+            it.url == args.item.url
+        }
+        currentPosition = if (pos >= 0) pos else 0
+    }
 
     override fun setupUI() {
         super.setupUI()
-
         val pagerAdapter = ScreenSlidePagerAdapter(requireActivity(), list)
         binding.viewPager.adapter = pagerAdapter
         initViewPager()
@@ -129,6 +85,7 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
 
             }
         })
+        binding.viewPager.setCurrentItem(currentPosition, true)
     }
 
     override fun setupListener() {

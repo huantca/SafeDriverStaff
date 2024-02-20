@@ -1,6 +1,7 @@
 package com.bkplus.callscreen.ui.main.home
 
 import androidx.navigation.fragment.findNavController
+import com.bkplus.callscreen.api.entity.Item
 import com.bkplus.callscreen.ui.main.home.adapter.LatestAdapter
 import com.bkplus.callscreen.ui.main.home.model.Latest
 import com.bkplus.callscreen.ui.viewlike.ViewLikeContainerFragment
@@ -49,7 +50,7 @@ class TopTrendyFragment : BaseFullScreenDialogFragment<FragmentTopTrendyBinding>
     override fun actionConnect(item: Latest) {
     }
 
-    private val actionItem: (Latest) -> Unit = { item ->
+    private val actionItem: (Item) -> Unit = { item ->
         findNavController().navigate(R.id.viewLikeContainerFragment)
     }
 }
