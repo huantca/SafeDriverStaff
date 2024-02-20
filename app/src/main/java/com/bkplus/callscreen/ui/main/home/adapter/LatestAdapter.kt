@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ads.bkplus_ads.core.model.BkNativeAd
 import com.bkplus.callscreen.ui.main.home.model.Latest
 import com.bkplus.callscreen.ultis.loadImage
+import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.harison.core.app.platform.BaseRecyclerViewAdapter
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.ItemNativeOnboardBinding
@@ -16,6 +17,7 @@ import com.harrison.myapplication.databinding.LayoutItemLatestBinding
 class LatestAdapter : BaseRecyclerViewAdapter<Latest,ViewDataBinding>() {
 
     private var onClickListener: OnClickListener? = null
+    var itemAction: ((Latest) -> Unit)? = null
     private var activity: Activity? = null
     companion object {
         const val ITEM = 0
@@ -68,6 +70,9 @@ class LatestAdapter : BaseRecyclerViewAdapter<Latest,ViewDataBinding>() {
             imgBackground.loadImage(item.url)
             imgReward.isVisible = item.free != true
             tvHeart.text = item.loves.toString()
+            root.setOnSingleClickListener {
+                itemAction?.invoke(item)
+            }
         }
     }
 

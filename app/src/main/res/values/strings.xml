@@ -22,6 +22,7 @@
     <string name="setting_pt">Portuguese</string>
     <string name="setting_de">German</string>
     <string name="setting_fr">French</string>
+    <string name="view">View</string>
 
     <!-- Setting-->
     <string name="your_friend">\"Your friend \"</string>
@@ -61,6 +62,13 @@
     <string name="update_now">Update now!</string>
     <string name="update">Update</string>
     <string name="cancel">Cancel</string>
+    <string name="loading">Loading...</string>
+    <string name="like">Like:</string>
+    <string name="share">Share</string>
+    <string name="preview">Preview</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="calendar">Calendar</string>
     <string name="txt_continue">Continue</string>
     <string name="welcome">Welcome</string>
     <string name="choose_your_favorite_categories">Choose your favorite categories.</string>

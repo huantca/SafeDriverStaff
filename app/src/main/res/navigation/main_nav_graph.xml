@@ -58,5 +58,17 @@
         android:label="LanguageFragment"
         tools:layout="@layout/fragment_language" />
 
+    <fragment
+        android:id="@+id/viewLikeContainerFragment"
+        android:name="com.bkplus.callscreen.ui.viewlike.ViewLikeContainerFragment"
+        android:label="ViewLikeContainerFragment"
+        tools:layout="@layout/fragment_view_like_container">
+        <argument
+            android:name="position"
+            app:argType="integer" />
+    </fragment>
 
+    <action
+        android:id="@+id/goToViewLikeContainer"
+        app:destination="@+id/viewLikeContainerFragment"/>
 </navigation>

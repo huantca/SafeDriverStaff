@@ -1,14 +1,16 @@
 package com.bkplus.callscreen.ui.main.home
 
+import androidx.navigation.fragment.findNavController
 import com.bkplus.callscreen.ui.main.home.adapter.LatestAdapter
 import com.bkplus.callscreen.ui.main.home.model.Latest
+import com.bkplus.callscreen.ui.viewlike.ViewLikeContainerFragment
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.harison.core.app.platform.BaseFullScreenDialogFragment
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentTopTrendyBinding
 
 
-class TopTrendyFragment : BaseFullScreenDialogFragment<FragmentTopTrendyBinding>() {
+class TopTrendyFragment : BaseFullScreenDialogFragment<FragmentTopTrendyBinding>(), LatestAdapter.OnClickListener {
     override val layoutId: Int
         get() = R.layout.fragment_top_trendy
 
@@ -31,6 +33,7 @@ class TopTrendyFragment : BaseFullScreenDialogFragment<FragmentTopTrendyBinding>
         }
         adapter?.updateItems(arr)
         binding.rcyTopTrendy.adapter = adapter
+        adapter?.itemAction = actionItem
     }
 
     override fun setupListener() {
@@ -41,5 +44,12 @@ class TopTrendyFragment : BaseFullScreenDialogFragment<FragmentTopTrendyBinding>
                 dismissDialog.invoke()
             }
         }
+    }
+
+    override fun actionConnect(item: Latest) {
+    }
+
+    private val actionItem: (Latest) -> Unit = { item ->
+        findNavController().navigate(R.id.viewLikeContainerFragment)
     }
 }
