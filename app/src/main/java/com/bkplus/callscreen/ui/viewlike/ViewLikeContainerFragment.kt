@@ -14,6 +14,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearSnapHelper
+import android.app.WallpaperManager
+import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.CompositePageTransformer
@@ -22,6 +28,10 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.ui.main.home.model.Latest
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
+import com.bkplus.callscreen.ultis.setOnSingleClickListener
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentViewLikeContainerBinding
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -110,26 +120,6 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
         initViewPager()
     }
 
-    override fun setupListener() {
-        super.setupListener()
-
-        binding.apply {
-            setWallpaperBtn.setOnSingleClickListener {
-                //if (currentPosition == -1) currentPosition = args.position
-                if (currentPosition > list.size) {
-                    Toast.makeText(context, "An error occurred, please try again", Toast.LENGTH_LONG).show()
-                } else {
-                    val currentImage = list[currentPosition]
-                    setWallpaper(currentImage)
-                }
-            }
-
-            backBtn.setOnSingleClickListener {
-                findNavController().popBackStack()
-            }
-        }
-    }
-
     private inner class ScreenSlidePagerAdapter(fa: FragmentActivity, val items: List<WallPaper>) :
         FragmentStateAdapter(fa) {
 
@@ -174,40 +164,40 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
         })
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        ct = context
-    }
-
-    @SuppressLint("MissingPermission")
-    fun setWallpaper(image: WallPaper) {
-        coroutineScope.launch(Dispatchers.IO) {
-            try {
-                val myWallpaperManager = WallpaperManager.getInstance(ct)
-                val bm = BitmapFactory.decodeStream(withContext(Dispatchers.IO) {
-                    URL(image.url).openStream()
-                })
-
-                myWallpaperManager.setBitmap(bm)
-            } catch (e: Exception) {
-                Toast.makeText(
-                    context,
-                    getString(R.string.an_error_has_occurred_when_install_this_wallpaper_please_try_again_later),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-
-        CoroutineScope(Dispatchers.Main).launch {
-            goToSuccess()
-        }
-    }
-
     private fun goToSuccess() {
         findNavController().navigate(R.id.congratulationsFragment)
     }
 
-    private fun showToast(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    override fun setupListener() {
+        super.setupListener()
+        binding.apply {
+            setWallpaperBtn.setOnSingleClickListener {
+                requireContext { ct ->
+                    val currentImage = list.getOrNull(viewPager.currentItem)
+                    Glide.with(ct)
+                        .asBitmap()
+                        .load(currentImage?.url)
+                        .into(object : CustomTarget<Bitmap>() {
+                            override fun onResourceReady(
+                                resource: Bitmap,
+                                transition: Transition<in Bitmap>?
+                            ) {
+                                WallpaperManager.getInstance(ct).setBitmap(resource)
+                                toast(getString(R.string.set_wallpaper))
+                            }
+
+                            override fun onLoadCleared(placeholder: Drawable?) {
+                                // this is called when imageView is cleared on lifecycle call or for
+                                // some other reason.
+                            }
+                        })
+                }
+            }
+
+            backBtn.setOnSingleClickListener {
+                findNavController().popBackStack()
+            }
+        }
     }
+
 }
