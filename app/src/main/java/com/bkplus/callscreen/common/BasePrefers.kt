@@ -9,14 +9,16 @@ import java.util.Calendar
 
 class BasePrefers(context: Context) {
 
-    private val prefsNewUser = "prefsNewUser"
+    private val prefsNewUser = "prefsNewUser${BuildConfig.VERSION_NAME}"
+    private val prefsOnBoard = "prefsOnBoard${BuildConfig.VERSION_NAME}"
+    private val prefsWelcome = "prefsWelcome${BuildConfig.VERSION_NAME}"
     private val prefsLocale = "prefsLocale"
-    private val prefsOnBoard = "prefsOnBoard"
     private val prefsTimer = "prefsTimer"
 
     private val prefsBanner = "prefsBanner"
     private val prefsInterSplash = "prefsInterSplash"
     private val prefsNativeLanguage = "prefsNativeLanguage"
+    private val prefsNativeWelcome = "prefsNativeWelcome"
     private val prefsNativeHome = "prefsNativeHome"
     private val prefsNativeOnboard = "prefsNativeOnboard"
     private val prefsInterOnboard = "prefsInterOnboard"
@@ -35,7 +37,10 @@ class BasePrefers(context: Context) {
         get() = mPrefs.getBoolean(prefsNewUser, true)
         set(value) = mPrefs.edit { putBoolean(prefsNewUser, value) }
 
-    var openboard
+    var doneOnboard
+        get() = mPrefs.getBoolean(prefsOnBoard, false)
+        set(value) = mPrefs.edit { putBoolean(prefsOnBoard, value) }
+    var doneWelcome
         get() = mPrefs.getBoolean(prefsOnBoard, false)
         set(value) = mPrefs.edit { putBoolean(prefsOnBoard, value) }
 
@@ -61,6 +66,9 @@ class BasePrefers(context: Context) {
     var nativeHome
         get() = mPrefs.getBoolean(prefsNativeHome, true)
         set(value) = mPrefs.edit { putBoolean(prefsNativeHome, value) }
+    var native_welcome
+        get() = mPrefs.getBoolean(prefsNativeWelcome, true)
+        set(value) = mPrefs.edit { putBoolean(prefsNativeWelcome, value) }
 
     var nativeOnboard
         get() = mPrefs.getBoolean(prefsNativeOnboard, true)
@@ -89,7 +97,6 @@ class BasePrefers(context: Context) {
         set(value) = mPrefs.edit { putString(getPrefName(Constants.id_native_onboard), value) }
 
 
-
     companion object {
         @Volatile
         private var INSTANCE: BasePrefers? = null
@@ -107,6 +114,7 @@ class BasePrefers(context: Context) {
             return INSTANCE ?: error("GoPreferences not initialized!")
         }
     }
+
     private fun getPrefName(name: String): String {
         return "pref$name"
     }

@@ -72,6 +72,7 @@ android {
             buildConfigField("String", "inter_splash", "\"ca-app-pub-3940256099942544/1033173712\"")
             buildConfigField("String", "native_language", "\"ca-app-pub-3940256099942544/2247696110\"")
             buildConfigField("String", "native_onboard", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "native_welcome", "\"ca-app-pub-3940256099942544/2247696110\"")
         }
         create("production") {
             manifestPlaceholders["ad_app_id"] = "\"ca-app-pub-3940256099942544~3347511713\""

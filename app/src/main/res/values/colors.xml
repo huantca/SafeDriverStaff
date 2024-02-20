@@ -62,4 +62,6 @@
     <color name="naviColor">#141726</color>
     <color name="naviColor1">#212538</color>
     <color name="naviColor2">#34384B</color>
+    <color name="naviColor4">#B9B9BF</color>
+    <color name="primary100">#F11A7B</color>
 </resources>
