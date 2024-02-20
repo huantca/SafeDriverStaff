@@ -1,6 +1,7 @@
 package com.bkplus.callscreen.ui.main.home
 
 import android.os.Bundle
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bkplus.callscreen.api.entity.HomeSectionEntity
@@ -23,7 +24,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_home
     private var adapter: HomeAdapter? = null
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by activityViewModels()
 
     companion object {
         fun newInstance(): HomeFragment {
@@ -39,7 +40,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun setupData() {
         super.setupData()
-        viewModel.getHomeSection()
+//        viewModel.getHomeSection()
         adapter = HomeAdapter()
         adapter?.onItemRcvClick = { item, listData ->
             val item = WallPaper(id = item.id, url = item.url)
