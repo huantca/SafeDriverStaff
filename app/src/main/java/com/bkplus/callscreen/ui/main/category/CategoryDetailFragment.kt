@@ -46,7 +46,7 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
                 categoryAdapter.updateItems(categories)
             }
             homeSection = viewModel.homeSectionLiveData.value
-            var chosen = categoryList?.firstOrNull { it.name == arguments?.getString("category") }
+            var chosen = categoryList?.firstOrNull { it.id == arguments?.getString("id") }
             if (chosen == null) chosen = categoryList?.firstOrNull()
             chosen?.let {
                 chosen.selected = true
@@ -66,8 +66,7 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
             val searchList = ArrayList<Item>()
             homeSection?.forEach { section ->
                 section.items?.filter {
-                    it.category?.lowercase(Locale.ROOT)
-                        ?.contains(category.lowercase(Locale.ROOT)) == true
+                    it.category == category
                 }?.forEach { item ->
                     item.let {
                         searchList.add(it)

@@ -20,7 +20,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
     private val categoryAdapter = CategoryAdapter {
         findNavController().navigate(R.id.categoryDetailFragment, Bundle().apply {
-            putString("category", it)
+            putString("id", it)
         })
     }
 
