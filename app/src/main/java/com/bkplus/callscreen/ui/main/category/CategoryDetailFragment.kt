@@ -66,10 +66,10 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
             val searchList = ArrayList<Item>()
             homeSection?.forEach { section ->
                 section.items?.filter {
-                    it?.category?.lowercase(Locale.ROOT)
+                    it.category?.lowercase(Locale.ROOT)
                         ?.contains(category.lowercase(Locale.ROOT)) == true
                 }?.forEach { item ->
-                    item?.let {
+                    item.let {
                         searchList.add(it)
                     }
                 }

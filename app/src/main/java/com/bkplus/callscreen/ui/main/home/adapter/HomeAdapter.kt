@@ -63,10 +63,10 @@ class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBind
             val shuffled = homeSectionEntity.items?.shuffled()
             val randomList = shuffled?.subList(0,15)
             randomList?.forEach {
-                it?.let { listTrendy.add(it) }
+                it.let { listTrendy.add(it) }
             }
             homeSectionEntity.items?.forEach {
-                it?.let { listViewAll.add(it) }
+                it.let { listViewAll.add(it) }
             }
         }
         topTrendingAdapter.updateItems(listTrendy)
@@ -95,10 +95,10 @@ class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBind
                 val count = index + 1;
                 listLatest.add(
                     Latest(
-                        item?.url,
-                        item?.category,
-                        item?.loves,
-                        item?.free,
+                        item.url,
+                        item.category,
+                        item.loves,
+                        item.free,
                         null,
                         LatestAdapter.ITEM
                     )
