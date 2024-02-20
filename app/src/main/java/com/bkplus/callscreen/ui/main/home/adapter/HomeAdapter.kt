@@ -53,7 +53,7 @@ class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBind
         homeSectionEntity: HomeSectionEntity,
         binding: LayoutHomeTrendyBinding
     ) {
-        val topTrendyAdapter = TopTrendyAdapter()
+        val topTrendingAdapter = TopTrendingAdapter()
         val listTrendy = ArrayList<Item>()
         val listViewAll = ArrayList<Item>()
         if (homeSectionEntity.id == 1) {
@@ -66,8 +66,9 @@ class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBind
                 it?.let { listViewAll.add(it) }
             }
         }
-        topTrendyAdapter.updateItems(listTrendy)
-        binding.rcyTopTrendy.adapter = topTrendyAdapter
+        topTrendingAdapter.updateItems(listTrendy)
+        binding.title.text = homeSectionEntity.name
+        binding.rcyTopTrending.adapter = topTrendingAdapter
         binding.tvViewAll.setOnClickListener {
             viewAll.invoke(listViewAll)
         }
@@ -99,6 +100,7 @@ class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBind
                 }
             }
         }
+        binding.tvLatest.text = homeSectionEntity.name
         latestAdapter.updateItems(listLatest)
         binding.rcyLatest.adapter = latestAdapter
     }
