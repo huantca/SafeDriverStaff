@@ -16,7 +16,6 @@ import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentCategoryDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.util.concurrent.Future
 
 
 @AndroidEntryPoint
@@ -32,9 +31,13 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
 
     private var categoryList: ArrayList<Category>? = null
     private var homeSection: ArrayList<HomeSectionEntity>? = null
+    private var isInit = false
 
     override fun setupData() {
-        viewModel.getSearch()
+        if(!isInit) {
+            viewModel.getSearch()
+            isInit = true
+        }
         binding.apply {
             recyclerViewCategory.adapter = categoryAdapter
             recyclerDetail.adapter = detailAdapter
@@ -62,7 +65,6 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
             findNavController().popBackStack()
         }
         detailAdapter.onItemRcvClick = { item, listData ->
-            arguments?.putString("id", categoryList?.firstOrNull { it.selected }?.id)
             val item = WallPaper(id = item.id, url = item.url)
             val listItem = listData.map { item ->
                 WallPaper(id = item.id, url = item.url)
