@@ -157,7 +157,7 @@ dependencies {
     ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     //BK Ads Lib
-    implementation("com.bkplus.ads:library:1.0.3-alpha15")
+    implementation("com.bkplus.ads:library:1.0.4-alpha06")
     //Appsflyer
     implementation("com.appsflyer:adrevenue:6.9.0")
     // https://mvnrepository.com/artifact/com.appsflyer/af-android-sdk
