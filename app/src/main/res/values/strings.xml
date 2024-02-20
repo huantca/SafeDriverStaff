@@ -69,4 +69,7 @@
     <string name="gallery">Gallery</string>
     <string name="camera">Camera</string>
     <string name="calendar">Calendar</string>
+    <string name="txt_continue">Continue</string>
+    <string name="welcome">Welcome</string>
+    <string name="choose_your_favorite_categories">Choose your favorite categories.</string>
 </resources>
