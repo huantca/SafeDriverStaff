@@ -51,6 +51,14 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun getCategory(){
+        viewModelScope.launch {
+            apiService.getCategoryData().onSuccess {
+                categories.postValue(it)
+            }
+        }
+    }
+
     private fun fakeDataBase() {
         viewModelScope.launch(Dispatchers.IO) {
             Timber.tag("WallpaperDao").d(wallpaperDao.getCount().toString())

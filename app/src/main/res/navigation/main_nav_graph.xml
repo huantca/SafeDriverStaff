@@ -97,4 +97,10 @@
     <action
         android:id="@+id/goToViewLikeContainer"
         app:destination="@+id/viewLikeContainerFragment"/>
+
+    <fragment
+        android:id="@+id/categoryDetailFragment"
+        android:name="com.bkplus.callscreen.ui.main.category.CategoryDetailFragment"
+        android:label="CategoryDetailFragment"
+        tools:layout="@layout/fragment_category_detail"/>
 </navigation>
