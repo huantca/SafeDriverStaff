@@ -70,10 +70,7 @@ class OnboardFragment : BaseFragment<FragmentOnboardBinding>() {
                 if (viewpagerOnboard.currentItem < 3) {
                     viewpagerOnboard.currentItem = viewpagerOnboard.currentItem + 1
                 } else {
-//                showInterAd {
-//                    goToWelcome()
-//                }
-                    findNavController().navigate(R.id.homeFragment)
+                    findNavController().navigate(R.id.welcomeFragment)
                 }
             }
         }
