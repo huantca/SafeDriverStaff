@@ -20,7 +20,6 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
     override val layoutId: Int
         get() = R.layout.fragment_view_like_container
 
-    private val snapHelper = LinearSnapHelper()
     val list = arrayListOf<WallPaper>(
         WallPaper(
             isLiked = false,

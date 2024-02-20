@@ -66,4 +66,7 @@
     <string name="like">Like:</string>
     <string name="share">Share</string>
     <string name="preview">Preview</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="calendar">Calendar</string>
 </resources>

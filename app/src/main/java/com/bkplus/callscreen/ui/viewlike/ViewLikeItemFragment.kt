@@ -12,8 +12,8 @@ class ViewLikeItemFragment : BaseFragment<FragmentViewLikeItemBinding>() {
 
     private var wallPaper: WallPaper? = null
 
-    fun initData(data: WallPaper) {
-        wallPaper = data
+    fun initData(item: WallPaper) {
+        wallPaper = item
     }
 
     override fun setupUI() {
