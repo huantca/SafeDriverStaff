@@ -82,37 +82,54 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
                 positionOffsetPixels: Int
             ) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-
+                Log.d(this@ViewLikeContainerFragment.javaClass.simpleName, "onPageScrolled: $position")
+                currentPosition = position
             }
         })
         binding.viewPager.setCurrentItem(currentPosition, true)
+    }
+
+    private fun goToSuccess() {
+        findNavController().navigate(R.id.congratulationsFragment)
     }
 
     override fun setupListener() {
         super.setupListener()
         binding.apply {
             setWallpaperBtn.setOnSingleClickListener {
-                requireContext { ct ->
-                    val currentImage = list.getOrNull(viewPager.currentItem)
-                    Glide.with(ct)
-                        .asBitmap()
-                        .load(currentImage?.url)
-                        .into(object : CustomTarget<Bitmap>() {
-                            override fun onResourceReady(
-                                resource: Bitmap,
-                                transition: Transition<in Bitmap>?
-                            ) {
-                                WallpaperManager.getInstance(ct).setBitmap(resource)
-                                toast(getString(R.string.set_wallpaper))
-                            }
-
-                            override fun onLoadCleared(placeholder: Drawable?) {
-                                // this is called when imageView is cleared on lifecycle call or for
-                                // some other reason.
-                            }
-                        })
-                }
+                setWallpaper()
             }
+
+            backBtn.setOnSingleClickListener {
+                findNavController().popBackStack()
+            }
+        }
+    }
+
+    private fun setWallpaper() {
+        requireContext { ct ->
+            val currentImage = list.getOrNull(binding.viewPager.currentItem)
+            Glide.with(ct)
+                .asBitmap()
+                .load(currentImage?.url)
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        WallpaperManager.getInstance(ct).setBitmap(resource)
+                        toast(getString(R.string.set_wallpaper))
+                    }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        // this is called when imageView is cleared on lifecycle call or for
+                        // some other reason.
+                    }
+                })
+        }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            goToSuccess()
         }
     }
 

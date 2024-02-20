@@ -123,10 +123,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 override fun handleOnBackPressed() {
                     when (navController?.currentDestination?.id) {
                         R.id.splashFragment,
-//                        R.id.onboardFragment,
-//                        R.id.firstLanguageFragment,
-//                        R.id.welcomeFragment,
-//                        R.id.homeFragment
+                        R.id.onboardFragment,
+                        R.id.firstLanguageFragment,
+                        R.id.welcomeFragment,
+                        R.id.homeFragment
                         -> {
                             toastDebug(this@MainActivity, "Show Dialog Exit")
                         }
