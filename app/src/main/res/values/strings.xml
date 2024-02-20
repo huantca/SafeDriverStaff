@@ -72,4 +72,5 @@
     <string name="txt_continue">Continue</string>
     <string name="welcome">Welcome</string>
     <string name="choose_your_favorite_categories">Choose your favorite categories.</string>
+    <string name="set_wallpaper">Set wallpaper successfully.</string>
 </resources>
