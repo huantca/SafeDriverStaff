@@ -10,12 +10,14 @@ import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.ui.main.category.adapter.CategorySmallAdapter
 import com.bkplus.callscreen.ui.main.category.adapter.DetailAdapter
 import com.bkplus.callscreen.ui.main.home.viewmodel.HomeViewModel
+import com.bkplus.callscreen.ui.viewlike.WallPaper
 import com.bkplus.callscreen.ultis.visible
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentCategoryDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.util.Locale
+import java.util.concurrent.Future
+
 
 @AndroidEntryPoint
 class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
@@ -58,6 +60,19 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
     override fun setupListener() {
         binding.icBack.setOnClickListener {
             findNavController().popBackStack()
+        }
+        detailAdapter.onItemRcvClick = { item, listData ->
+            arguments?.putString("id", categoryList?.firstOrNull { it.selected }?.id)
+            val item = WallPaper(id = item.id, url = item.url)
+            val listItem = listData.map { item ->
+                WallPaper(id = item.id, url = item.url)
+            }.toTypedArray()
+            findNavController().navigate(
+                CategoryDetailFragmentDirections.actionCategoryDetailFragmentToViewLikeContainerFragment(
+                    item,
+                    listItem
+                )
+            )
         }
     }
 

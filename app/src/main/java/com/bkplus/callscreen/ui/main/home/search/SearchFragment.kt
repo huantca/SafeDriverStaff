@@ -14,6 +14,7 @@ import com.bkplus.callscreen.ui.main.home.search.adapter.HashTagAdapter
 import com.bkplus.callscreen.ui.main.home.search.adapter.SearchAdapter
 import com.bkplus.callscreen.ui.main.home.search.adapter.TrendingAdapter
 import com.bkplus.callscreen.ui.main.home.viewmodel.HomeViewModel
+import com.bkplus.callscreen.ui.viewlike.WallPaper
 import com.bkplus.callscreen.ultis.gone
 import com.bkplus.callscreen.ultis.visible
 import com.harrison.myapplication.R
@@ -74,6 +75,30 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 }
                 findImagesByCategory(it.toString())
             }
+        }
+        searchAdapter.onItemRcvClick = { item, listData ->
+            val item = WallPaper(id = item.id, url = item.url)
+            val listItem = listData.map { item ->
+                WallPaper(id = item.id, url = item.url)
+            }.toTypedArray()
+            findNavController().navigate(
+                SearchFragmentDirections.actionSearchFragmentToViewLikeContainerFragment(
+                    item,
+                    listItem
+                )
+            )
+        }
+        trendingAdapter.onItemRcvClick = { item, listData ->
+            val item = WallPaper(id = item.id, url = item.url)
+            val listItem = listData.map { item ->
+                WallPaper(id = item.id, url = item.url)
+            }.toTypedArray()
+            findNavController().navigate(
+                SearchFragmentDirections.actionSearchFragmentToViewLikeContainerFragment(
+                    item,
+                    listItem
+                )
+            )
         }
     }
 

@@ -9,6 +9,10 @@ import com.harrison.myapplication.databinding.ItemCategoryDetailBinding
 import com.harrison.myapplication.databinding.ItemSearchBinding
 
 class DetailAdapter :BaseRecyclerViewAdapter<Item, ItemCategoryDetailBinding>() {
+
+    var onItemRcvClick: (Item, listData: ArrayList<Item>) -> Unit? =
+        { item: Item, listData: ArrayList<Item> -> }
+
     override fun getLayoutId(viewType: Int): Int {
         return R.layout.item_category_detail
     }
@@ -20,5 +24,8 @@ class DetailAdapter :BaseRecyclerViewAdapter<Item, ItemCategoryDetailBinding>() 
         holder.binding.image.loadImage(items[position].url)
         holder.binding.tvHeart.text = items[position].loves.toString()
         holder.binding.icReward.isVisible = items[position].free != true
+        holder.binding.image.setOnClickListener {
+            onItemRcvClick.invoke(items[position], items)
+        }
     }
 }
