@@ -7,5 +7,8 @@ data class Category(
     @SerializedName("id")
     val id: String? = null,
     @SerializedName("name")
-    val name: String? = null
+    val name: String? = null,
+    @SerializedName("thumbnail")
+    val thumbnail: String? = null,
+    var number: Int = 0
 )

@@ -1,5 +1,6 @@
 package com.bkplus.callscreen.api
 
+import com.bkplus.callscreen.api.entity.Category
 import com.bkplus.callscreen.api.entity.HomeSectionEntity
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -12,4 +13,7 @@ interface ApiService {
 
     @GET("home-sections.json")
     suspend fun getApiData(): BaseResponse<ArrayList<HomeSectionEntity>>
+
+    @GET("categories.json")
+    suspend fun getCategoryData(): BaseResponse<ArrayList<Category>>
 }
