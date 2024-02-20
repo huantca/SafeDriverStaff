@@ -35,6 +35,10 @@ class ViewLikeItemFragment : BaseFragment<FragmentViewLikeItemBinding>() {
         wallPaper?.let { item ->
             Glide.with(binding.wallPaperImage.context).load(item.url).into(binding.wallPaperImage)
         }
+
+        binding.apply {
+            likeCounts.text = wallPaper?.likes.toString()
+        }
     }
 
     override fun setupListener() {
@@ -46,9 +50,11 @@ class ViewLikeItemFragment : BaseFragment<FragmentViewLikeItemBinding>() {
                 if (wallPaper?.isLiked == true) {
                     likeBtn.setImageResource(R.drawable.ic_heart_unfill)
                     wallPaper?.isLiked = false
+                    wallPaper?.likes =- 1
                 } else {
                     likeBtn.setImageResource(R.drawable.ic_heart_fill)
                     wallPaper?.isLiked = true
+                    wallPaper?.likes =+ 1
                 }
             }
 

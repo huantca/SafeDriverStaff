@@ -74,6 +74,12 @@
         android:label="CongratulationsFragment"
         tools:layout="@layout/fragment_congratulations"/>
 
+    <fragment
+        android:id="@+id/favouriteFragment"
+        android:name="com.bkplus.callscreen.ui.main.home.favourite.FavouriteFragment"
+        android:label="FavouriteFragment"
+        tools:layout="@layout/fragment_favourite"/>
+
     <action
         android:id="@+id/goToViewLikeContainer"
         app:destination="@+id/viewLikeContainerFragment"/>

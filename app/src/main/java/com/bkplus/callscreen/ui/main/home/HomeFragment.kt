@@ -9,6 +9,7 @@ import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ui.main.home.adapter.HomeAdapter
 import com.bkplus.callscreen.ui.main.home.viewmodel.HomeViewModel
 import com.bkplus.callscreen.ui.widget.ForceUpdateDialog
+import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentHomeBinding
@@ -59,6 +60,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.apply {
             imgSearch.setOnClickListener {
                 findNavController().navigate(R.id.searchFragment)
+            }
+
+            imgHeart.setOnSingleClickListener {
+                findNavController().navigate(R.id.favouriteFragment)
             }
         }
     }

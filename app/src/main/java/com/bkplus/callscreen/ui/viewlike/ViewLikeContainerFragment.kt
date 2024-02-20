@@ -1,33 +1,20 @@
 package com.bkplus.callscreen.ui.viewlike
 
-import android.annotation.SuppressLint
 import android.app.WallpaperManager
 import android.content.Context
-import android.content.Intent
-import android.content.res.Resources
-import android.graphics.BitmapFactory
-import android.graphics.Movie
-import android.util.Log
-import android.view.View
-import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearSnapHelper
-import android.app.WallpaperManager
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.bkplus.callscreen.common.BaseFragment
-import com.bkplus.callscreen.ui.main.home.model.Latest
-import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
@@ -38,10 +25,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.net.URL
 
 @Suppress("DEPRECATION")
 class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>() {
@@ -172,26 +156,7 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
         super.setupListener()
         binding.apply {
             setWallpaperBtn.setOnSingleClickListener {
-                requireContext { ct ->
-                    val currentImage = list.getOrNull(viewPager.currentItem)
-                    Glide.with(ct)
-                        .asBitmap()
-                        .load(currentImage?.url)
-                        .into(object : CustomTarget<Bitmap>() {
-                            override fun onResourceReady(
-                                resource: Bitmap,
-                                transition: Transition<in Bitmap>?
-                            ) {
-                                WallpaperManager.getInstance(ct).setBitmap(resource)
-                                toast(getString(R.string.set_wallpaper))
-                            }
-
-                            override fun onLoadCleared(placeholder: Drawable?) {
-                                // this is called when imageView is cleared on lifecycle call or for
-                                // some other reason.
-                            }
-                        })
-                }
+                setWallpaper()
             }
 
             backBtn.setOnSingleClickListener {
@@ -200,4 +165,30 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
         }
     }
 
+    private fun setWallpaper() {
+        requireContext { ct ->
+            val currentImage = list.getOrNull(binding.viewPager.currentItem)
+            Glide.with(ct)
+                .asBitmap()
+                .load(currentImage?.url)
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        WallpaperManager.getInstance(ct).setBitmap(resource)
+                        toast(getString(R.string.set_wallpaper))
+                    }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        // this is called when imageView is cleared on lifecycle call or for
+                        // some other reason.
+                    }
+                })
+        }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            goToSuccess()
+        }
+    }
 }
