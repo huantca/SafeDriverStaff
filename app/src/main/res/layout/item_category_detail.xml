@@ -33,5 +33,27 @@
             app:layout_constraintEnd_toEndOf="@+id/image"
             app:layout_constraintTop_toTopOf="@+id/image" />
 
+        <ImageView
+            android:id="@+id/imgHeart"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="2sp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/ic_heart"
+            android:backgroundTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvHeart"
+            style="@style/SubtextCaption1Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1234"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/imgHeart"
+            app:layout_constraintStart_toEndOf="@id/imgHeart" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

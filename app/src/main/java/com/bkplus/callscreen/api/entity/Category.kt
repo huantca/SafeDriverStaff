@@ -10,5 +10,7 @@ data class Category(
     val name: String? = null,
     @SerializedName("thumbnail")
     val thumbnail: String? = null,
-    var number: Int = 0
+    @SerializedName("size")
+    var number: Int = 0,
+    var selected: Boolean = false
 )

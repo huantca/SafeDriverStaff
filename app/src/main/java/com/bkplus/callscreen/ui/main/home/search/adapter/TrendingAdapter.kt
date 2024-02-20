@@ -1,5 +1,6 @@
 package com.bkplus.callscreen.ui.main.home.search.adapter
 
+import androidx.core.view.isVisible
 import com.bkplus.callscreen.api.entity.Item
 import com.bkplus.callscreen.ultis.gone
 import com.bkplus.callscreen.ultis.loadImage
@@ -18,9 +19,6 @@ class TrendingAdapter : BaseRecyclerViewAdapter<Item?, ItemSearchTrendingBinding
         position: Int
     ) {
         holder.binding.image.loadImage(items[position]?.url)
-        when (items[position]?.free) {
-            false -> holder.binding.icReward.visible()
-            else -> holder.binding.icReward.gone()
-        }
+        holder.binding.icReward.isVisible = items[position]?.free != true
     }
 }
