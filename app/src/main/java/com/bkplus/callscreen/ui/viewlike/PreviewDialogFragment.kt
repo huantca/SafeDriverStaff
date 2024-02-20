@@ -1,9 +1,10 @@
 package com.bkplus.callscreen.ui.viewlike
 
-import android.net.Uri
+import android.content.DialogInterface
 import android.widget.ImageView
 import androidx.core.os.bundleOf
 import com.bkplus.callscreen.ultis.loadImage
+import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.harison.core.app.platform.BaseFullScreenDialogFragment
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentPreviewWallpaperBinding
@@ -14,6 +15,7 @@ class PreviewDialogFragment : BaseFullScreenDialogFragment<FragmentPreviewWallpa
         get() = R.layout.fragment_preview_wallpaper
 
     var onDismissDialog: () -> Unit = {}
+    private var wallPaperUrl: String? = null
 
     companion object {
 
@@ -33,13 +35,34 @@ class PreviewDialogFragment : BaseFullScreenDialogFragment<FragmentPreviewWallpa
         }
     }
 
-    private fun setupLoadImage(uri: Uri?, url: String?, imageView: ImageView) {
-        if (uri != null) {
-            imageView.loadImage(uri)
-        }
+    override fun setupData() {
+        super.setupData()
+        wallPaperUrl = arguments?.getString(AVATAR_URL_BUNDLE)
+    }
 
+    override fun setupUI() {
+        super.setupUI()
+
+        binding.apply {
+            setupLoadImage(wallPaperUrl, previewImage)
+        }
+    }
+
+    override fun setupListener() {
+        super.setupListener()
+        binding.backBtn.setOnSingleClickListener {
+            dismiss()
+        }
+    }
+
+    private fun setupLoadImage(url: String?, imageView: ImageView) {
         if (url != null) {
             imageView.loadImage(url)
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        onDismissDialog.invoke()
+        super.onDismiss(dialog)
     }
 }

@@ -30,7 +30,10 @@ class ViewLikeItemFragment : BaseFragment<FragmentViewLikeItemBinding>() {
 
         binding.apply {
             previewBtn.setOnSingleClickListener {
-                PreviewDialogFragment.
+                PreviewDialogFragment.newInstance(
+                    item = wallPaper,
+                    onDismiss = {  }
+                ).show(childFragmentManager, "")
             }
         }
     }
