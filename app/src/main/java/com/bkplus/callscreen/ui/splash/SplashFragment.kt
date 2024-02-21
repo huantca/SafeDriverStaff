@@ -26,6 +26,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
         }
         animation.duration = 3000L
         binding.progressBar.startAnimation(animation)
+
     }
 
     private fun showInterSplash() {

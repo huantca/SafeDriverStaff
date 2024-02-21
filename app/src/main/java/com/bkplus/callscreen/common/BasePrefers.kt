@@ -44,58 +44,61 @@ class BasePrefers(context: Context) {
         get() = mPrefs.getBoolean(prefsOnBoard, false)
         set(value) = mPrefs.edit { putBoolean(prefsOnBoard, value) }
 
-    var scheduled
-        get() = mPrefs.getLong(prefsTimer, Calendar.getInstance().timeInMillis)
-        set(value) = mPrefs.edit { putLong(prefsTimer, value) }
-
     var locale
         get() = mPrefs.getString(prefsLocale, "en")
         set(value) = mPrefs.edit { putString(prefsLocale, value) }
 
-    var banner
-        get() = mPrefs.getBoolean(prefsBanner, true)
-        set(value) = mPrefs.edit { putBoolean(prefsBanner, value) }
-
-    var interSplash
-        get() = mPrefs.getBoolean(prefsInterSplash, true)
-        set(value) = mPrefs.edit { putBoolean(prefsInterSplash, value) }
-
-    var nativeLanguage
-        get() = mPrefs.getBoolean(prefsNativeLanguage, true)
-        set(value) = mPrefs.edit { putBoolean(prefsNativeLanguage, value) }
-    var nativeHome
-        get() = mPrefs.getBoolean(prefsNativeHome, true)
-        set(value) = mPrefs.edit { putBoolean(prefsNativeHome, value) }
+    var appopen_resume
+        get() = mPrefs.getBoolean(getPrefName(Constants.appopen_resume), true)
+        set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.appopen_resume), value) }
+    var inter_splash
+        get() = mPrefs.getBoolean(getPrefName(Constants.inter_splash), true)
+        set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.inter_splash), value) }
+    var native_language
+        get() = mPrefs.getBoolean(getPrefName(Constants.native_language), true)
+        set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.native_language), value) }
+    var native_onbroading
+        get() = mPrefs.getBoolean(getPrefName(Constants.native_onbroading), true)
+        set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.native_onbroading), value) }
     var native_welcome
-        get() = mPrefs.getBoolean(prefsNativeWelcome, true)
-        set(value) = mPrefs.edit { putBoolean(prefsNativeWelcome, value) }
-
-    var nativeOnboard
-        get() = mPrefs.getBoolean(prefsNativeOnboard, true)
-        set(value) = mPrefs.edit { putBoolean(prefsNativeOnboard, value) }
-
-    var interOnboard
-        get() = mPrefs.getBoolean(prefsInterOnboard, true)
-        set(value) = mPrefs.edit { putBoolean(prefsInterOnboard, value) }
-
-    var openResume
-        get() = mPrefs.getBoolean(prefsOpenResume, true)
-        set(value) = mPrefs.edit { putBoolean(prefsOpenResume, value) }
-
-    //ID Ads
-    var id_open_resume
-        get() = mPrefs.getString(getPrefName(Constants.id_open_resume), BuildConfig.appopen_resume)
-        set(value) = mPrefs.edit { putString(getPrefName(Constants.id_open_resume), value) }
-    var id_inter_splash
-        get() = mPrefs.getString(getPrefName(Constants.id_inter_splash), BuildConfig.inter_splash)
-        set(value) = mPrefs.edit { putString(getPrefName(Constants.id_inter_splash), value) }
-    var id_native_language
-        get() = mPrefs.getString(getPrefName(Constants.id_native_language), BuildConfig.native_language)
-        set(value) = mPrefs.edit { putString(getPrefName(Constants.id_native_language), value) }
-    var id_native_onboard
-        get() = mPrefs.getString(getPrefName(Constants.id_native_onboard), BuildConfig.native_onbroading)
-        set(value) = mPrefs.edit { putString(getPrefName(Constants.id_native_onboard), value) }
-
+        get() = mPrefs.getBoolean(getPrefName(Constants.native_welcome), true)
+        set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.native_welcome), value) }
+    var Banner_all
+        get() = mPrefs.getBoolean(getPrefName(Constants.Banner_all), true)
+        set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.Banner_all), value) }
+    var Native_home
+        get() = mPrefs.getBoolean(getPrefName(Constants.Native_home), true)
+        set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.Native_home), value) }
+    var Native_toptrending
+        get() = mPrefs.getBoolean(getPrefName(Constants.Native_toptrending), true)
+        set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.Native_toptrending), value) }
+    var native_categories
+        get() = mPrefs.getBoolean(getPrefName(Constants.native_categories), true)
+        set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.native_categories), value) }
+    var native_viewcategories
+        get() = mPrefs.getBoolean(getPrefName(Constants.native_viewcategories), true)
+        set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.native_viewcategories), value) }
+    var intersitial_backhome
+        get() = mPrefs.getBoolean(getPrefName(Constants.intersitial_backhome), true)
+        set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.intersitial_backhome), value) }
+    var intersitial_setwallpaper
+        get() = mPrefs.getBoolean(getPrefName(Constants.intersitial_setwallpaper), true)
+        set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.intersitial_setwallpaper), value) }
+    var native_viewwallpaper
+        get() = mPrefs.getBoolean(getPrefName(Constants.native_viewwallpaper), true)
+        set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.native_viewwallpaper), value) }
+    var reward_gif
+        get() = mPrefs.getBoolean(getPrefName(Constants.reward_gif), true)
+        set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.reward_gif), value) }
+    var intersitial_viewhistory
+        get() = mPrefs.getBoolean(getPrefName(Constants.intersitial_viewhistory), true)
+        set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.intersitial_viewhistory), value) }
+    var native_sucsess
+        get() = mPrefs.getBoolean(getPrefName(Constants.native_sucsess), true)
+        set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.native_sucsess), value) }
+    var native_exit
+        get() = mPrefs.getBoolean(getPrefName(Constants.native_exit), true)
+        set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.native_exit), value) }
 
     companion object {
         @Volatile
