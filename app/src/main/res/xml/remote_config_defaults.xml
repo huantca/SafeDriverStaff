@@ -1,67 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <defaults>
     <entry>
-        <key>native_onboard</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>inter_splash</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>inter_onboard</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>banner</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>open_resume</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>Ads_resume</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>native_home</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>native_language</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>native_advance</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>inter_home</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>Banner</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>Native_Language</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>Native_Home</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>Native_SetupCall</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>Native_ChooseSanta</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>Native_Countdown</key>
+        <key>appopen_resume</key>
         <value>true</value>
     </entry>
     <entry>
@@ -73,67 +13,59 @@
         <value>true</value>
     </entry>
     <entry>
-        <key>native_onboard</key>
+        <key>native_onbroading</key>
         <value>true</value>
     </entry>
     <entry>
-        <key>banner_home</key>
+        <key>native_welcome</key>
         <value>true</value>
     </entry>
     <entry>
-        <key>inter_after_onboarding</key>
+        <key>Banner_all</key>
         <value>true</value>
     </entry>
     <entry>
-        <key>native_list_wifi</key>
+        <key>Native_home</key>
         <value>true</value>
     </entry>
     <entry>
-        <key>inter_back_to_home</key>
+        <key>Native_toptrending</key>
         <value>true</value>
     </entry>
     <entry>
-        <key>native_generator_pass</key>
+        <key>native_categories</key>
         <value>true</value>
     </entry>
     <entry>
-        <key>native_speed_test</key>
+        <key>native_viewcategories</key>
         <value>true</value>
     </entry>
     <entry>
-        <key>native_connected_devices</key>
+        <key>intersitial_backhome</key>
         <value>true</value>
     </entry>
     <entry>
-        <key>native_signal_strength</key>
+        <key>intersitial_setwallpaper</key>
         <value>true</value>
     </entry>
     <entry>
-        <key>native_hotpot</key>
+        <key>native_viewwallpaper</key>
         <value>true</value>
     </entry>
     <entry>
-        <key>banner_live_location</key>
+        <key>reward_gif</key>
         <value>true</value>
     </entry>
     <entry>
-        <key>native_wifi_timer</key>
+        <key>intersitial_viewhistory</key>
         <value>true</value>
     </entry>
     <entry>
-        <key>banner_wifi_location</key>
+        <key>native_sucsess</key>
         <value>true</value>
     </entry>
     <entry>
-        <key>native_device_information</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>open_resume</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>reward_show_password</key>
+        <key>native_exit</key>
         <value>true</value>
     </entry>
 </defaults>
