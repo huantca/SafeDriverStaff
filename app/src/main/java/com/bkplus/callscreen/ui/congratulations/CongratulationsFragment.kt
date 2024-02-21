@@ -1,50 +1,57 @@
 package com.bkplus.callscreen.ui.congratulations
 
 import android.view.View
-import androidx.navigation.fragment.findNavController
 import com.ads.bkplus_ads.core.callback.BkPlusNativeAdCallback
 import com.ads.bkplus_ads.core.callforward.BkPlusNativeAd
 import com.ads.bkplus_ads.core.model.BkNativeAd
-import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.bumptech.glide.Glide
 import com.google.android.gms.ads.LoadAdError
+import com.harison.core.app.platform.BaseFullScreenDialogFragment
 import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentCongratulationsBinding
 
-class CongratulationsFragment: BaseFragment<FragmentCongratulationsBinding>() {
+class CongratulationsFragment: BaseFullScreenDialogFragment<FragmentCongratulationsBinding>() {
 
     override val layoutId: Int
         get() = R.layout.fragment_congratulations
 
+    var actionHome = {}
+    var actionBack = {}
+
     override fun setupUI() {
         super.setupUI()
+        loadNativeAd()
         binding.apply {
-            Glide.with(this@CongratulationsFragment)
-                .load(R.drawable.gif_congratulation)
-                .into(congratulateGif)
+            context?.let {
+                Glide.with(it)
+                    .load(R.drawable.gif_congratulation)
+                    .into(congratulateGif)
+            }
         }
     }
     override fun setupListener() {
         super.setupListener()
         binding.apply {
             backBtn.setOnSingleClickListener {
-                findNavController().popBackStack()
+                actionBack.invoke()
+                dismiss()
             }
 
             homeBtn.setOnSingleClickListener {
-                findNavController().popBackStack(R.id.homeFragment, false)
+                actionHome.invoke()
             }
         }
     }
 
 
     private fun loadNativeAd() {
-        BkPlusNativeAd.loadNativeAd(
+        BkPlusNativeAd.showNativeAdReload(
             this,
             BuildConfig.native_categories,
             R.layout.layout_native_congratulation,
+            binding.flAdPlaceholderDeviceInfo,
             object : BkPlusNativeAdCallback() {
                 override fun onNativeAdLoaded(nativeAd: BkNativeAd) {
                     super.onNativeAdLoaded(nativeAd)

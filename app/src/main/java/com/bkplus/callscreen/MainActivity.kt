@@ -12,16 +12,17 @@ import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.ads.bkplus_ads.core.toastDebug
 import com.bkplus.callscreen.common.BaseActivity
 import com.bkplus.callscreen.ui.main.home.viewmodel.HomeViewModel
 import com.bkplus.callscreen.ui.widget.NoInternetDialogFragment
+import com.bkplus.callscreen.ui.widget.PopupExitDialogFragment
 import com.bkplus.callscreen.ultis.NetworkState
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.system.exitProcess
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
@@ -128,7 +129,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         R.id.welcomeFragment,
                         R.id.homeFragment
                         -> {
-                            toastDebug(this@MainActivity, "Show Dialog Exit")
+                            PopupExitDialogFragment().apply {
+                                actionYes = {
+                                    exitProcess(0)
+                                }
+                            }.show(supportFragmentManager, "")
                         }
 
                         else -> {
