@@ -1,4 +1,4 @@
-package com.bkplus.callscreen.ui.congratulations
+package com.bkplus.callscreen.ui.widget
 
 import android.view.View
 import com.ads.bkplus_ads.core.callback.BkPlusNativeAdCallback
@@ -12,7 +12,7 @@ import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentCongratulationsBinding
 
-class CongratulationsFragment: BaseFullScreenDialogFragment<FragmentCongratulationsBinding>() {
+class CongratulationsDialog: BaseFullScreenDialogFragment<FragmentCongratulationsBinding>() {
 
     override val layoutId: Int
         get() = R.layout.fragment_congratulations
@@ -53,11 +53,6 @@ class CongratulationsFragment: BaseFullScreenDialogFragment<FragmentCongratulati
             R.layout.layout_native_congratulation,
             binding.flAdPlaceholderDeviceInfo,
             object : BkPlusNativeAdCallback() {
-                override fun onNativeAdLoaded(nativeAd: BkNativeAd) {
-                    super.onNativeAdLoaded(nativeAd)
-                    populateNativeAd(nativeAd)
-                }
-
                 override fun onAdFailedToLoad(error: LoadAdError) {
                     super.onAdFailedToLoad(error)
                     removeNativeAd()
