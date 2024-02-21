@@ -1,23 +1,21 @@
 package com.bkplus.callscreen.ui.main.home.favourite
 
 import androidx.core.view.isVisible
-import com.bkplus.callscreen.api.entity.Item
-import com.bkplus.callscreen.database.WallpaperDao
 import com.bkplus.callscreen.database.WallpaperEntity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.harison.core.app.platform.BaseRecyclerViewAdapter
 import com.harrison.myapplication.R
-import com.harrison.myapplication.databinding.LayoutItemLatestBinding
+import com.harrison.myapplication.databinding.LayoutItemFavouriteBinding
 
-class FavouriteAdapter : BaseRecyclerViewAdapter<WallpaperEntity, LayoutItemLatestBinding>() {
+class FavouriteAdapter : BaseRecyclerViewAdapter<WallpaperEntity, LayoutItemFavouriteBinding>() {
 
     override fun getLayoutId(viewType: Int): Int {
-        return R.layout.layout_item_latest
+        return R.layout.layout_item_favourite
     }
 
     override fun onBindViewHolder(
-        holder: BaseViewHolder<LayoutItemLatestBinding, WallpaperEntity>,
+        holder: BaseViewHolder<LayoutItemFavouriteBinding, WallpaperEntity>,
         position: Int
     ) {
         val item = items[position]
@@ -30,7 +28,4 @@ class FavouriteAdapter : BaseRecyclerViewAdapter<WallpaperEntity, LayoutItemLate
             tvHeart.text = item.loves.toString()
         }
     }
-
-
-
 }

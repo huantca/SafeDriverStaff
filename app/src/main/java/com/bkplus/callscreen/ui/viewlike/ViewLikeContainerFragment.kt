@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -16,14 +17,17 @@ import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.bkplus.callscreen.common.BaseFragment
+import com.bkplus.callscreen.database.WallpaperDao
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentViewLikeContainerBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>() {
 
     override val layoutId: Int
@@ -32,11 +36,13 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
     var list = arrayListOf<WallPaper>()
     private var currentPosition = 0
     private val args by navArgs<ViewLikeContainerFragmentArgs>()
+    private val viewModel : ViewLikeViewModel by viewModels()
 
     override fun setupData() {
         super.setupData()
         list.clear()
         list.addAll(args.listData)
+        viewModel.matchWallpaperToDB(list)
         val pos = args.listData.indexOfFirst {
             it.url == args.item.url
         }

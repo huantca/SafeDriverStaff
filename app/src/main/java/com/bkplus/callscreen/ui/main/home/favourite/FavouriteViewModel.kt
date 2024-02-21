@@ -15,13 +15,13 @@ import javax.inject.Inject
 class FavouriteViewModel @Inject constructor(
     private val wallpaperDao: WallpaperDao
 ) : ViewModel() {
+
     val favouriteList = MutableLiveData<List<WallpaperEntity>>()
+
     fun getData() {
         viewModelScope.launch(Dispatchers.IO) {
-            wallpaperDao.getAll().collect {
-                val list = it.filter { item -> item.isLike }
-                Timber.tag("Favourite Wallpaper").e("---- ${it.count()}")
-                favouriteList.postValue(list)
+            wallpaperDao.getLiked().collect { listLiked ->
+                favouriteList.postValue(listLiked)
             }
         }
     }

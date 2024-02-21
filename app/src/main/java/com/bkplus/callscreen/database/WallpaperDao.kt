@@ -21,7 +21,10 @@ interface WallpaperDao {
     fun getAll(): Flow<List<WallpaperEntity>>
 
     @Query("Select * From WallpaperDB where isUsing=1")
-    fun getUsing(): List<WallpaperEntity>
+    fun getUsing(): Flow<List<WallpaperEntity>>
+
+    @Query("Select * From WallpaperDB where isLiked=1")
+    fun getLiked(): Flow<List<WallpaperEntity>>
 
     @Query(
         "UPDATE WallpaperDB " +
@@ -35,6 +38,7 @@ interface WallpaperDao {
 
     @Query("Delete From WallpaperDB where id = :id")
     fun deleteFavourite(id: Int?)
+
     @Query("SELECT COUNT(generateId) FROM WallpaperDB")
     fun getCount(): Int
 }

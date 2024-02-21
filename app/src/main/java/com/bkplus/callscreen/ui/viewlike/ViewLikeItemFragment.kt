@@ -70,11 +70,13 @@ class ViewLikeItemFragment : BaseFragment<FragmentViewLikeItemBinding>() {
             if (wallPaper?.isLiked == true) {
                 likeBtn.setImageResource(R.drawable.ic_heart_unfill)
                 wallPaper?.isLiked = false
+                wallPaper?.likeCount = wallPaper?.likeCount?.minus(1)
                 likeCounts.text = wallPaper?.likeCount.toString()
                 viewModel.disperse(wallPaper)
             } else {
                 likeBtn.setImageResource(R.drawable.ic_heart_fill)
                 wallPaper?.isLiked = true
+                wallPaper?.likeCount = wallPaper?.likeCount?.plus(1)
                 likeCounts.text = wallPaper?.likeCount.toString()
                 viewModel.saveFavourite(wallPaper)
             }
