@@ -10,12 +10,13 @@ import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.ui.main.category.adapter.CategorySmallAdapter
 import com.bkplus.callscreen.ui.main.category.adapter.DetailAdapter
 import com.bkplus.callscreen.ui.main.home.viewmodel.HomeViewModel
+import com.bkplus.callscreen.ui.viewlike.WallPaper
 import com.bkplus.callscreen.ultis.visible
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentCategoryDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.util.Locale
+
 
 @AndroidEntryPoint
 class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
@@ -30,9 +31,13 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
 
     private var categoryList: ArrayList<Category>? = null
     private var homeSection: ArrayList<HomeSectionEntity>? = null
+    private var isInit = false
 
     override fun setupData() {
-        viewModel.getSearch()
+        if(!isInit) {
+            viewModel.getSearch()
+            isInit = true
+        }
         binding.apply {
             recyclerViewCategory.adapter = categoryAdapter
             recyclerDetail.adapter = detailAdapter
@@ -46,7 +51,7 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
                 categoryAdapter.updateItems(categories)
             }
             homeSection = viewModel.homeSectionLiveData.value
-            var chosen = categoryList?.firstOrNull { it.name == arguments?.getString("category") }
+            var chosen = categoryList?.firstOrNull { it.id == arguments?.getString("id") }
             if (chosen == null) chosen = categoryList?.firstOrNull()
             chosen?.let {
                 chosen.selected = true
@@ -59,6 +64,18 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
         binding.icBack.setOnClickListener {
             findNavController().popBackStack()
         }
+        detailAdapter.onItemRcvClick = { item, listData ->
+            val item = WallPaper(id = item.id, url = item.url)
+            val listItem = listData.map { item ->
+                WallPaper(id = item.id, url = item.url)
+            }.toTypedArray()
+            findNavController().navigate(
+                CategoryDetailFragmentDirections.actionCategoryDetailFragmentToViewLikeContainerFragment(
+                    item,
+                    listItem
+                )
+            )
+        }
     }
 
     private fun findImagesByCategory(category: String) {
@@ -66,8 +83,7 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
             val searchList = ArrayList<Item>()
             homeSection?.forEach { section ->
                 section.items?.filter {
-                    it.category?.lowercase(Locale.ROOT)
-                        ?.contains(category.lowercase(Locale.ROOT)) == true
+                    it.category == category
                 }?.forEach { item ->
                     item.let {
                         searchList.add(it)

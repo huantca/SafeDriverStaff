@@ -62,7 +62,12 @@
         android:id="@+id/searchFragment"
         android:name="com.bkplus.callscreen.ui.main.home.search.SearchFragment"
         android:label="SearchFragment"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_viewLikeContainerFragment"
+            app:destination="@id/viewLikeContainerFragment">
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/languageFragment"
         android:name="com.bkplus.callscreen.ui.setting.language.LanguageFragment"
@@ -102,5 +107,10 @@
         android:id="@+id/categoryDetailFragment"
         android:name="com.bkplus.callscreen.ui.main.category.CategoryDetailFragment"
         android:label="CategoryDetailFragment"
-        tools:layout="@layout/fragment_category_detail"/>
+        tools:layout="@layout/fragment_category_detail">
+        <action
+            android:id="@+id/action_categoryDetailFragment_to_viewLikeContainerFragment"
+            app:destination="@id/viewLikeContainerFragment">
+        </action>
+    </fragment>
 </navigation>

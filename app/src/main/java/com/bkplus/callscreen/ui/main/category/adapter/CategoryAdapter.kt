@@ -20,7 +20,7 @@ class CategoryAdapter(val onClick: (String) -> Unit) :
         holder.binding.number.text = items[position].number.toString() + " wallpapers"
         holder.binding.image.loadImage(items[position].thumbnail)
         holder.binding.image.setOnClickListener {
-            items[position].name?.let { it1 -> onClick(it1) }
+            items[position].id?.let { it1 -> onClick(it1) }
         }
     }
 

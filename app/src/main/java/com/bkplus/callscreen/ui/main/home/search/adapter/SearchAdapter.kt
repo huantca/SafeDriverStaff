@@ -8,6 +8,10 @@ import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.ItemSearchBinding
 
 class SearchAdapter :BaseRecyclerViewAdapter<Item, ItemSearchBinding>() {
+
+    var onItemRcvClick: (Item, listData: ArrayList<Item>) -> Unit? =
+        { item: Item, listData: ArrayList<Item> -> }
+
     override fun getLayoutId(viewType: Int): Int {
         return R.layout.item_search
     }
@@ -18,5 +22,8 @@ class SearchAdapter :BaseRecyclerViewAdapter<Item, ItemSearchBinding>() {
     ) {
         holder.binding.image.loadImage(items[position].url)
         holder.binding.icReward.isVisible = items[position].free != true
+        holder.binding.image.setOnClickListener {
+            onItemRcvClick.invoke(items[position], items)
+        }
     }
 }
