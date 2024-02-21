@@ -25,7 +25,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
-        val interceptor = HttpLoggingInterceptor { message -> Timber.tag("----").e("\n" + message) }
+        val interceptor = HttpLoggingInterceptor { message -> Timber.tag("----").d("\n" + message) }
         interceptor.level = HttpLoggingInterceptor.Level.HEADERS
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         return OkHttpClient.Builder()

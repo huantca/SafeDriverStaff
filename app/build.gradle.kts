@@ -68,18 +68,43 @@ android {
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
             manifestPlaceholders["ad_app_id"] = "\"ca-app-pub-3940256099942544~3347511713\""
-            buildConfigField("String", "open_resume", "\"ca-app-pub-3940256099942544/9257395921\"")
+            buildConfigField("String", "appopen_resume", "\"ca-app-pub-3940256099942544/9257395921\"")
             buildConfigField("String", "inter_splash", "\"ca-app-pub-3940256099942544/1033173712\"")
             buildConfigField("String", "native_language", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField("String", "native_onboard", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "native_onbroading", "\"ca-app-pub-3940256099942544/2247696110\"")
             buildConfigField("String", "native_welcome", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "Banner_all", "\"ca-app-pub-3940256099942544/9257395921\"")
+            buildConfigField("String", "Native_home", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "Native_toptrending", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "native_categories", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "native_viewcategories", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "intersitial_backhome", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "intersitial_setwallpaper", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "native_viewwallpaper", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "reward_gif", "\"ca-app-pub-3940256099942544/5224354917\"")
+            buildConfigField("String", "intersitial_viewhistory", "\"ca-app-pub-3940256099942544/1033173712\"")
+            buildConfigField("String", "native_sucsess", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField("String", "native_exit", "\"ca-app-pub-3940256099942544/2247696110\"")
         }
         create("production") {
-            manifestPlaceholders["ad_app_id"] = "\"ca-app-pub-3940256099942544~3347511713\""
-            buildConfigField("String", "open_resume", "\"ca-app-pub-3940256099942544/9257395921\"")
-            buildConfigField("String", "inter_splash", "\"ca-app-pub-3940256099942544/1033173712\"")
-            buildConfigField("String", "native_language", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField("String", "native_onboard", "\"ca-app-pub-3940256099942544/2247696110\"")
+            manifestPlaceholders["ad_app_id"] = "\"ca-app-pub-1939315010587936~5129465726\""
+            buildConfigField("String", "appopen_resume", "\"ca-app-pub-1939315010587936/6488641245\"")
+            buildConfigField("String", "inter_splash", "\"ca-app-pub-1939315010587936/2885256398\"")
+            buildConfigField("String", "native_language", "\"ca-app-pub-1939315010587936/5018619239\"")
+            buildConfigField("String", "native_onbroading", "\"ca-app-pub-1939315010587936/1930449139\"")
+            buildConfigField("String", "native_welcome", "\"ca-app-pub-1939315010587936/8077055089\"")
+            buildConfigField("String", "Banner_all", "\"ca-app-pub-1939315010587936/2549396230\"")
+            buildConfigField("String", "Native_home", "\"ca-app-pub-1939315010587936/8488936863\"")
+            buildConfigField("String", "Native_toptrending", "\"ca-app-pub-1939315010587936/9617367461\"")
+            buildConfigField("String", "native_categories", "\"ca-app-pub-1939315010587936/7175855191\"")
+            buildConfigField("String", "native_viewcategories", "\"ca-app-pub-1939315010587936/1236314565\"")
+            buildConfigField("String", "intersitial_backhome", "\"ca-app-pub-1939315010587936/9466158370\"")
+            buildConfigField("String", "intersitial_setwallpaper", "\"ca-app-pub-1939315010587936/3705537569\"")
+            buildConfigField("String", "native_viewwallpaper", "\"ca-app-pub-1939315010587936/8923232899\"")
+            buildConfigField("String", "reward_gif", "\"ca-app-pub-1939315010587936/2392455898\"")
+            buildConfigField("String", "intersitial_viewhistory", "\"ca-app-pub-1939315010587936/4983987885\"")
+            buildConfigField("String", "native_sucsess", "\"ca-app-pub-1939315010587936/7946011385\"")
+            buildConfigField("String", "native_exit", "\"ca-app-pub-1939315010587936/3670906219\"")
         }
     }
     compileOptions {

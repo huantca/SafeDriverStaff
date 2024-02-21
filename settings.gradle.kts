@@ -30,5 +30,5 @@ dependencyResolutionManagement {
 
 }
 
-rootProject.name = "4K Wallpaper"
+rootProject.name = "fb003-4k-wallpaper"
 include(":app")
