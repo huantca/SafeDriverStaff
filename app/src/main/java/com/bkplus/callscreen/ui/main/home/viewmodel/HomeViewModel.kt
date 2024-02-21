@@ -9,6 +9,7 @@ import com.bkplus.callscreen.api.entity.HomeSectionEntity
 import com.bkplus.callscreen.api.onSuccess
 import com.bkplus.callscreen.database.WallpaperDao
 import com.bkplus.callscreen.database.WallpaperEntity
+import com.bkplus.callscreen.ui.main.home.adapter.LatestAdapter
 import com.harison.core.app.utils.SingleLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -23,7 +24,7 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     val homeSectionLiveData = MutableLiveData<ArrayList<HomeSectionEntity>>()
-    val categories = SingleLiveData<ArrayList<Category>>()
+    val categories = MutableLiveData<ArrayList<Category>>()
     val homeSectionAndCategoryLiveData = MutableLiveData<Boolean>()
 
     init {
@@ -51,7 +52,18 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getCategory(){
+    fun addNativeAd(categories: List<Category>): ArrayList<Category> {
+        val result = arrayListOf<Category>()
+        categories.forEachIndexed { index, category ->
+            result.add(category)
+            if ((index + 1) % 4 == 0) {
+                result.add(Category(type = LatestAdapter.ADS))
+            }
+        }
+        return result
+    }
+
+    fun getCategory() {
         viewModelScope.launch {
             apiService.getCategoryData().onSuccess {
                 categories.postValue(it)

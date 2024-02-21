@@ -1,8 +1,12 @@
 package com.bkplus.callscreen.ui.main.home
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.ads.bkplus_ads.core.callback.BkPlusNativeAdCallback
+import com.ads.bkplus_ads.core.callforward.BkPlusNativeAd
+import com.ads.bkplus_ads.core.model.BkNativeAd
 import com.bkplus.callscreen.api.entity.HomeSectionEntity
 import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.common.BasePrefers
@@ -11,11 +15,13 @@ import com.bkplus.callscreen.ui.main.home.viewmodel.HomeViewModel
 import com.bkplus.callscreen.ui.viewlike.WallPaper
 import com.bkplus.callscreen.ui.widget.ForceUpdateDialog
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
+import com.google.android.gms.ads.LoadAdError
 import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentHomeBinding
 import com.qrcode.ai.app.ui.main.widget.OptionUpdateDialog
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import kotlin.math.max
 
 @AndroidEntryPoint
@@ -54,16 +60,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             )
         }
         adapter?.viewAll = {
-            val topTrendyFragment = TopTrendyFragment().apply {
+            val topTrendingFragment = TopTrendingFragment().apply {
                 setData(it)
             }
 
-            topTrendyFragment.dismissDialog = {
+            topTrendingFragment.dismissDialog = {
             }
-            topTrendyFragment.show(childFragmentManager, "")
+            topTrendingFragment.show(childFragmentManager, "")
         }
         viewModel.homeSectionLiveData.observe(viewLifecycleOwner) {
             adapter?.updateItems(it)
+            if (!it.isNullOrEmpty()) {
+                loadNativeAd()
+            }
         }
         binding.rcyHome.adapter = adapter
     }
@@ -78,6 +87,30 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             imgHeart.setOnSingleClickListener {
                 findNavController().navigate(R.id.favouriteFragment)
             }
+        }
+    }
+
+    private fun loadNativeAd() {
+        if (BasePrefers.getPrefsInstance().Native_home) {
+            Timber.d("loadNativeAd()")
+            BkPlusNativeAd.loadNativeAd(
+                this,
+                BuildConfig.Native_home,
+                R.layout.native_onboarding,
+                object : BkPlusNativeAdCallback() {
+                    override fun onNativeAdLoaded(nativeAd: BkNativeAd) {
+                        super.onNativeAdLoaded(nativeAd)
+                        adapter?.populateNativeAd(nativeAd, this@HomeFragment)
+                    }
+
+                    override fun onAdFailedToLoad(error: LoadAdError) {
+                        super.onAdFailedToLoad(error)
+                        adapter?.removeNativeAd()
+                    }
+                }
+            )
+        } else {
+            adapter?.removeNativeAd()
         }
     }
 

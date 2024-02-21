@@ -64,8 +64,17 @@
             app:itemIconTint="@color/selector"
             app:itemTextColor="@color/selector"
             app:labelVisibilityMode="labeled"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/banner"
             app:menu="@menu/home_menu" />
+
+        <com.ads.bkplus_ads.core.custom.BkPlusBannerView
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <FrameLayout
             android:id="@+id/loading_main"
@@ -89,3 +98,4 @@
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
+

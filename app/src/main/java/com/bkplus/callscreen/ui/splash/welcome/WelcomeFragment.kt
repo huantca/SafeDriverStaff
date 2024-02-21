@@ -86,6 +86,13 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>() {
                 R.layout.native_onboarding,
                 binding.flAdplaceholderActivity,
                 object : BkPlusNativeAdCallback() {
+                    override fun onNativeAdLoaded(nativeAd: BkNativeAd) {
+                        super.onNativeAdLoaded(nativeAd)
+                        binding.shimmerContainerNative1.stopShimmer()
+                        binding.shimmerContainerNative1.visibility = View.GONE
+                        binding.flAdplaceholderActivity.visibility = View.VISIBLE
+                    }
+
                     override fun onAdFailedToLoad(error: LoadAdError) {
                         super.onAdFailedToLoad(error)
                         removeNativeAds()
@@ -95,13 +102,6 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>() {
         } else {
             removeNativeAds()
         }
-    }
-
-    private fun addNativeAd(native: BkNativeAd) {
-        binding.shimmerContainerNative1.stopShimmer()
-        binding.shimmerContainerNative1.visibility = View.GONE
-        binding.flAdplaceholderActivity.visibility = View.VISIBLE
-        BkPlusNativeAd.populateNativeAd(this, native, binding.flAdplaceholderActivity)
     }
 
     private fun removeNativeAds() {

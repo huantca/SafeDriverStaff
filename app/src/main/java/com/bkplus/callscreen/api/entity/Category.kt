@@ -1,6 +1,8 @@
 package com.bkplus.callscreen.api.entity
 
 
+import com.ads.bkplus_ads.core.model.BkNativeAd
+import com.bkplus.callscreen.ui.main.home.adapter.LatestAdapter
 import com.google.gson.annotations.SerializedName
 
 data class Category(
@@ -12,5 +14,8 @@ data class Category(
     val thumbnail: String? = null,
     @SerializedName("size")
     var number: Int = 0,
-    var selected: Boolean = false
+    var selected: Boolean = false,
+
+    var type: Int = LatestAdapter.ITEM,
+    var nativeAd: BkNativeAd? = null
 )

@@ -12,11 +12,17 @@ import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.ads.bkplus_ads.core.callforward.BkPlusBannerAd
+import com.ads.bkplus_ads.core.toastDebug
 import com.bkplus.callscreen.common.BaseActivity
+import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ui.main.home.viewmodel.HomeViewModel
 import com.bkplus.callscreen.ui.widget.NoInternetDialogFragment
 import com.bkplus.callscreen.ui.widget.PopupExitDialogFragment
 import com.bkplus.callscreen.ultis.NetworkState
+import com.bkplus.callscreen.ultis.gone
+import com.bkplus.callscreen.ultis.visible
+import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,12 +64,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         setUpBottomNavigation()
         requestNotificationPermissionAndroid13()
         viewModel.getHomeSection()
+        viewModel.getCategory()
     }
 
     private fun setUpBottomNavigation() {
         binding.apply {
             navController?.let { bottomNav.setupWithNavController(it) }
-            navController?.addOnDestinationChangedListener { controller, destination, arguments ->
+            navController?.addOnDestinationChangedListener { _, destination, _ ->
                 when (destination.id) {
                     R.id.splashFragment,
                     R.id.onboardFragment,
@@ -74,25 +81,35 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     R.id.homeFragment -> {
                         setVisibleBottomView(true)
                         tabLayout.getTabAt(0)?.select()
+                        showBanner()
                     }
 
                     R.id.categoryFragment -> {
                         setVisibleBottomView(true)
                         tabLayout.getTabAt(1)?.select()
+                        showBanner()
                     }
 
                     R.id.historyFragment -> {
                         setVisibleBottomView(true)
                         tabLayout.getTabAt(2)?.select()
+                        showBanner()
                     }
 
                     R.id.settingFragment -> {
                         setVisibleBottomView(true)
                         tabLayout.getTabAt(3)?.select()
+                        showBanner()
+                    }
+
+                    R.id.viewLikeContainerFragment, R.id.favouriteFragment, R.id.searchFragment, R.id.categoryFragment, R.id.categoryDetailFragment -> {
+                        setVisibleBottomView(false)
+                        showBanner()
                     }
 
                     else -> {
                         setVisibleBottomView(false)
+                        binding.banner.gone()
                     }
                 }
             }
@@ -100,7 +117,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     }
 
-    open fun setVisibleBottomView(show: Boolean) {
+    fun setVisibleBottomView(show: Boolean) {
         binding.apply {
             bottomNav.isVisible = show
             tabLayout.isVisible = show
@@ -156,6 +173,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
     fun showLoading() {
         binding.loadingMain.isVisible = true
+    }
+
+    private fun showBanner() {
+        if (BasePrefers.getPrefsInstance().Banner_all) {
+            binding.banner.visible()
+            BkPlusBannerAd.showAdCollapsibleBanner(this, BuildConfig.Banner_all, binding.banner, null)
+        } else {
+            binding.banner.gone()
+        }
     }
 
     fun hideLoading() {

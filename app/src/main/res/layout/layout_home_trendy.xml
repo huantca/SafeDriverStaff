@@ -18,7 +18,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="@string/top_trendy"
+                android:text="@string/top_trending"
                 android:textSize="16sp"
                 android:fontFamily="@font/roboto_medium"
                 android:textColor="@color/white" />

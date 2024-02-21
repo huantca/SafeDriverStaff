@@ -67,16 +67,10 @@
             android:paddingHorizontal="18dp"
             android:text="@string/set_wallpaper_btn"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toTopOf="@id/banner_view"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintWidth_percent="0.6" />
-
-        <com.ads.bkplus_ads.core.custom.BkPlusBannerView
-            android:id="@+id/banner_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent" />
 
         <LinearLayout
             android:id="@+id/loading"
@@ -106,3 +100,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
+
