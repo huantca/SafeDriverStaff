@@ -8,5 +8,5 @@ data class WallPaper(
     var isLiked: Boolean = false,
     val id: Int? = null,
     val url: String? = null,
-    var likes: Int = 0
+    var likeCount: Int? = null
 ) : Parcelable

@@ -16,4 +16,5 @@ data class Item(
     val loves: Int? = null,
     @SerializedName("free")
     val free: Boolean? = null,
+    var isLiked: Boolean = false
 )
