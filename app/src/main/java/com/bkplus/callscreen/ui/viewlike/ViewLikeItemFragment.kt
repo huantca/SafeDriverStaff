@@ -5,11 +5,13 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.viewModels
 import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.bumptech.glide.Glide
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentViewLikeItemBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,12 +20,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.URL
 
+@AndroidEntryPoint
 class ViewLikeItemFragment : BaseFragment<FragmentViewLikeItemBinding>() {
 
     override val layoutId: Int
         get() = R.layout.fragment_view_like_item
 
     private var wallPaper: WallPaper? = null
+    private val viewModel: ViewLikeViewModel by viewModels()
 
     fun initData(item: WallPaper) {
         wallPaper = item
@@ -37,7 +41,9 @@ class ViewLikeItemFragment : BaseFragment<FragmentViewLikeItemBinding>() {
         }
 
         binding.apply {
-            likeCounts.text = wallPaper?.likes.toString()
+            likeCounts.text = wallPaper?.likeCount.toString()
+            if (wallPaper?.isLiked == false) likeBtn.setImageResource(R.drawable.ic_heart_unfill)
+            else likeBtn.setImageResource(R.drawable.ic_heart_fill)
         }
     }
 
@@ -47,15 +53,7 @@ class ViewLikeItemFragment : BaseFragment<FragmentViewLikeItemBinding>() {
         binding.apply {
 
             likeBtn.setOnClickListener() {
-                if (wallPaper?.isLiked == true) {
-                    likeBtn.setImageResource(R.drawable.ic_heart_unfill)
-                    wallPaper?.isLiked = false
-                    wallPaper?.likes =- 1
-                } else {
-                    likeBtn.setImageResource(R.drawable.ic_heart_fill)
-                    wallPaper?.isLiked = true
-                    wallPaper?.likes =+ 1
-                }
+                handleLikeAction()
             }
 
             previewBtn.setOnSingleClickListener {
@@ -63,6 +61,24 @@ class ViewLikeItemFragment : BaseFragment<FragmentViewLikeItemBinding>() {
                     item = wallPaper,
                     onDismiss = {  }
                 ).show(childFragmentManager, "")
+            }
+        }
+    }
+
+    private fun handleLikeAction() {
+        binding.apply {
+            if (wallPaper?.isLiked == true) {
+                likeBtn.setImageResource(R.drawable.ic_heart_unfill)
+                wallPaper?.isLiked = false
+                wallPaper?.likeCount = wallPaper?.likeCount?.minus(1)
+                likeCounts.text = wallPaper?.likeCount.toString()
+                viewModel.disperse(wallPaper)
+            } else {
+                likeBtn.setImageResource(R.drawable.ic_heart_fill)
+                wallPaper?.isLiked = true
+                wallPaper?.likeCount = wallPaper?.likeCount?.plus(1)
+                likeCounts.text = wallPaper?.likeCount.toString()
+                viewModel.saveFavourite(wallPaper)
             }
         }
     }

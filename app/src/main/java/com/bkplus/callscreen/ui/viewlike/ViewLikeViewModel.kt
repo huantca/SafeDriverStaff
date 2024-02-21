@@ -2,29 +2,51 @@ package com.bkplus.callscreen.ui.viewlike
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bkplus.callscreen.api.ApiService
-import com.bkplus.callscreen.api.entity.Item
+import androidx.lifecycle.viewModelScope
 import com.bkplus.callscreen.database.WallpaperDao
+import com.bkplus.callscreen.database.WallpaperEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ViewLikeViewModel @Inject constructor(
-    private val apiService: ApiService,
     private val wallpaperDao: WallpaperDao
 ) : ViewModel() {
 
-    var wpList: ArrayList<Item> = arrayListOf()
-    var positionClick: Int = 0
-    private var loadWPList = MutableLiveData<ArrayList<Item>>()
+    val list = MutableLiveData<List<WallPaper>>()
 
-    fun loadListObservable(): MutableLiveData<ArrayList<Item>> {
-        return loadWPList
+    fun matchWallpaperToDB(items: ArrayList<WallPaper>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            wallpaperDao.getLiked().collect { listLiked ->
+                listLiked.forEach { item ->
+                    items.find {
+                        it.url == item.imageUrl
+                    }?.apply {
+                        likeCount = likeCount?.plus(1)
+                        isLiked = true
+                    }
+                }
+            }
+        }
     }
 
-    private fun transformTrendingList(data: ArrayList<Item>) {
-
+    fun saveFavourite(item: WallPaper?) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val wallPaperEntity = WallpaperEntity()
+            if (item?.url != null) {
+                wallPaperEntity.imageUrl = item.url
+            }
+            wallPaperEntity.isLiked = true
+            wallPaperEntity.id = item?.id.toString()
+            wallPaperEntity.loves = item?.likeCount
+            wallPaperEntity.createdTime = System.currentTimeMillis()
+            wallpaperDao.insert(wallPaperEntity)
+        }
     }
 
-
+    fun disperse(item: WallPaper?) {
+        wallpaperDao.deleteFavourite(item?.id)
+    }
 }
