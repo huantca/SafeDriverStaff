@@ -42,9 +42,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 //        viewModel.getHomeSection()
         adapter = HomeAdapter()
         adapter?.onItemRcvClick = { item, listData ->
-            val wallpaper = WallPaper(id = item.id, url = item.url, likeCount = item.loves)
+            val wallpaper = WallPaper(id = item.id, url = item.url, likeCount = item.loves, free = item.free)
             val listItem = listData.map { dataItem ->
-                WallPaper(id = dataItem.id, url = dataItem.url, likeCount = dataItem.loves)
+                WallPaper(id = dataItem.id, url = dataItem.url, likeCount = dataItem.loves, free = wallpaper.free)
             }.toTypedArray()
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToViewLikeContainerFragment(
