@@ -157,4 +157,9 @@
         <item name="android:visibility">visible</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <!-- Rounded-->
+    <style name="rounded_corner_20">
+        <item name="cornerSize">20dp</item>
+    </style>
 </resources>
