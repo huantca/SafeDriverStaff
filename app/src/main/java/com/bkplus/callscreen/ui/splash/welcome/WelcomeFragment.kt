@@ -80,16 +80,12 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>() {
 
     private fun loadNativeAd() {
         if (BasePrefers.getPrefsInstance().native_welcome) {
-            BkPlusNativeAd.loadNativeAd(
+            BkPlusNativeAd.showNativeAdReload(
                 this,
                 BuildConfig.native_welcome,
                 R.layout.native_onboarding,
+                binding.flAdplaceholderActivity,
                 object : BkPlusNativeAdCallback() {
-                    override fun onNativeAdLoaded(nativeAd: BkNativeAd) {
-                        super.onNativeAdLoaded(nativeAd)
-                        addNativeAd(nativeAd)
-                    }
-
                     override fun onAdFailedToLoad(error: LoadAdError) {
                         super.onAdFailedToLoad(error)
                         removeNativeAds()
