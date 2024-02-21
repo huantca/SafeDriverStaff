@@ -5,19 +5,17 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.Log
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.bkplus.callscreen.common.BaseFragment
+import com.bkplus.callscreen.ui.viewlike.adapter.ScreenSlidePagerAdapter
 import com.bkplus.callscreen.ui.widget.CongratulationsDialog
 import com.bkplus.callscreen.ui.widget.SetWallpaperBottomSheet
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
@@ -45,9 +43,15 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
     override fun setupData() {
         super.setupData()
         list.clear()
-        list.addAll(args.listData)
+        args.listData.forEachIndexed { index, wallPaper ->
+            list.add(wallPaper)
+            if (index % 6 == 0) {
+                list.add(WallPaper(isAds = true))
+            }
+        }
+
         viewModel.matchWallpaperToDB(list)
-        val pos = args.listData.indexOfFirst {
+        val pos = list.indexOfFirst {
             it.url == args.item.url
         }
         currentPosition = if (pos >= 0) pos else 0
@@ -58,22 +62,6 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
         val pagerAdapter = ScreenSlidePagerAdapter(childFragmentManager, lifecycle, list)
         binding.viewPager.adapter = pagerAdapter
         initViewPager()
-    }
-
-    private inner class ScreenSlidePagerAdapter(
-        fa: FragmentManager,
-        lifecycle: Lifecycle,
-        val items: List<WallPaper>
-    ) :
-        FragmentStateAdapter(fa, lifecycle) {
-
-        override fun getItemCount(): Int = items.size
-
-        override fun createFragment(position: Int): Fragment {
-            val fragment = ViewLikeItemFragment()
-            fragment.initData(items[position])
-            return fragment
-        }
     }
 
     private fun initViewPager() {
@@ -101,11 +89,14 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
                 positionOffsetPixels: Int
             ) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                Log.d(this@ViewLikeContainerFragment.javaClass.simpleName, "onPageScrolled: $position")
+                Log.d(
+                    this@ViewLikeContainerFragment.javaClass.simpleName,
+                    "onPageScrolled: $position"
+                )
                 currentPosition = position
             }
         })
-        binding.viewPager.setCurrentItem(currentPosition, true)
+        binding.viewPager.setCurrentItem(currentPosition, false)
     }
 
     private fun goToSuccess() {
@@ -228,4 +219,5 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
             }
         }
     }
+
 }
