@@ -40,6 +40,8 @@ class ViewLikeViewModel @Inject constructor(
             }
             wallPaperEntity.isLiked = true
             wallPaperEntity.id = item?.id.toString()
+            wallPaperEntity.free = item?.free
+            wallPaperEntity.generateId = wallPaperEntity.hashCode()
             wallPaperEntity.loves = item?.likeCount
             wallPaperEntity.createdTime = System.currentTimeMillis()
             wallpaperDao.insert(wallPaperEntity)

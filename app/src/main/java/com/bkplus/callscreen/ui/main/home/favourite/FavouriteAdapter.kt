@@ -18,14 +18,14 @@ class FavouriteAdapter : BaseRecyclerViewAdapter<WallpaperEntity, LayoutItemFavo
         holder: BaseViewHolder<LayoutItemFavouriteBinding, WallpaperEntity>,
         position: Int
     ) {
-        val item = items[position]
+        val item = items.getOrNull(position)
         holder.binding.apply {
             Glide.with(root.context)
-                .load(item.imageUrl)
+                .load(item?.imageUrl)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(imgBackground)
-            imgReward.isVisible = item.free != true
-            tvHeart.text = item.loves.toString()
+            imgReward.isVisible = item?.free != true
+            tvHeart.text = item?.loves.toString()
         }
     }
 }

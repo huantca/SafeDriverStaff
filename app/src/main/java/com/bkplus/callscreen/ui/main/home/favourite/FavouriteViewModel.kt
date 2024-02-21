@@ -8,6 +8,7 @@ import com.bkplus.callscreen.database.WallpaperEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -19,10 +20,13 @@ class FavouriteViewModel @Inject constructor(
     val favouriteList = MutableLiveData<List<WallpaperEntity>>()
 
     fun getData() {
-        viewModelScope.launch(Dispatchers.IO) {
-            wallpaperDao.getLiked().collect { listLiked ->
-                favouriteList.postValue(listLiked)
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                wallpaperDao.getLiked().collect { listLiked ->
+                    favouriteList.postValue(listLiked)
+                }
             }
         }
     }
+
 }
