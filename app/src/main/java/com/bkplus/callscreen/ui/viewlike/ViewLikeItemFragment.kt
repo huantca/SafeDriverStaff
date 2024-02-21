@@ -1,27 +1,22 @@
 package com.bkplus.callscreen.ui.viewlike
 
-import androidx.fragment.app.viewModels
-import com.bkplus.callscreen.common.BaseFragment
-import com.bkplus.callscreen.ultis.setOnSingleClickListener
-import com.bumptech.glide.Glide
-import com.harrison.myapplication.R
-import com.harrison.myapplication.databinding.FragmentViewLikeItemBinding
-import dagger.hilt.android.AndroidEntryPoint
 import android.annotation.SuppressLint
-import android.app.WallpaperManager
-import android.content.Context
-import android.graphics.BitmapFactory
-import android.widget.Toast
-import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.viewModels
 import com.ads.bkplus_ads.core.callback.BkPlusNativeAdCallback
 import com.ads.bkplus_ads.core.callforward.BkPlusNativeAd
 import com.ads.bkplus_ads.core.model.BkNativeAd
+import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ultis.gone
 import com.bkplus.callscreen.ultis.openShare
+import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.bkplus.callscreen.ultis.visible
+import com.bumptech.glide.Glide
 import com.google.android.gms.ads.LoadAdError
 import com.harrison.myapplication.BuildConfig
+import com.harrison.myapplication.R
+import com.harrison.myapplication.databinding.FragmentViewLikeItemBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ViewLikeItemFragment : BaseFragment<FragmentViewLikeItemBinding>() {
@@ -64,12 +59,10 @@ class ViewLikeItemFragment : BaseFragment<FragmentViewLikeItemBinding>() {
             else likeBtn.setImageResource(R.drawable.ic_heart_fill)
         }
     }
-
-    }
+    
 
     override fun setupListener() {
         super.setupListener()
-
         binding.apply {
 
             likeBtn.setOnSingleClickListener {
