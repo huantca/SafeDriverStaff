@@ -16,6 +16,7 @@ import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.bkplus.callscreen.common.BaseFragment
+import com.bkplus.callscreen.ui.widget.CongratulationsDialog
 import com.bkplus.callscreen.ui.widget.SetWallpaperBottomSheet
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.bumptech.glide.Glide
@@ -98,7 +99,15 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
     }
 
     private fun goToSuccess() {
-        findNavController().navigate(R.id.congratulationsFragment)
+        val containerFragment = CongratulationsDialog().apply {
+            actionHome = {
+                findNavController().popBackStack(R.id.homeFragment, false)
+            }
+            actionBack = {
+
+            }
+        }
+        containerFragment.show(childFragmentManager, "")
     }
 
     override fun setupListener() {
