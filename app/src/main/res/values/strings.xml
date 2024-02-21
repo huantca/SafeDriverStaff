@@ -83,4 +83,5 @@
     <string name="home_amp_lock_screen"><![CDATA[Home & Lock Screen]]></string>
     <string name="home_screen">Home Screen</string>
     <string name="lock_screen">Lock Screen</string>
+    <string name="set_wallpaper_btn">Set Wallpaper</string>
 </resources>

@@ -53,33 +53,30 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="12dp"
             app:layout_constraintTop_toBottomOf="@id/viewPager"
-            app:layout_constraintBottom_toTopOf="@id/set_wallpaper_btn"/>
+            app:layout_constraintBottom_toTopOf="@id/set_wallpaper_btn" />
 
-        <androidx.cardview.widget.CardView
+        <TextView
+            style="@style/NormalTextButton2Medium"
+            android:layout_gravity="center"
             android:id="@+id/set_wallpaper_btn"
+            android:background="@drawable/bg_radius_30"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:backgroundTint="@color/Primary100"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:backgroundTint="@color/primary100"
+            android:gravity="center"
+            android:paddingHorizontal="18dp"
+            android:text="@string/set_wallpaper_btn"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@id/banner_view"
-            app:layout_constraintWidth_percent="0.6"
-            app:cardCornerRadius="100dp"
-            android:layout_marginBottom="54dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Set Wallpaper"
-                style="@style/NormalTextButton2Medium"
-                android:textColor="@color/white"
-                android:layout_gravity="center"/>
-        </androidx.cardview.widget.CardView>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.6" />
 
         <com.ads.bkplus_ads.core.custom.BkPlusBannerView
             android:id="@+id/banner_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <LinearLayout
             android:id="@+id/loading"
