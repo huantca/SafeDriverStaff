@@ -9,6 +9,7 @@ import com.bkplus.callscreen.api.entity.Item
 import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ui.main.home.adapter.LatestAdapter
 import com.bkplus.callscreen.ui.main.home.model.Latest
+import com.bkplus.callscreen.ui.viewlike.WallPaper
 import com.bkplus.callscreen.ultis.gone
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.bkplus.callscreen.ultis.visible
@@ -26,17 +27,18 @@ class TopTrendingFragment : BaseFullScreenDialogFragment<FragmentTopTrendingBind
 
     private var adapter: LatestAdapter? = null
     private var data: ArrayList<Item>? = null
-    var dismissDialog : () -> Unit? = {}
-    fun setData(data: ArrayList<Item>){
+    var dismissDialog: () -> Unit? = {}
+    fun setData(data: ArrayList<Item>) {
         this.data = data
     }
+
     override fun setupData() {
         super.setupData()
         adapter = LatestAdapter()
         val arr = ArrayList<Latest>()
         data?.forEachIndexed { index, item ->
-            val count = index + 1;
-            arr.add(Latest(item.url,item.category,item.loves,item.free,null,LatestAdapter.ITEM))
+            val count = index + 1
+            arr.add(Latest(item.url, item.category, item.loves, item.free, null, LatestAdapter.ITEM))
             if (count % 6 == 0) {
                 arr.add(Latest(nativeAd = null, type = LatestAdapter.ADS))
             }
@@ -62,7 +64,18 @@ class TopTrendingFragment : BaseFullScreenDialogFragment<FragmentTopTrendingBind
     }
 
     private val actionItem: (Item) -> Unit = { item ->
-        findNavController().navigate(R.id.viewLikeContainerFragment)
+        val wallpaper = WallPaper(id = item.id, url = item.url, likeCount = item.loves, free = item.free)
+        val listItem = data?.map { dataItem ->
+            WallPaper(id = dataItem.id, url = dataItem.url, likeCount = dataItem.loves, free = wallpaper.free)
+        }?.toTypedArray()
+        listItem?.let {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToViewLikeContainerFragment(
+                    wallpaper,
+                    listItem
+                )
+            )
+        }
     }
 
     private fun loadNativeAd() {
