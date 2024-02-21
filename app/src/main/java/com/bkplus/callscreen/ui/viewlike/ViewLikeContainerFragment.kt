@@ -98,7 +98,7 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
             ) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
                 Log.d(this@ViewLikeContainerFragment.javaClass.simpleName, "onPageScrolled: $position")
-                currentPosition = position
+                //currentPosition = position
             }
         })
         binding.viewPager.setCurrentItem(currentPosition, true)

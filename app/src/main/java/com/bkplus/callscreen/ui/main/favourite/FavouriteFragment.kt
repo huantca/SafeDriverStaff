@@ -1,8 +1,9 @@
-package com.bkplus.callscreen.ui.main.home.favourite
+package com.bkplus.callscreen.ui.main.favourite
 
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bkplus.callscreen.common.BaseFragment
+import com.bkplus.callscreen.ui.viewlike.WallPaper
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentFavouriteBinding
@@ -26,6 +27,17 @@ class FavouriteFragment: BaseFragment<FragmentFavouriteBinding>() {
             if (it.isNotEmpty()) {
                 adapter?.updateItems(ArrayList(it))
             }
+        }
+        adapter?.itemAction = { item, listData ->
+            val wallpaper = WallPaper(id = item.id?.toInt(), url = item.imageUrl, likeCount = item.loves, free = item.free)
+            val listItem = listData.map { dataItem ->
+                WallPaper(id = dataItem.id?.toInt(), url = dataItem.imageUrl, likeCount = dataItem.loves, free = wallpaper.free)
+            }.toTypedArray()
+            findNavController().navigate(
+                FavouriteFragmentDirections.actionFavouriteFragmentToViewLikeContainerFragment(
+                    wallpaper,
+                    listItem
+                ))
         }
     }
 

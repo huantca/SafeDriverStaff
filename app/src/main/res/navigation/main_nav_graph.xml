@@ -87,13 +87,16 @@
             app:argType="com.bkplus.callscreen.ui.viewlike.WallPaper[]" />
     </fragment>
 
-
-
     <fragment
         android:id="@+id/favouriteFragment"
-        android:name="com.bkplus.callscreen.ui.main.home.favourite.FavouriteFragment"
+        android:name="com.bkplus.callscreen.ui.main.favourite.FavouriteFragment"
         android:label="FavouriteFragment"
-        tools:layout="@layout/fragment_favourite"/>
+        tools:layout="@layout/fragment_favourite">
+        <action
+            android:id="@+id/action_favouriteFragment_to_viewLikeContainerFragment"
+            app:destination="@id/viewLikeContainerFragment">
+        </action>
+    </fragment>
 
     <action
         android:id="@+id/goToViewLikeContainer"
