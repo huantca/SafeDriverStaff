@@ -59,7 +59,7 @@ class ViewLikeItemFragment : BaseFragment<FragmentViewLikeItemBinding>() {
             else likeBtn.setImageResource(R.drawable.ic_heart_fill)
         }
     }
-    
+
 
     override fun setupListener() {
         super.setupListener()
@@ -85,17 +85,17 @@ class ViewLikeItemFragment : BaseFragment<FragmentViewLikeItemBinding>() {
     @SuppressLint("SetTextI18n")
     private fun handleLikeAction() {
         binding.apply {
-                if (wallPaper?.isLiked == true) {
-                    likeBtn.setImageResource(R.drawable.ic_heart_unfill)
-                    wallPaper?.isLiked = false
-                    likeCountLive = likeCountLive?.minus(1)
-                    viewModel.disperse(wallPaper)
-                } else {
-                    likeBtn.setImageResource(R.drawable.ic_heart_fill)
-                    wallPaper?.isLiked = true
-                    likeCountLive = likeCountLive?.plus(1)
-                    viewModel.saveFavourite(wallPaper)
-                }
+            if (wallPaper?.isLiked == true) {
+                likeBtn.setImageResource(R.drawable.ic_heart_unfill)
+                wallPaper?.isLiked = false
+                likeCountLive = likeCountLive?.minus(1)
+                viewModel.disperse(wallPaper)
+            } else {
+                likeBtn.setImageResource(R.drawable.ic_heart_fill)
+                wallPaper?.isLiked = true
+                likeCountLive = likeCountLive?.plus(1)
+                viewModel.saveFavourite(wallPaper)
+            }
             likeCounts.text = likeCountLive.toString()
             likeCountLive = likeCounts.text.toString().toInt()
         }

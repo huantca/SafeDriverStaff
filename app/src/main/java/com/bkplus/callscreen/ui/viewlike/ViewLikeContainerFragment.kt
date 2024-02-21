@@ -4,9 +4,8 @@ import android.app.WallpaperManager
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.util.Log
+import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -14,7 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
+import com.ads.bkplus_ads.core.callback.BkPlusAdmobInterstitialCallback
+import com.ads.bkplus_ads.core.callforward.BkPlusAdmob
 import com.bkplus.callscreen.common.BaseFragment
+import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ui.viewlike.adapter.ScreenSlidePagerAdapter
 import com.bkplus.callscreen.ui.widget.CongratulationsDialog
 import com.bkplus.callscreen.ui.widget.SetWallpaperBottomSheet
@@ -22,12 +24,15 @@ import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentViewLikeContainerBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 @AndroidEntryPoint
 class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>() {
@@ -38,7 +43,7 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
     var list = arrayListOf<WallPaper>()
     private var currentPosition = 0
     private val args by navArgs<ViewLikeContainerFragmentArgs>()
-    private val viewModel : ViewLikeViewModel by viewModels()
+    private val viewModel: ViewLikeViewModel by viewModels()
 
     override fun setupData() {
         super.setupData()
@@ -89,10 +94,12 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
                 positionOffsetPixels: Int
             ) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                Log.d(
-                    this@ViewLikeContainerFragment.javaClass.simpleName,
-                    "onPageScrolled: $position"
-                )
+                Timber.tag(this.javaClass.simpleName).d("onPageScrolled: %s", position)
+                if (list.getOrNull(position)?.isAds == true) {
+                    binding.setWallpaperBtn.visibility = View.INVISIBLE
+                } else {
+                    binding.setWallpaperBtn.visibility = View.VISIBLE
+                }
                 currentPosition = position
             }
         })
@@ -101,15 +108,18 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
 
     private fun goToSuccess() {
         toast(getString(R.string.set_wallpaper))
-        val containerFragment = CongratulationsDialog().apply {
-            actionHome = {
-                findNavController().popBackStack(R.id.homeFragment, false)
-            }
-            actionBack = {
+        loadAndShowInter {
+            val containerFragment = CongratulationsDialog().apply {
+                actionHome = {
+                    findNavController().popBackStack(R.id.homeFragment, false)
+                }
+                actionBack = {
 
+                }
             }
+            containerFragment.show(childFragmentManager, "")
         }
-        containerFragment.show(childFragmentManager, "")
+
     }
 
     override fun setupListener() {
@@ -220,4 +230,25 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
         }
     }
 
+    private fun loadAndShowInter(action: () -> Unit) {
+        if (BasePrefers.getPrefsInstance().intersitial_setwallpaper) {
+            activity?.let {
+                BkPlusAdmob.showAdInterstitial(it, BuildConfig.intersitial_setwallpaper,
+                    object : BkPlusAdmobInterstitialCallback() {
+                        override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                            super.onAdLoaded(interstitialAd)
+                            action.invoke()
+                        }
+
+                        override fun onAdFailed(tag: String, errorMessage: String) {
+                            super.onAdFailed(tag, errorMessage)
+                            action.invoke()
+                        }
+                    })
+            }
+
+        } else {
+            action.invoke()
+        }
+    }
 }
