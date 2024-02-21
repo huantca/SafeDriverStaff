@@ -21,9 +21,9 @@ class AdsContainer @Inject constructor() {
     private val rewardAdMap = mutableMapOf<String, RewardedAd?>()
     private var lastTimeShownInterAd = 0L
     private var interCoolDownInMillis = 0L
-    var nativeFirstLanguage = MutableLiveData<Pair<Boolean, BkNativeAd?>>()
-    var nativeOnboard = MutableLiveData<Stack<Pair<Boolean, BkNativeAd?>>>()
-    val stack = Stack<Pair<Boolean, BkNativeAd?>>()
+    var nativeFirstLanguage = MutableLiveData<Any?>()
+    var nativeOnboardingAdResponse = MutableLiveData<Boolean>(false)
+    private val stack = Stack<Any>()
     fun setInterCoolDownTime(interCoolDownTimeInSecond: Long) {
         this.interCoolDownInMillis = interCoolDownTimeInSecond * 1000
     }
@@ -93,5 +93,16 @@ class AdsContainer @Inject constructor() {
             Timber.tag(this.javaClass.simpleName)
                 .w("Rewarded ad for id '$adId' has already existed")
         }
+    }
+
+    @Synchronized
+    fun getNativeOnboardingResponse(): Any? {
+        return if (stack.isNotEmpty()) stack.pop() else null
+    }
+
+    @Synchronized
+    fun saveNativeAdResponse(response: Any) {
+        stack.add(response)
+        nativeOnboardingAdResponse.postValue(true)
     }
 }

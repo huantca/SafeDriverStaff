@@ -3,24 +3,52 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_radius_8"
-    android:backgroundTint="@color/dark2">
+    android:backgroundTint="@color/naviColor2">
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/ad_call_to_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_radius_100"
+            android:backgroundTint="@color/primary100"
+            android:backgroundTintMode="add"
+            android:gravity="center"
+            android:paddingVertical="10dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:visibility="visible"
+            tools:text="CTA" />
+
+        <com.google.android.gms.ads.nativead.MediaView
+            android:id="@+id/ad_media"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:visibility="visible"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="16dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ad_app_icon"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:background="@drawable/rectangle_image_ad_unified"
                 android:adjustViewBounds="true" />
 
             <LinearLayout
@@ -31,15 +59,15 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content">
 
                     <TextView
+                        android:id="@+id/tv_ad"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:background="@drawable/bg_radius_3"
-                        android:backgroundTint="@color/Primary100"
+                        android:backgroundTint="@color/primary100"
                         android:paddingHorizontal="4dp"
                         android:paddingVertical="3dp"
                         android:text="Ad"
@@ -55,12 +83,11 @@
                         android:ellipsize="end"
                         android:lines="1"
                         android:maxLines="1"
-                        android:textColor="@color/Primary100"
+                        android:textColor="@color/primary100"
                         android:textFontWeight="500"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         tools:text="StreamYard is a live streaming studio" />
-
                 </LinearLayout>
 
 
@@ -72,25 +99,13 @@
                     android:alpha="0.8"
                     android:ellipsize="end"
                     android:maxLines="2"
+                    android:layout_marginStart="1dp"
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     tools:text="The easiest way to create professional livestream. Get started today. " />
             </LinearLayout>
 
+
         </LinearLayout>
-
-        <com.google.android.gms.ads.nativead.MediaView
-            android:id="@+id/ad_media"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="12dp"
-            android:visibility="visible" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/ad_call_to_action"
-            style="@style/NativeFullWidthCTA"
-            tools:text="CTA" />
-
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </com.google.android.gms.ads.nativead.NativeAdView>

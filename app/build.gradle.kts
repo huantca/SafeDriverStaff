@@ -67,7 +67,7 @@ android {
             dimension = "version"
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
-            manifestPlaceholders["ad_app_id"] = "\"ca-app-pub-3940256099942544~3347511713\""
+            manifestPlaceholders["ad_app_id"] = "ca-app-pub-3940256099942544~3347511713"
             buildConfigField("String", "appopen_resume", "\"ca-app-pub-3940256099942544/9257395921\"")
             buildConfigField("String", "inter_splash", "\"ca-app-pub-3940256099942544/1033173712\"")
             buildConfigField("String", "native_language", "\"ca-app-pub-3940256099942544/2247696110\"")
@@ -87,7 +87,7 @@ android {
             buildConfigField("String", "native_exit", "\"ca-app-pub-3940256099942544/2247696110\"")
         }
         create("production") {
-            manifestPlaceholders["ad_app_id"] = "\"ca-app-pub-1939315010587936~5129465726\""
+            manifestPlaceholders["ad_app_id"] = "ca-app-pub-1939315010587936~5129465726"
             buildConfigField("String", "appopen_resume", "\"ca-app-pub-1939315010587936/6488641245\"")
             buildConfigField("String", "inter_splash", "\"ca-app-pub-1939315010587936/2885256398\"")
             buildConfigField("String", "native_language", "\"ca-app-pub-1939315010587936/5018619239\"")
@@ -182,7 +182,7 @@ dependencies {
     ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     //BK Ads Lib
-    implementation("com.bkplus.ads:library:1.0.4-alpha06")
+    implementation("com.bkplus.ads:library:1.0.4-alpha07")
     //Appsflyer
     implementation("com.appsflyer:adrevenue:6.9.0")
     // https://mvnrepository.com/artifact/com.appsflyer/af-android-sdk
