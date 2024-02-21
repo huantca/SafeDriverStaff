@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
@@ -16,13 +15,13 @@ import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.bkplus.callscreen.common.BaseFragment
+import com.bkplus.callscreen.ui.widget.SetWallpaperBottomSheet
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentViewLikeContainerBinding
-import kotlinx.coroutines.launch
 
 class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>() {
 
@@ -121,8 +120,17 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
                         resource: Bitmap,
                         transition: Transition<in Bitmap>?
                     ) {
-                        WallpaperManager.getInstance(ct).setBitmap(resource)
-                        toast(getString(R.string.set_wallpaper))
+                        SetWallpaperBottomSheet.newInstance(
+                            onClickSetLockScreen = {
+                                setLockScreen(resource)
+                            },
+                            onClickSeHomeScreen = {
+                                setWallpaper(resource)
+                            },
+                            onClickSetBothScreen = {
+                                setBothWallpaper(resource)
+                            }
+                        ).show(childFragmentManager)
                     }
 
                     override fun onLoadCleared(placeholder: Drawable?) {
@@ -131,10 +139,44 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
                     }
                 })
         }
+    }
 
-        lifecycleScope.launch {
-            goToSuccess()
+    fun setWallpaper(bitmap: Bitmap) {
+        requireContext { ct ->
+            try {
+                WallpaperManager.getInstance(ct).setBitmap(bitmap)
+                toast(getString(R.string.set_wallpaper))
+                goToSuccess()
+            } catch (e: Exception) {
+                toast(e.message.toString())
+            }
         }
     }
 
+    fun setLockScreen(bitmap: Bitmap) {
+        requireContext { ct ->
+            try {
+                WallpaperManager.getInstance(ct)
+                    .setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
+                toast(getString(R.string.set_wallpaper))
+                goToSuccess()
+            } catch (e: Exception) {
+                toast(e.message.toString())
+            }
+        }
+    }
+
+    fun setBothWallpaper(bitmap: Bitmap) {
+        requireContext { ct ->
+            try {
+                WallpaperManager.getInstance(ct).setBitmap(bitmap)
+                WallpaperManager.getInstance(ct)
+                    .setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
+                toast(getString(R.string.set_wallpaper))
+                goToSuccess()
+            } catch (e: Exception) {
+                toast(e.message.toString())
+            }
+        }
+    }
 }

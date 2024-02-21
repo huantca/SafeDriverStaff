@@ -97,8 +97,8 @@ class FirebaseRemoteConfig @Inject constructor() {
         idAds?.apply {
             BasePrefers.getPrefsInstance().id_inter_splash = inter_splash
             BasePrefers.getPrefsInstance().id_native_language = native_language
-            BasePrefers.getPrefsInstance().id_native_onboard = native_onboard
-            BasePrefers.getPrefsInstance().id_open_resume = open_resume
+//            BasePrefers.getPrefsInstance().id_native_onboard = native_onboard
+//            BasePrefers.getPrefsInstance().id_open_resume = open_resume
         }
     }
 }

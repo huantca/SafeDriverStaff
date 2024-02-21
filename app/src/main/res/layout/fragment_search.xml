@@ -165,6 +165,7 @@
                 tools:itemCount="4"
                 tools:listitem="@layout/item_search_category" />
 
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

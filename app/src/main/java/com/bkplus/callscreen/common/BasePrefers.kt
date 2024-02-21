@@ -83,18 +83,18 @@ class BasePrefers(context: Context) {
         set(value) = mPrefs.edit { putBoolean(prefsOpenResume, value) }
 
     //ID Ads
-    var id_open_resume
-        get() = mPrefs.getString(getPrefName(Constants.id_open_resume), BuildConfig.open_resume)
-        set(value) = mPrefs.edit { putString(getPrefName(Constants.id_open_resume), value) }
+//    var id_open_resume
+//        get() = mPrefs.getString(getPrefName(Constants.id_open_resume), BuildConfig.open_resume)
+//        set(value) = mPrefs.edit { putString(getPrefName(Constants.id_open_resume), value) }
     var id_inter_splash
         get() = mPrefs.getString(getPrefName(Constants.id_inter_splash), BuildConfig.inter_splash)
         set(value) = mPrefs.edit { putString(getPrefName(Constants.id_inter_splash), value) }
     var id_native_language
         get() = mPrefs.getString(getPrefName(Constants.id_native_language), BuildConfig.native_language)
         set(value) = mPrefs.edit { putString(getPrefName(Constants.id_native_language), value) }
-    var id_native_onboard
-        get() = mPrefs.getString(getPrefName(Constants.id_native_onboard), BuildConfig.native_onboard)
-        set(value) = mPrefs.edit { putString(getPrefName(Constants.id_native_onboard), value) }
+//    var id_native_onboard
+//        get() = mPrefs.getString(getPrefName(Constants.id_native_onboard), BuildConfig.native_onboard)
+//        set(value) = mPrefs.edit { putString(getPrefName(Constants.id_native_onboard), value) }
 
 
     companion object {

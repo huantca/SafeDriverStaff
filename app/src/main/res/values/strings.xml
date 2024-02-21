@@ -76,4 +76,7 @@
     <string name="set_wallpaper">Set wallpaper successfully.</string>
     <string name="favourite">Favourite</string>
     <string name="category">Category</string>
+    <string name="home_amp_lock_screen"><![CDATA[Home & Lock Screen]]></string>
+    <string name="home_screen">Home Screen</string>
+    <string name="lock_screen">Lock Screen</string>
 </resources>
