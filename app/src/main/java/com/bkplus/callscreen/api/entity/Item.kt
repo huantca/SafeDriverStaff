@@ -2,6 +2,8 @@ package com.bkplus.callscreen.api.entity
 
 
 import androidx.room.PrimaryKey
+import com.ads.bkplus_ads.core.model.BkNativeAd
+import com.bkplus.callscreen.ui.main.home.adapter.LatestAdapter
 import com.google.gson.annotations.SerializedName
 
 data class Item(
@@ -16,5 +18,9 @@ data class Item(
     val loves: Int? = null,
     @SerializedName("free")
     val free: Boolean? = null,
-    var isLiked: Boolean = false
+    var isLiked: Boolean = false,
+
+
+    var type: Int = LatestAdapter.ITEM,
+    var nativeAd: BkNativeAd? = null
 )
