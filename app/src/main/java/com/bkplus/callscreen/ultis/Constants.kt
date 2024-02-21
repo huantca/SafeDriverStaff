@@ -12,23 +12,30 @@ object Constants {
     const val app_version_force_update = "app_version_force_update"
     const val app_version_latest: String = "app_version_latest"
 
-    const val inter_splash = "inter_splash"
-    const val native_language = "native_language"
-    const val native_onboard = "native_onboard"
-    const val banner_home = "banner_home"
-    const val inter_after_onboarding = "inter_after_onboarding"
-    const val open_resume = "open_resume"
-    const val cmp_enable = "cmp_enable"
     const val store_uri = "market://details?id=${BuildConfig.APPLICATION_ID}"
     const val channel_id = "channel_id"
     const val channel_name = "channel_name"
 
-    const val id_ads_product = "id_ads_product"
-    const val id_open_resume = "id_open_resume"
-    const val id_inter_splash = "id_inter_splash"
-    const val id_native_language = "id_native_language"
-    const val id_native_onboard = "id_native_onboard"
     const val request_code_share = 9999
+
+    const val appopen_resume = "appopen_resume"
+    const val inter_splash = "inter_splash"
+    const val native_language = "native_language"
+    const val native_onbroading = "native_onbroading"
+    const val native_welcome = "native_welcome"
+    const val Banner_all = "Banner_all"
+    const val Native_home = "Native_home"
+    const val Native_toptrending = "Native_toptrending"
+    const val native_categories = "native_categories"
+    const val native_viewcategories = "native_viewcategories"
+    const val intersitial_backhome = "intersitial_backhome"
+    const val intersitial_setwallpaper = "intersitial_setwallpaper"
+    const val native_viewwallpaper = "native_viewwallpaper"
+    const val reward_gif = "reward_gif"
+    const val intersitial_viewhistory = "intersitial_viewhistory"
+    const val native_sucsess = "native_sucsess"
+    const val native_exit = "native_exit"
+
 
     //URL
     const val LINK_STORE =
