@@ -73,7 +73,7 @@ android {
             buildConfigField("String", "native_language", "\"ca-app-pub-3940256099942544/2247696110\"")
             buildConfigField("String", "native_onbroading", "\"ca-app-pub-3940256099942544/2247696110\"")
             buildConfigField("String", "native_welcome", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField("String", "Banner_all", "\"ca-app-pub-3940256099942544/9257395921\"")
+            buildConfigField("String", "Banner_all", "\"ca-app-pub-3940256099942544/6300978111\"")
             buildConfigField("String", "Native_home", "\"ca-app-pub-3940256099942544/2247696110\"")
             buildConfigField("String", "Native_toptrending", "\"ca-app-pub-3940256099942544/2247696110\"")
             buildConfigField("String", "native_categories", "\"ca-app-pub-3940256099942544/2247696110\"")
