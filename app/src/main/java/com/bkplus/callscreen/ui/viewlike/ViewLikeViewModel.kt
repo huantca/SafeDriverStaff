@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.bkplus.callscreen.database.WallpaperDao
 import com.bkplus.callscreen.database.WallpaperEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class ViewLikeViewModel @Inject constructor(
@@ -48,5 +48,20 @@ class ViewLikeViewModel @Inject constructor(
 
     fun disperse(item: WallPaper?) {
         wallpaperDao.deleteFavourite(item?.id)
+    }
+
+    fun saveHistory(item: WallPaper?) {
+        if (item != null) {
+            viewModelScope.launch(Dispatchers.IO) {
+                wallpaperDao.insert(
+                    WallpaperEntity(
+                        id = item.id.toString(),
+                        isUsed = true,
+                        isUsing = true,
+                        imageUrl = item.url,
+                    )
+                )
+            }
+        }
     }
 }

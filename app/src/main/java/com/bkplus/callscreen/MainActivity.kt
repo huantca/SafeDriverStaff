@@ -20,8 +20,8 @@ import com.bkplus.callscreen.ultis.NetworkState
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import javax.inject.Inject
+import timber.log.Timber
 import kotlin.system.exitProcess
 
 @AndroidEntryPoint
@@ -154,10 +154,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         }
     }
-
-    override fun setupListener() {
-        super.setupListener()
+    fun showLoading() {
+        binding.loadingMain.isVisible = true
     }
 
+    fun hideLoading() {
+        binding.loadingMain.isVisible = false
+    }
 
 }

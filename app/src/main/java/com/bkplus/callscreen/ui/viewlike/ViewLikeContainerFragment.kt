@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +27,9 @@ import com.bumptech.glide.request.transition.Transition
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentViewLikeContainerBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>() {
@@ -105,6 +109,7 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
     }
 
     private fun goToSuccess() {
+        toast(getString(R.string.set_wallpaper))
         val containerFragment = CongratulationsDialog().apply {
             actionHome = {
                 findNavController().popBackStack(R.id.homeFragment, false)
@@ -149,6 +154,9 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
                             },
                             onClickSetBothScreen = {
                                 setBothWallpaper(resource)
+                            },
+                            onClickSetWallpaper = {
+                                viewModel.saveHistory(currentImage)
                             }
                         ).show(childFragmentManager)
                     }
@@ -164,9 +172,16 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
     fun setWallpaper(bitmap: Bitmap) {
         requireContext { ct ->
             try {
-                WallpaperManager.getInstance(ct).setBitmap(bitmap)
-                toast(getString(R.string.set_wallpaper))
-                goToSuccess()
+                lifecycleScope.launch {
+                    showLoading()
+                    withContext(Dispatchers.IO) {
+                        WallpaperManager.getInstance(ct).setBitmap(bitmap)
+                    }
+                    withContext(Dispatchers.Main) {
+                        hideLoading()
+                        goToSuccess()
+                    }
+                }
             } catch (e: Exception) {
                 toast(e.message.toString())
             }
@@ -176,10 +191,17 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
     fun setLockScreen(bitmap: Bitmap) {
         requireContext { ct ->
             try {
-                WallpaperManager.getInstance(ct)
-                    .setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
-                toast(getString(R.string.set_wallpaper))
-                goToSuccess()
+                lifecycleScope.launch {
+                    showLoading()
+                    withContext(Dispatchers.IO) {
+                        WallpaperManager.getInstance(ct)
+                            .setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
+                    }
+                    withContext(Dispatchers.Main) {
+                        hideLoading()
+                        goToSuccess()
+                    }
+                }
             } catch (e: Exception) {
                 toast(e.message.toString())
             }
@@ -189,11 +211,18 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
     fun setBothWallpaper(bitmap: Bitmap) {
         requireContext { ct ->
             try {
-                WallpaperManager.getInstance(ct).setBitmap(bitmap)
-                WallpaperManager.getInstance(ct)
-                    .setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
-                toast(getString(R.string.set_wallpaper))
-                goToSuccess()
+                lifecycleScope.launch {
+                    showLoading()
+                    withContext(Dispatchers.IO) {
+                        WallpaperManager.getInstance(ct).setBitmap(bitmap)
+                        WallpaperManager.getInstance(ct)
+                            .setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
+                    }
+                    withContext(Dispatchers.Main) {
+                        hideLoading()
+                        goToSuccess()
+                    }
+                }
             } catch (e: Exception) {
                 toast(e.message.toString())
             }
