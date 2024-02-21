@@ -34,16 +34,16 @@ class SetWallpaperBottomSheet : BaseBottomSheetDialog<BottomSheetSetWallpaperBin
     override fun setupListener() {
         binding.apply {
             btnLockWallpaper.setOnSingleClickListener {
-                onClickSetLockScreen.invoke()
                 this@SetWallpaperBottomSheet.dismiss()
+                onClickSetLockScreen.invoke()
             }
             btnHomeWallpaper.setOnSingleClickListener {
-                onClickSeHomeScreen.invoke()
                 this@SetWallpaperBottomSheet.dismiss()
+                onClickSeHomeScreen.invoke()
             }
             btnHomeAndLockWallpaper.setOnSingleClickListener {
-                onClickSetBothScreen.invoke()
                 this@SetWallpaperBottomSheet.dismiss()
+                onClickSetBothScreen.invoke()
             }
         }
     }
