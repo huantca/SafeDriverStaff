@@ -1,6 +1,7 @@
 package com.bkplus.callscreen.ultis
 
 import android.net.Uri
+import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import timber.log.Timber
