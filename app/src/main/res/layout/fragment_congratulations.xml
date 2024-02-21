@@ -12,70 +12,117 @@
             android:id="@+id/back_btn"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_back"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"/>
-        
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/congratulate_lottie"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/congratulate_gif"
             android:layout_width="156dp"
             android:layout_height="156dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="120dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="120dp"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgCongratulation"
+            android:layout_width="88dp"
+            android:layout_height="88dp"
+            android:layout_marginTop="150dp"
+            android:src="@drawable/ic_congratulation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <TextView
             android:id="@+id/congratulate_textview"
+            style="@style/headingH4Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/headingH4Medium"
             android:text="@string/congratulations"
-            app:layout_constraintTop_toBottomOf="@+id/congratulate_lottie"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/congratulate_lottie" />
 
         <TextView
             android:id="@+id/success_install_text"
+            style="@style/SubtextCaption1Regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/SubtextCaption1Regular"
-            android:text="@string/success_installing_text"
             android:layout_marginTop="6dp"
-            app:layout_constraintTop_toBottomOf="@+id/congratulate_textview"
+            android:text="@string/success_installing_text"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/congratulate_textview" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/home_btn"
             android:layout_width="206dp"
             android:layout_height="48dp"
+            android:layout_marginTop="20dp"
             android:backgroundTint="@color/Primary100"
             app:cardCornerRadius="100dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/success_install_text"
-            android:layout_marginTop="20dp">
+            app:layout_constraintTop_toBottomOf="@+id/success_install_text">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_nav_home_unselected"
-                    android:layout_marginEnd="6dp"/>
+                    android:layout_marginEnd="6dp"
+                    android:src="@drawable/ic_nav_home_unselected" />
+
                 <TextView
+                    style="@style/NormalTextButton1Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/NormalTextButton1Medium"
                     android:text="@string/home"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white" />
             </LinearLayout>
+
         </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:id="@+id/fr_native_ads_device_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="8dp"
+            android:background="@drawable/bg_radius_8"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <FrameLayout
+                android:id="@+id/fl_ad_placeholder_device_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone" />
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_container_native_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:shimmer_auto_start="true"
+                app:shimmer_base_color="#333333">
+
+                <include layout="@layout/layout_native_congratulation" />
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
