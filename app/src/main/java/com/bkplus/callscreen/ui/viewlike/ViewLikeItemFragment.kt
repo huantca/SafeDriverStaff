@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import com.bkplus.callscreen.common.BaseFragment
+import com.bkplus.callscreen.ultis.openShare
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.bumptech.glide.Glide
 import com.harrison.myapplication.R
@@ -57,6 +58,10 @@ class ViewLikeItemFragment : BaseFragment<FragmentViewLikeItemBinding>() {
 
             likeBtn.setOnClickListener() {
                 handleLikeAction()
+            }
+
+            shareBtn.setOnSingleClickListener {
+                activity.openShare()
             }
 
             previewBtn.setOnSingleClickListener {
