@@ -2,7 +2,6 @@ package com.bkplus.callscreen.ui.main.home
 
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bkplus.callscreen.api.entity.HomeSectionEntity
 import com.bkplus.callscreen.common.BaseFragment
@@ -43,13 +42,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 //        viewModel.getHomeSection()
         adapter = HomeAdapter()
         adapter?.onItemRcvClick = { item, listData ->
-            val item = WallPaper(id = item.id, url = item.url)
+            val wallpaper = WallPaper(id = item.id, url = item.url, likeCount = item.loves)
             val listItem = listData.map { item ->
-                WallPaper(id = item.id, url = item.url)
+                WallPaper(id = item.id, url = item.url, likeCount = item.loves)
             }.toTypedArray()
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToViewLikeContainerFragment(
-                    item,
+                    wallpaper,
                     listItem
                 )
             )

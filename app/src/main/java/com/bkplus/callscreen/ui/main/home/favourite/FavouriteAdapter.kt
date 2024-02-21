@@ -27,7 +27,7 @@ class FavouriteAdapter : BaseRecyclerViewAdapter<WallpaperEntity, LayoutItemLate
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(imgBackground)
             imgReward.isVisible = item.free != true
-            tvHeart.text = item..toString()
+            tvHeart.text = item.loves.toString()
         }
     }
 

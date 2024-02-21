@@ -32,6 +32,7 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
     var list = arrayListOf<WallPaper>()
     private var currentPosition = 0
     private val args by navArgs<ViewLikeContainerFragmentArgs>()
+
     override fun setupData() {
         super.setupData()
         list.clear()

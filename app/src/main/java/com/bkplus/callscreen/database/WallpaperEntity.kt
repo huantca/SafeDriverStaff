@@ -15,6 +15,9 @@ class WallpaperEntity(
     @ColumnInfo(name = "imageUri") var imageUri: String? = null,
     @ColumnInfo(name = "createdTime") var createdTime: Long = 0,
     @ColumnInfo(name = "isSelected") var isSelected: Boolean = false,
+    @ColumnInfo(name = "isLiked") var isLike: Boolean = false,
+    @ColumnInfo(name = "loves") var loves: Int? = null,
+    @ColumnInfo(name = "free") var free: Boolean? = null
 ) {
     override fun hashCode(): Int {
         return Objects.hash(
