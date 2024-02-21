@@ -87,11 +87,7 @@
             app:argType="com.bkplus.callscreen.ui.viewlike.WallPaper[]" />
     </fragment>
 
-    <fragment
-        android:id="@+id/congratulationsFragment"
-        android:name="com.bkplus.callscreen.ui.congratulations.CongratulationsFragment"
-        android:label="CongratulationsFragment"
-        tools:layout="@layout/fragment_congratulations"/>
+
 
     <fragment
         android:id="@+id/favouriteFragment"
