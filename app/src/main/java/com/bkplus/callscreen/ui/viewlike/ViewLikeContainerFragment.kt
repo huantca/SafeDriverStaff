@@ -6,7 +6,8 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
@@ -43,13 +44,17 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
 
     override fun setupUI() {
         super.setupUI()
-        val pagerAdapter = ScreenSlidePagerAdapter(requireActivity(), list)
+        val pagerAdapter = ScreenSlidePagerAdapter(childFragmentManager, lifecycle, list)
         binding.viewPager.adapter = pagerAdapter
         initViewPager()
     }
 
-    private inner class ScreenSlidePagerAdapter(fa: FragmentActivity, val items: List<WallPaper>) :
-        FragmentStateAdapter(fa) {
+    private inner class ScreenSlidePagerAdapter(
+        fa: FragmentManager,
+        lifecycle: Lifecycle,
+        val items: List<WallPaper>
+    ) :
+        FragmentStateAdapter(fa, lifecycle) {
 
         override fun getItemCount(): Int = items.size
 
