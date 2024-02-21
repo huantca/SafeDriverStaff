@@ -127,6 +127,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         R.id.onboardFragment,
                         R.id.firstLanguageFragment,
                         R.id.welcomeFragment,
+                        R.id.historyFragment,
                         R.id.homeFragment
                         -> {
                             PopupExitDialogFragment().apply {

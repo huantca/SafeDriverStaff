@@ -101,7 +101,10 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
                 positionOffsetPixels: Int
             ) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                Log.d(this@ViewLikeContainerFragment.javaClass.simpleName, "onPageScrolled: $position")
+                Log.d(
+                    this@ViewLikeContainerFragment.javaClass.simpleName,
+                    "onPageScrolled: $position"
+                )
                 currentPosition = position
             }
         })
@@ -228,4 +231,5 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
             }
         }
     }
+
 }
