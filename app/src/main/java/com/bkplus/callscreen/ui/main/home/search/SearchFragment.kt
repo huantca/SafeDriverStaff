@@ -5,29 +5,41 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.ads.bkplus_ads.core.callback.BkPlusAdmobInterstitialCallback
+import com.ads.bkplus_ads.core.callback.BkPlusAdmobRewardedCallback
+import com.ads.bkplus_ads.core.callforward.BkPlusAdmob
+import com.bkplus.callscreen.ads.AdsContainer
 import com.bkplus.callscreen.api.entity.Category
 import com.bkplus.callscreen.api.entity.HomeSectionEntity
 import com.bkplus.callscreen.api.entity.Item
 import com.bkplus.callscreen.common.BaseFragment
+import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ui.main.home.search.adapter.CategoryAdapter
 import com.bkplus.callscreen.ui.main.home.search.adapter.HashTagAdapter
 import com.bkplus.callscreen.ui.main.home.search.adapter.SearchAdapter
 import com.bkplus.callscreen.ui.main.home.search.adapter.TrendingAdapter
 import com.bkplus.callscreen.ui.main.home.viewmodel.HomeViewModel
 import com.bkplus.callscreen.ui.viewlike.WallPaper
+import com.bkplus.callscreen.ui.widget.RewardDialog
 import com.bkplus.callscreen.ultis.gone
 import com.bkplus.callscreen.ultis.visible
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Locale
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_search
 
+    @Inject
+    lateinit var adsContainer: AdsContainer
     private val viewModel: HomeViewModel by viewModels()
 
     private val categoryAdapter = CategoryAdapter {
@@ -46,6 +58,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     override fun setupData() {
         viewModel.getSearch()
+        loadAdReward()
+        loadInterBackHome()
         binding.apply {
             recyclerViewCategory.adapter = categoryAdapter
             recyclerViewHashtag.adapter = hashtagAdapter
@@ -61,7 +75,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                     recyclerSearch.gone()
                     layoutBottom.visible()
                 } else {
-                    findNavController().popBackStack()
+                    showInterBackHome {
+                        findNavController().popBackStack()
+                    }
                 }
             }
 
@@ -77,28 +93,32 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             }
         }
         searchAdapter.onItemRcvClick = { item, listData ->
-            val item = WallPaper(id = item.id, url = item.url)
-            val listItem = listData.map { item ->
-                WallPaper(id = item.id, url = item.url)
-            }.toTypedArray()
-            findNavController().navigate(
-                SearchFragmentDirections.actionSearchFragmentToViewLikeContainerFragment(
-                    item,
-                    listItem
-                )
-            )
+            if (item.free == true) {
+                gotoViewLike(item, listData)
+            } else {
+                RewardDialog().apply {
+                    action = {
+                        showRewardAd {
+                            viewModel.freeItem(item)
+                            gotoViewLike(item, listData)
+                        }
+                    }
+                }.show(childFragmentManager,"")
+            }
         }
         trendingAdapter.onItemRcvClick = { item, listData ->
-            val item = WallPaper(id = item.id, url = item.url)
-            val listItem = listData.map { item ->
-                WallPaper(id = item.id, url = item.url)
-            }.toTypedArray()
-            findNavController().navigate(
-                SearchFragmentDirections.actionSearchFragmentToViewLikeContainerFragment(
-                    item,
-                    listItem
-                )
-            )
+            if (item.free == true) {
+                gotoViewLike(item, listData)
+            } else {
+                RewardDialog().apply {
+                    action = {
+                        showRewardAd {
+                            viewModel.freeItem(item)
+                            gotoViewLike(item, listData)
+                        }
+                    }
+                }.show(childFragmentManager,"")
+            }
         }
     }
 
@@ -135,6 +155,110 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 }
             }
             searchAdapter.updateItems(searchList)
+        }
+    }
+
+    private fun loadInterBackHome() {
+        if (BasePrefers.getPrefsInstance().intersitial_backhome) {
+            activity?.let {
+                if (!adsContainer.isInterAdReady(BuildConfig.intersitial_backhome)) {
+                    BkPlusAdmob.loadAdInterstitial(it, BuildConfig.intersitial_backhome,
+                        object : BkPlusAdmobInterstitialCallback() {
+                            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                                super.onAdLoaded(interstitialAd)
+                                adsContainer.saveInterAd(
+                                    BuildConfig.intersitial_backhome,
+                                    interstitialAd
+                                )
+                            }
+                        })
+                }
+
+            }
+        }
+    }
+
+    private fun showInterBackHome(action: () -> Unit) {
+        if (BasePrefers.getPrefsInstance().intersitial_backhome) {
+            activity?.let {
+                BkPlusAdmob.showAdInterstitial(it,
+                    adsContainer.getInterAd(BuildConfig.intersitial_backhome),
+                    object : BkPlusAdmobInterstitialCallback() {
+                        override fun onShowAdRequestProgress(tag: String, message: String) {
+                            super.onShowAdRequestProgress(tag, message)
+                            action.invoke()
+                        }
+
+                        override fun onAdFailed(tag: String, errorMessage: String) {
+                            super.onAdFailed(tag, errorMessage)
+                            adsContainer.removeInterAd(BuildConfig.intersitial_backhome)
+                        }
+
+                        override fun onAdDismissed(tag: String, message: String) {
+                            super.onAdDismissed(tag, message)
+                            adsContainer.removeInterAd(BuildConfig.intersitial_backhome)
+                        }
+                    })
+            }
+        } else {
+            action.invoke()
+        }
+    }
+
+    private fun gotoViewLike(item: Item, listData: ArrayList<Item>) {
+        val item1 =
+            WallPaper(id = item.id, url = item.url, free = item.free, likeCount = item.loves)
+        val listItem = listData.map { item ->
+            WallPaper(id = item.id, url = item.url, free = item.free, likeCount = item.loves)
+        }.toTypedArray()
+        findNavController().navigate(
+            SearchFragmentDirections.actionSearchFragmentToViewLikeContainerFragment(
+                item1,
+                listItem
+            )
+        )
+    }
+
+    private fun loadAdReward() {
+        if (BasePrefers.getPrefsInstance().reward_gif) {
+            activity?.let {
+                if (!adsContainer.isRewardedAdReady(BuildConfig.reward_gif)) {
+                    BkPlusAdmob.loadAdRewarded(it, BuildConfig.reward_gif,
+                        object : BkPlusAdmobRewardedCallback() {
+                            override fun onRewardAdLoaded(rewardedAd: RewardedAd) {
+                                super.onRewardAdLoaded(rewardedAd)
+                                adsContainer.saveRewardedAd(BuildConfig.reward_gif, rewardedAd)
+                            }
+                        })
+                }
+
+            }
+        }
+    }
+    private fun showRewardAd(action: () -> Unit) {
+        if (BasePrefers.getPrefsInstance().reward_gif) {
+            activity?.let {
+                BkPlusAdmob.showAdRewarded(it, adsContainer.getRewardedAd(BuildConfig.reward_gif),
+                    object : BkPlusAdmobRewardedCallback() {
+                        override fun onShowAdRequestProgress(tag: String, message: String) {
+                            super.onShowAdRequestProgress(tag, message)
+                            action.invoke()
+                        }
+
+                        override fun onAdFailed(tag: String, errorMessage: String) {
+                            super.onAdFailed(tag, errorMessage)
+                            adsContainer.removeRewardedAd(BuildConfig.reward_gif)
+                        }
+
+                        override fun onAdDismissed(tag: String, message: String) {
+                            super.onAdDismissed(tag, message)
+                            adsContainer.removeRewardedAd(BuildConfig.reward_gif)
+                        }
+                    })
+
+            }
+        } else {
+            action.invoke()
         }
     }
 }

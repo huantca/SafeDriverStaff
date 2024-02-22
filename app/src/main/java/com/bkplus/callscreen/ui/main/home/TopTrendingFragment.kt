@@ -1,10 +1,13 @@
 package com.bkplus.callscreen.ui.main.home
 
 import androidx.navigation.fragment.findNavController
+import com.ads.bkplus_ads.core.callback.BkPlusAdmobInterstitialCallback
 import com.ads.bkplus_ads.core.callback.BkPlusNativeAdCallback
+import com.ads.bkplus_ads.core.callforward.BkPlusAdmob
 import com.ads.bkplus_ads.core.callforward.BkPlusBannerAd
 import com.ads.bkplus_ads.core.callforward.BkPlusNativeAd
 import com.ads.bkplus_ads.core.model.BkNativeAd
+import com.bkplus.callscreen.ads.AdsContainer
 import com.bkplus.callscreen.api.entity.Item
 import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ui.main.home.adapter.LatestAdapter
@@ -13,14 +16,20 @@ import com.bkplus.callscreen.ultis.gone
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.bkplus.callscreen.ultis.visible
 import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.harison.core.app.platform.BaseFullScreenDialogFragment
 import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentTopTrendingBinding
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class TopTrendingFragment : BaseFullScreenDialogFragment<FragmentTopTrendingBinding>() {
+
+    @Inject
+    lateinit var adsContainer: AdsContainer
     override val layoutId: Int
         get() = R.layout.fragment_top_trending
 
@@ -33,6 +42,7 @@ class TopTrendingFragment : BaseFullScreenDialogFragment<FragmentTopTrendingBind
 
     override fun setupData() {
         super.setupData()
+        loadInterBackHome()
         adapter = LatestAdapter()
         val arr = ArrayList<Item>()
         data?.forEachIndexed { index, item ->
@@ -53,17 +63,25 @@ class TopTrendingFragment : BaseFullScreenDialogFragment<FragmentTopTrendingBind
         super.setupListener()
         binding.apply {
             icBack.setOnSingleClickListener {
-                dismiss()
-                dismissDialog.invoke()
+                showInterBackHome {
+                    dismiss()
+                    dismissDialog.invoke()
+                }
             }
         }
     }
 
 
     private val actionItem: (Item) -> Unit = { item ->
-        val wallpaper = WallPaper(id = item.id, url = item.url, likeCount = item.loves, free = item.free)
+        val wallpaper =
+            WallPaper(id = item.id, url = item.url, likeCount = item.loves, free = item.free)
         val listItem = data?.map { dataItem ->
-            WallPaper(id = dataItem.id, url = dataItem.url, likeCount = dataItem.loves, free = wallpaper.free)
+            WallPaper(
+                id = dataItem.id,
+                url = dataItem.url,
+                likeCount = dataItem.loves,
+                free = wallpaper.free
+            )
         }?.toTypedArray()
         listItem?.let {
             findNavController().navigate(
@@ -102,9 +120,61 @@ class TopTrendingFragment : BaseFullScreenDialogFragment<FragmentTopTrendingBind
     private fun showBanner() {
         if (BasePrefers.getPrefsInstance().Banner_all) {
             binding.banner.visible()
-            BkPlusBannerAd.showAdCollapsibleBanner(context, BuildConfig.Banner_all, binding.banner, null)
+            BkPlusBannerAd.showAdCollapsibleBanner(
+                context,
+                BuildConfig.Banner_all,
+                binding.banner,
+                null
+            )
         } else {
             binding.banner.gone()
+        }
+    }
+
+    private fun loadInterBackHome() {
+        if (BasePrefers.getPrefsInstance().intersitial_backhome) {
+            activity?.let {
+                if (!adsContainer.isInterAdReady(BuildConfig.intersitial_backhome)) {
+                    BkPlusAdmob.loadAdInterstitial(it, BuildConfig.intersitial_backhome,
+                        object : BkPlusAdmobInterstitialCallback() {
+                            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                                super.onAdLoaded(interstitialAd)
+                                adsContainer.saveInterAd(
+                                    BuildConfig.intersitial_backhome,
+                                    interstitialAd
+                                )
+                            }
+                        })
+                }
+
+            }
+        }
+    }
+
+    private fun showInterBackHome(action: () -> Unit) {
+        if (BasePrefers.getPrefsInstance().intersitial_backhome) {
+            activity?.let {
+                BkPlusAdmob.showAdInterstitial(it,
+                    adsContainer.getInterAd(BuildConfig.intersitial_backhome),
+                    object : BkPlusAdmobInterstitialCallback() {
+                        override fun onShowAdRequestProgress(tag: String, message: String) {
+                            super.onShowAdRequestProgress(tag, message)
+                            action.invoke()
+                        }
+
+                        override fun onAdFailed(tag: String, errorMessage: String) {
+                            super.onAdFailed(tag, errorMessage)
+                            adsContainer.removeInterAd(BuildConfig.intersitial_backhome)
+                        }
+
+                        override fun onAdDismissed(tag: String, message: String) {
+                            super.onAdDismissed(tag, message)
+                            adsContainer.removeInterAd(BuildConfig.intersitial_backhome)
+                        }
+                    })
+            }
+        } else {
+            action.invoke()
         }
     }
 }
