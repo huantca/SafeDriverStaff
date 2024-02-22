@@ -12,6 +12,7 @@ import com.ads.bkplus_ads.core.model.BkNativeAd
 import com.bkplus.callscreen.api.entity.Item
 import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ui.main.home.adapter.LatestAdapter
+import com.bkplus.callscreen.ultis.gone
 import com.bkplus.callscreen.ultis.loadImage
 import com.harison.core.app.platform.BaseRecyclerViewAdapter
 import com.harrison.myapplication.R
@@ -70,9 +71,15 @@ class DetailAdapter : BaseRecyclerViewAdapter<Item, ViewDataBinding>() {
                 return@forEach
             }
         }
+        if (!BasePrefers.getPrefsInstance().reward_gif) {
+            binding.icReward.gone()
+            item.free = true
+        }else{
+            binding.icReward.isVisible = item.free != true
+        }
+
         binding.image.loadImage(item.thumbnail)
         binding.tvHeart.text = item.loves.toString()
-        binding.icReward.isVisible = item.free != true
         binding.image.setOnClickListener {
             onItemRcvClick.invoke(item, items)
         }
