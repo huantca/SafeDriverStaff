@@ -86,4 +86,7 @@
     <string name="set_wallpaper_btn">Set Wallpaper</string>
     <string name="galaxy">Galaxy</string>
     <string name="wallpapers">" wallpapers"</string>
+    <string name="watch_an_ads">Watch an ADS</string>
+    <string name="load_ads_fail">load ads fail</string>
+    <string name="you_can_view_and_set">You can view and set this wallpaper by watching an ad! Ready?</string>
 </resources>

@@ -1,31 +1,40 @@
 package com.bkplus.callscreen.ui.main.home
 
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.ads.bkplus_ads.core.callback.BkPlusAdmobRewardedCallback
 import com.ads.bkplus_ads.core.callback.BkPlusNativeAdCallback
+import com.ads.bkplus_ads.core.callforward.BkPlusAdmob
 import com.ads.bkplus_ads.core.callforward.BkPlusNativeAd
 import com.ads.bkplus_ads.core.model.BkNativeAd
+import com.bkplus.callscreen.ads.AdsContainer
 import com.bkplus.callscreen.api.entity.HomeSectionEntity
+import com.bkplus.callscreen.api.entity.Item
 import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ui.main.home.adapter.HomeAdapter
 import com.bkplus.callscreen.ui.main.home.viewmodel.HomeViewModel
 import com.bkplus.callscreen.ui.viewlike.WallPaper
 import com.bkplus.callscreen.ui.widget.ForceUpdateDialog
+import com.bkplus.callscreen.ui.widget.RewardDialog
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.rewarded.RewardedAd
 import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentHomeBinding
 import com.qrcode.ai.app.ui.main.widget.OptionUpdateDialog
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import javax.inject.Inject
 import kotlin.math.max
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
+
+    @Inject
+    lateinit var adsContainer: AdsContainer
     override val layoutId: Int
         get() = R.layout.fragment_home
     private var adapter: HomeAdapter? = null
@@ -43,21 +52,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         var isShowDialogForceUpdate: Boolean? = true
     }
 
+    override fun setupUI() {
+        super.setupUI()
+        loadAdReward()
+    }
+
     override fun setupData() {
         super.setupData()
-//        viewModel.getHomeSection()
         adapter = HomeAdapter()
         adapter?.onItemRcvClick = { item, listData ->
-            val wallpaper = WallPaper(id = item.id, url = item.url, likeCount = item.loves, free = item.free)
-            val listItem = listData.map { dataItem ->
-                WallPaper(id = dataItem.id, url = dataItem.url, likeCount = dataItem.loves, free = wallpaper.free)
-            }.toTypedArray()
-            findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToViewLikeContainerFragment(
-                    wallpaper,
-                    listItem
-                )
-            )
+            if (item.free == true) {
+                gotoViewLike(item, listData)
+            } else {
+                RewardDialog().apply {
+                    action = {
+                        showRewardAd {
+                            viewModel.freeItem(item)
+                            gotoViewLike(item, listData)
+                        }
+                    }
+                }.show(childFragmentManager,"")
+            }
         }
         adapter?.viewAll = {
             val topTrendingFragment = TopTrendingFragment().apply {
@@ -114,6 +129,68 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
+    private fun loadAdReward() {
+        if (BasePrefers.getPrefsInstance().reward_gif) {
+            activity?.let {
+                if (!adsContainer.isRewardedAdReady(BuildConfig.reward_gif)) {
+                    BkPlusAdmob.loadAdRewarded(it, BuildConfig.reward_gif,
+                        object : BkPlusAdmobRewardedCallback() {
+                            override fun onRewardAdLoaded(rewardedAd: RewardedAd) {
+                                super.onRewardAdLoaded(rewardedAd)
+                                adsContainer.saveRewardedAd(BuildConfig.reward_gif, rewardedAd)
+                            }
+                        })
+                }
+
+            }
+        }
+    }
+
+    private fun showRewardAd(action: () -> Unit) {
+        if (BasePrefers.getPrefsInstance().reward_gif) {
+            activity?.let {
+                BkPlusAdmob.showAdRewarded(it, adsContainer.getRewardedAd(BuildConfig.reward_gif),
+                    object : BkPlusAdmobRewardedCallback() {
+                        override fun onShowAdRequestProgress(tag: String, message: String) {
+                            super.onShowAdRequestProgress(tag, message)
+                            action.invoke()
+                        }
+
+                        override fun onAdFailed(tag: String, errorMessage: String) {
+                            super.onAdFailed(tag, errorMessage)
+                            adsContainer.removeRewardedAd(BuildConfig.reward_gif)
+                        }
+
+                        override fun onAdDismissed(tag: String, message: String) {
+                            super.onAdDismissed(tag, message)
+                            adsContainer.removeRewardedAd(BuildConfig.reward_gif)
+                        }
+                    })
+
+            }
+        } else {
+            action.invoke()
+        }
+    }
+
+    private fun gotoViewLike(item: Item, listData: ArrayList<Item>) {
+        val wallpaper =
+            WallPaper(id = item.id, url = item.url, likeCount = item.loves, free = item.free)
+        val listItem = listData.map { dataItem ->
+            WallPaper(
+                id = dataItem.id,
+                url = dataItem.url,
+                likeCount = dataItem.loves,
+                free = dataItem.free
+            )
+        }.toTypedArray()
+        findNavController().navigate(
+            HomeFragmentDirections.actionHomeFragmentToViewLikeContainerFragment(
+                wallpaper,
+                listItem
+            )
+        )
+    }
 
     private fun setupShowForceUpdate() {
         when (compareVersions(BasePrefers.getPrefsInstance().app_version_latest.toString())) {
