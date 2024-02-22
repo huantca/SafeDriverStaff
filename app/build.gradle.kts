@@ -20,7 +20,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.harrison.myapplication"
+        applicationId = "com.fc.p.bk.wallpaper.live.hdwallpaper.background"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -64,7 +64,6 @@ android {
     productFlavors {
         create("dev") {
             dimension = "version"
-            applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
             manifestPlaceholders["ad_app_id"] = "ca-app-pub-3940256099942544~3347511713"
             buildConfigField("String", "appopen_resume", "\"ca-app-pub-3940256099942544/9257395921\"")
