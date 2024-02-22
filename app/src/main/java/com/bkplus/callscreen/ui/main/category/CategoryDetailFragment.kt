@@ -3,6 +3,7 @@ package com.bkplus.callscreen.ui.main.category
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.ads.bkplus_ads.core.callback.BkPlusAdmobInterstitialCallback
 import com.ads.bkplus_ads.core.callback.BkPlusAdmobRewardedCallback
 import com.ads.bkplus_ads.core.callback.BkPlusNativeAdCallback
 import com.ads.bkplus_ads.core.callforward.BkPlusAdmob
@@ -23,6 +24,7 @@ import com.bkplus.callscreen.ui.viewlike.WallPaper
 import com.bkplus.callscreen.ui.widget.RewardDialog
 import com.bkplus.callscreen.ultis.visible
 import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
@@ -64,6 +66,7 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
 
     override fun setupUI() {
         loadAdReward()
+        loadInterBackHome()
         viewModel.homeSectionAndCategoryLiveData.observe(viewLifecycleOwner) { boolean ->
             categoryList = viewModel.categories.value
             categoryList?.let { categories ->
@@ -81,18 +84,23 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
 
     override fun setupListener() {
         binding.icBack.setOnClickListener {
-            findNavController().popBackStack()
+            showInterBackHome {
+                findNavController().popBackStack()
+            }
         }
         detailAdapter.onItemRcvClick = { item, listData ->
-            RewardDialog().apply {
-                action = {
-                    showRewardAd {
-                        viewModel.freeItem(item)
-                        gotoViewLike(item, listData)
+            if (item.free == true) {
+                gotoViewLike(item, listData)
+            } else {
+                RewardDialog().apply {
+                    action = {
+                        showRewardAd {
+                            viewModel.freeItem(item)
+                            gotoViewLike(item, listData)
+                        }
                     }
-                }
-            }.show(childFragmentManager, "")
-
+                }.show(childFragmentManager,"")
+            }
         }
     }
 
@@ -204,9 +212,10 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
     }
 
     private fun gotoViewLike(item: Item, listData: ArrayList<Item>) {
-        val item1 = WallPaper(id = item.id, url = item.url, free = item.free, likeCount = item.loves)
+        val item1 =
+            WallPaper(id = item.id, url = item.url, free = item.free, likeCount = item.loves)
         val listItem = listData.map { it ->
-            WallPaper(id = it.id, url = it.url, free = item.free, likeCount = item.loves)
+            WallPaper(id = it.id, url = it.url, free = it.free, likeCount = it.loves)
         }.toTypedArray()
         findNavController().navigate(
             CategoryDetailFragmentDirections.actionCategoryDetailFragmentToViewLikeContainerFragment(
@@ -214,5 +223,52 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
                 listItem
             )
         )
+    }
+
+    private fun loadInterBackHome() {
+        if (BasePrefers.getPrefsInstance().intersitial_backhome) {
+            activity?.let {
+                if (!adsContainer.isInterAdReady(BuildConfig.intersitial_backhome)) {
+                    BkPlusAdmob.loadAdInterstitial(it, BuildConfig.intersitial_backhome,
+                        object : BkPlusAdmobInterstitialCallback() {
+                            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                                super.onAdLoaded(interstitialAd)
+                                adsContainer.saveInterAd(
+                                    BuildConfig.intersitial_backhome,
+                                    interstitialAd
+                                )
+                            }
+                        })
+                }
+
+            }
+        }
+    }
+
+    private fun showInterBackHome(action: () -> Unit) {
+        if (BasePrefers.getPrefsInstance().intersitial_backhome) {
+            activity?.let {
+                BkPlusAdmob.showAdInterstitial(it,
+                    adsContainer.getInterAd(BuildConfig.intersitial_backhome),
+                    object : BkPlusAdmobInterstitialCallback() {
+                        override fun onShowAdRequestProgress(tag: String, message: String) {
+                            super.onShowAdRequestProgress(tag, message)
+                            action.invoke()
+                        }
+
+                        override fun onAdFailed(tag: String, errorMessage: String) {
+                            super.onAdFailed(tag, errorMessage)
+                            adsContainer.removeInterAd(BuildConfig.intersitial_backhome)
+                        }
+
+                        override fun onAdDismissed(tag: String, message: String) {
+                            super.onAdDismissed(tag, message)
+                            adsContainer.removeInterAd(BuildConfig.intersitial_backhome)
+                        }
+                    })
+            }
+        } else {
+            action.invoke()
+        }
     }
 }

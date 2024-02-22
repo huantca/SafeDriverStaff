@@ -145,6 +145,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         R.id.firstLanguageFragment,
                         R.id.welcomeFragment,
                         R.id.historyFragment,
+                        R.id.categoryFragment,
+                        R.id.settingFragment,
                         R.id.homeFragment
                         -> {
                             PopupExitDialogFragment().apply {
@@ -172,6 +174,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         }
     }
+
     fun showLoading() {
         binding.loadingMain.isVisible = true
     }
