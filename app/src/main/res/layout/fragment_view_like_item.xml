@@ -66,7 +66,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/wall_paper_image"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginBottom="15dp">
+                android:layout_marginBottom="25dp">
 
                 <LinearLayout
                     android:layout_width="40dp"
