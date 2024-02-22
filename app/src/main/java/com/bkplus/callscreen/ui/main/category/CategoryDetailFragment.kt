@@ -99,13 +99,11 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
     private fun findImagesByCategory(category: String) {
         lifecycleScope.launch {
             val searchList = ArrayList<Item>()
-            homeSection?.forEach { section ->
-                section.items?.filter {
-                    it.category == category
-                }?.forEach { item ->
-                    item.let {
-                        searchList.add(it)
-                    }
+            homeSection?.getOrNull(1)?.items?.filter {
+                it.category == category
+            }?.forEach { item ->
+                item.let {
+                    searchList.add(it)
                 }
             }
             categoryAdapter.items.firstOrNull { it.selected }?.selected = false
