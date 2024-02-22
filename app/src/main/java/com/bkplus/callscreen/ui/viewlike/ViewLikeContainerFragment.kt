@@ -30,6 +30,7 @@ import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentViewLikeContainerBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -179,6 +180,7 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
                     showLoading()
                     withContext(Dispatchers.IO) {
                         WallpaperManager.getInstance(ct).setBitmap(bitmap)
+                        delay(1000L)
                     }
                     withContext(Dispatchers.Main) {
                         hideLoading()
@@ -199,6 +201,7 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
                     withContext(Dispatchers.IO) {
                         WallpaperManager.getInstance(ct)
                             .setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
+                        delay(1000L)
                     }
                     withContext(Dispatchers.Main) {
                         hideLoading()
@@ -220,6 +223,7 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
                         WallpaperManager.getInstance(ct).setBitmap(bitmap)
                         WallpaperManager.getInstance(ct)
                             .setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
+                        delay(1000L)
                     }
                     withContext(Dispatchers.Main) {
                         hideLoading()
