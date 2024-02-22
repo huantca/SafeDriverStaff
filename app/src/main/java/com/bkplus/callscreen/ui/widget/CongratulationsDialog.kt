@@ -22,7 +22,6 @@ class CongratulationsDialog: BaseFullScreenDialogFragment<FragmentCongratulation
 
     override fun setupUI() {
         super.setupUI()
-        loadNativeAd()
         binding.apply {
             context?.let {
                 Glide.with(it)
@@ -30,6 +29,11 @@ class CongratulationsDialog: BaseFullScreenDialogFragment<FragmentCongratulation
                     .into(congratulateGif)
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        loadNativeAd()
     }
     override fun setupListener() {
         super.setupListener()
@@ -47,12 +51,15 @@ class CongratulationsDialog: BaseFullScreenDialogFragment<FragmentCongratulation
 
 
     private fun loadNativeAd() {
-        BkPlusNativeAd.showNativeAdReload(
+        BkPlusNativeAd.loadNativeAd(
             this,
             BuildConfig.native_categories,
             R.layout.layout_native_congratulation,
-            binding.flAdPlaceholderDeviceInfo,
             object : BkPlusNativeAdCallback() {
+                override fun onNativeAdLoaded(nativeAd: BkNativeAd) {
+                    super.onNativeAdLoaded(nativeAd)
+                    populateNativeAd(nativeAd)
+                }
                 override fun onAdFailedToLoad(error: LoadAdError) {
                     super.onAdFailedToLoad(error)
                     removeNativeAd()

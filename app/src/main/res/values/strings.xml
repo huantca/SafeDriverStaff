@@ -30,7 +30,7 @@
     <string name="choose_way_share">Choose a way to share:</string>
 
     <!-- App-->
-    <string name="top_trendy">Top Trendy</string>
+    <string name="top_trending">Top Trending</string>
     <string name="view_all">View All</string>
     <string name="latest">Latest</string>
     <string name="_4k_wallpaper">4K Wallpaper</string>
@@ -84,4 +84,6 @@
     <string name="home_screen">Home Screen</string>
     <string name="lock_screen">Lock Screen</string>
     <string name="set_wallpaper_btn">Set Wallpaper</string>
+    <string name="galaxy">Galaxy</string>
+    <string name="wallpapers">" wallpapers"</string>
 </resources>

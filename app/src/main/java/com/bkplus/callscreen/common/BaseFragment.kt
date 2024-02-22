@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.viewbinding.ViewBinding
-import com.ads.bkplus_ads.core.callforward.BkPlusAppOpenAdManager
+import com.bkplus.callscreen.MainActivity
 import timber.log.Timber
 
 abstract class BaseFragment<T : ViewBinding> : Fragment() {
@@ -78,6 +78,18 @@ abstract class BaseFragment<T : ViewBinding> : Fragment() {
     fun NavController.safeNavigateWithArgs(direction: NavDirections, bundle: Bundle? = Bundle()) {
         currentDestination?.getAction(direction.actionId)?.run {
             navigate(direction.actionId, bundle)
+        }
+    }
+
+    fun showLoading() {
+        activity?.let {
+            (it as MainActivity).showLoading()
+        }
+    }
+
+    fun hideLoading() {
+        activity?.let {
+            (it as MainActivity).hideLoading()
         }
     }
 }

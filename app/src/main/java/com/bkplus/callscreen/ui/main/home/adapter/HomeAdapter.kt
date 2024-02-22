@@ -1,5 +1,9 @@
 package com.bkplus.callscreen.ui.main.home.adapter
 
+import android.app.Activity
+import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
+import com.ads.bkplus_ads.core.model.BkNativeAd
 import com.bkplus.callscreen.api.entity.HomeSectionEntity
 import com.bkplus.callscreen.api.entity.Item
 import com.bkplus.callscreen.ui.main.home.model.Latest
@@ -10,11 +14,12 @@ import com.harrison.myapplication.databinding.LayoutHomeLatestBinding
 import com.harrison.myapplication.databinding.LayoutHomeTrendyBinding
 import com.harrison.myapplication.databinding.LayoutRcyHomeBinding
 
-class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBinding>() {
+class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, ViewDataBinding>() {
 
     var viewAll: (arrayList: ArrayList<Item>) -> Unit? = {}
     var onItemRcvClick: (Item, listData: ArrayList<Item>) -> Unit? =
         { item: Item, listData: ArrayList<Item> -> }
+    private val latestAdapter = LatestAdapter()
 
     companion object {
         const val TRENDY = 0
@@ -36,7 +41,7 @@ class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBind
     }
 
     override fun onBindViewHolder(
-        holder: BaseViewHolder<LayoutRcyHomeBinding, HomeSectionEntity>,
+        holder: BaseViewHolder<ViewDataBinding, HomeSectionEntity>,
         position: Int
     ) {
         val item = items[position]
@@ -86,7 +91,6 @@ class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBind
         homeSectionEntity: HomeSectionEntity,
         binding: LayoutHomeLatestBinding
     ) {
-        val latestAdapter = LatestAdapter()
         val listLatest = ArrayList<Latest>()
         if (homeSectionEntity.id == 2) {
             val shuffled = homeSectionEntity.items?.shuffled()
@@ -103,7 +107,7 @@ class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBind
                         LatestAdapter.ITEM
                     )
                 )
-                if (count % 3 == 0) {
+                if (count % 6 == 0) {
                     listLatest.add(Latest(nativeAd = null, type = LatestAdapter.ADS))
                 }
             }
@@ -118,4 +122,11 @@ class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, LayoutRcyHomeBind
         }
     }
 
+    fun populateNativeAd(nativeAd: BkNativeAd?, fragment: Fragment) {
+        latestAdapter.populateNativeAd(nativeAd, fragment)
+    }
+
+    fun removeNativeAd() {
+        latestAdapter.removeNativeAd()
+    }
 }

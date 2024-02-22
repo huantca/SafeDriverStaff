@@ -21,7 +21,12 @@
         android:id="@+id/historyFragment"
         android:name="com.bkplus.callscreen.ui.main.history.HistoryFragment"
         android:label="FragmentHistory"
-        tools:layout="@layout/fragment_history" />
+        tools:layout="@layout/fragment_history">
+
+        <action
+            android:id="@+id/action_historyFragment_to_viewLikeContainerFragment"
+            app:destination="@id/viewLikeContainerFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/categoryFragment"

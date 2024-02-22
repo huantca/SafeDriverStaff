@@ -12,6 +12,7 @@ class HistoryRecyclerViewAdapter(
     val onSelectedAll: () -> Unit = {},
     val onNotSelectedAll: () -> Unit = {},
     val onClicked: () -> Unit = {},
+    val onNavigate : (item: WallpaperEntity) -> Unit = {}
 ) : BaseRecyclerViewAdapter<WallpaperEntity, ItemHistoryBinding>() {
     override fun getLayoutId(viewType: Int): Int {
         return R.layout.item_history
@@ -48,7 +49,11 @@ class HistoryRecyclerViewAdapter(
             else selectedCount--
             if (selectedCount == itemCount) onSelectedAll()
             else onNotSelectedAll()
-            onClicked()
+            if (isSelecting) {
+                onClicked()
+            } else {
+                onNavigate.invoke(items[position])
+            }
             checkSelecting()
         }
     }

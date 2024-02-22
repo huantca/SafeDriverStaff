@@ -7,88 +7,124 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/wall_paper_image"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctlItem"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@mipmap/sample_image"
-            android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/rounded_corner_20" />
+            android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/service_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            android:orientation="horizontal"
-            android:layout_marginBottom="40dp">
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/wall_paper_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/sample_image"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/rounded_corner_20" />
 
             <LinearLayout
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginEnd="30dp">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/like_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_heart_unfill"
-                    android:layout_marginBottom="2dp"/>
-
-                <TextView
-                    android:id="@+id/like_counts"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/like"
-                    android:textAlignment="center"
-                    style="@style/SubtextCaption1Regular"
-                    android:textColor="@color/white"/>
-            </LinearLayout>
-
-            <LinearLayout
+                android:id="@+id/service_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginEnd="30dp">
+                android:layout_gravity="bottom|center_horizontal"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@+id/wall_paper_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/share_btn"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_share_fill"
-                    android:layout_marginBottom="2dp"/>
+                    android:layout_marginEnd="30dp"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/share"
-                    android:textAlignment="center"
-                    style="@style/SubtextCaption1Regular"
-                    android:textColor="@color/white"/>
-            </LinearLayout>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/like_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="2dp"
+                        android:src="@drawable/ic_heart_unfill" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/like_counts"
+                        style="@style/SubtextCaption1Regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/like"
+                        android:textAlignment="center"
+                        android:textColor="@color/white" />
+                </LinearLayout>
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/preview_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_preview"
-                    android:layout_marginBottom="2dp"/>
-
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/preview"
-                    android:textAlignment="center"
-                    style="@style/SubtextCaption1Regular"
-                    android:textColor="@color/white" />
-            </LinearLayout>
+                    android:layout_marginEnd="30dp"
+                    android:orientation="vertical">
 
-        </LinearLayout>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/share_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="2dp"
+                        android:src="@drawable/ic_share_fill" />
+
+                    <TextView
+                        style="@style/SubtextCaption1Regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/share"
+                        android:textAlignment="center"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/preview_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="2dp"
+                        android:src="@drawable/ic_preview" />
+
+                    <TextView
+                        style="@style/SubtextCaption1Regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/preview"
+                        android:textAlignment="center"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:id="@+id/frNativeAd"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <FrameLayout
+                android:id="@+id/fl_adplaceholder_exit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone" />
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_container_native_exit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:shimmer_auto_start="true"
+                app:shimmer_base_color="#333333">
+
+                <include layout="@layout/layout_native_view_like" />
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+        </FrameLayout>
     </FrameLayout>
 </layout>
