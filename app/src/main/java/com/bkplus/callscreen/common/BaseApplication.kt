@@ -30,6 +30,10 @@ class BaseApplication : BkPlusAdmobApplication() {
         firebaseRemoteConfig.fetchRemoteConfig()
     }
 
+    override fun getAdOpenAppUnitId(): String {
+        return BuildConfig.appopen_resume
+    }
+
     /** Setup Timber Log*/
     private fun setupTimber() {
         if (BuildConfig.DEBUG) {
