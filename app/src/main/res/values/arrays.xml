@@ -49,8 +49,8 @@
         <item>de</item> <!-- German -->
         <item>pt</item> <!-- Portuguese -->
         <item>es</item> <!-- Spain -->
-        <item>hi</item> <!-- French -->
-        <item>it</item> <!-- Italian -->
+        <item>fr</item> <!-- French -->
+        <item>zh</item> <!-- China -->
     </string-array>
 
     <string-array name="supported_locales_names_first">
@@ -58,8 +58,8 @@
         <item>@string/setting_de</item> <!-- German -->
         <item>@string/setting_pt</item> <!-- Portuguese -->
         <item>@string/setting_spain</item> <!-- Spain -->
-        <item>@string/setting_hindi</item> <!-- Hindi -->
-        <item>@string/setting_italian</item> <!-- Italian -->
+        <item>@string/setting_fr</item> <!-- French -->
+        <item>@string/setting_china</item> <!-- China -->
     </string-array>
 
 </resources>
