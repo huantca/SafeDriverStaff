@@ -3,9 +3,13 @@ package com.bkplus.callscreen.ui.main.category
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.ads.bkplus_ads.core.callback.BkPlusAdmobRewardedCallback
 import com.ads.bkplus_ads.core.callback.BkPlusNativeAdCallback
+import com.ads.bkplus_ads.core.callforward.BkPlusAdmob
 import com.ads.bkplus_ads.core.callforward.BkPlusNativeAd
 import com.ads.bkplus_ads.core.model.BkNativeAd
+import com.ads.bkplus_ads.core.toastDebug
+import com.bkplus.callscreen.ads.AdsContainer
 import com.bkplus.callscreen.api.entity.Category
 import com.bkplus.callscreen.api.entity.HomeSectionEntity
 import com.bkplus.callscreen.api.entity.Item
@@ -16,18 +20,24 @@ import com.bkplus.callscreen.ui.main.category.adapter.DetailAdapter
 import com.bkplus.callscreen.ui.main.home.adapter.LatestAdapter
 import com.bkplus.callscreen.ui.main.home.viewmodel.HomeViewModel
 import com.bkplus.callscreen.ui.viewlike.WallPaper
+import com.bkplus.callscreen.ui.widget.RewardDialog
 import com.bkplus.callscreen.ultis.visible
 import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.rewarded.RewardedAd
 import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentCategoryDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
+
+    @Inject
+    lateinit var adsContainer: AdsContainer
     override val layoutId: Int
         get() = R.layout.fragment_category_detail
 
@@ -53,6 +63,7 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
     }
 
     override fun setupUI() {
+        loadAdReward()
         viewModel.homeSectionAndCategoryLiveData.observe(viewLifecycleOwner) { boolean ->
             categoryList = viewModel.categories.value
             categoryList?.let { categories ->
@@ -73,16 +84,15 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
             findNavController().popBackStack()
         }
         detailAdapter.onItemRcvClick = { item, listData ->
-            val item = WallPaper(id = item.id, url = item.url, likeCount = item.loves, free = item.free)
-            val listItem = listData.map { item ->
-                WallPaper(id = item.id, url = item.url, likeCount = item.loves, free = item.free)
-            }.toTypedArray()
-            findNavController().navigate(
-                CategoryDetailFragmentDirections.actionCategoryDetailFragmentToViewLikeContainerFragment(
-                    item,
-                    listItem
-                )
-            )
+            RewardDialog().apply {
+                action = {
+                    showRewardAd {
+                        viewModel.freeItem(item)
+                        gotoViewLike(item, listData)
+                    }
+                }
+            }.show(childFragmentManager, "")
+
         }
     }
 
@@ -100,7 +110,11 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
             }
             categoryAdapter.items.firstOrNull { it.selected }?.selected = false
             categoryAdapter.items.firstOrNull { it.name == category }?.selected = true
-            detailAdapter.updateItems(if (BasePrefers.getPrefsInstance().native_viewcategories) addNativeAd(searchList) else searchList)
+            detailAdapter.updateItems(
+                if (BasePrefers.getPrefsInstance().native_viewcategories) addNativeAd(
+                    searchList
+                ) else searchList
+            )
             if (searchList.isNotEmpty()) {
                 loadNativeAd()
             }
@@ -144,5 +158,63 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
             }
         }
         return result
+    }
+
+    private fun loadAdReward() {
+        if (BasePrefers.getPrefsInstance().reward_gif) {
+            activity?.let {
+                if (!adsContainer.isRewardedAdReady(BuildConfig.reward_gif)) {
+                    BkPlusAdmob.loadAdRewarded(it, BuildConfig.reward_gif,
+                        object : BkPlusAdmobRewardedCallback() {
+                            override fun onRewardAdLoaded(rewardedAd: RewardedAd) {
+                                super.onRewardAdLoaded(rewardedAd)
+                                adsContainer.saveRewardedAd(BuildConfig.reward_gif, rewardedAd)
+                                toastDebug(context, "load reward")
+                            }
+                        })
+                }
+
+            }
+        }
+    }
+
+    private fun showRewardAd(action: () -> Unit) {
+        if (BasePrefers.getPrefsInstance().reward_gif) {
+            activity?.let {
+                BkPlusAdmob.showAdRewarded(it, adsContainer.getRewardedAd(BuildConfig.reward_gif),
+                    object : BkPlusAdmobRewardedCallback() {
+                        override fun onShowAdRequestProgress(tag: String, message: String) {
+                            super.onShowAdRequestProgress(tag, message)
+                            action.invoke()
+                        }
+
+                        override fun onAdFailed(tag: String, errorMessage: String) {
+                            super.onAdFailed(tag, errorMessage)
+                            adsContainer.removeRewardedAd(BuildConfig.reward_gif)
+                        }
+
+                        override fun onAdDismissed(tag: String, message: String) {
+                            super.onAdDismissed(tag, message)
+                            adsContainer.removeRewardedAd(BuildConfig.reward_gif)
+                        }
+                    })
+
+            }
+        } else {
+            action.invoke()
+        }
+    }
+
+    private fun gotoViewLike(item: Item, listData: ArrayList<Item>) {
+        val item1 = WallPaper(id = item.id, url = item.url, free = item.free, likeCount = item.loves)
+        val listItem = listData.map { it ->
+            WallPaper(id = it.id, url = it.url, free = item.free, likeCount = item.loves)
+        }.toTypedArray()
+        findNavController().navigate(
+            CategoryDetailFragmentDirections.actionCategoryDetailFragmentToViewLikeContainerFragment(
+                item1,
+                listItem
+            )
+        )
     }
 }

@@ -12,12 +12,14 @@ data class Item(
     val id: Int? = null,
     @SerializedName("url")
     val url: String? = null,
+    @SerializedName("thumbnail")
+    val thumbnail: String? = null,
     @SerializedName("category")
     val category: String? = null,
     @SerializedName("loves")
     val loves: Int? = null,
     @SerializedName("free")
-    val free: Boolean? = null,
+    var free: Boolean? = null,
     var isLiked: Boolean = false,
 
 

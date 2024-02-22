@@ -2,6 +2,7 @@ package com.bkplus.callscreen.ui.main.home.adapter
 
 import androidx.core.view.isVisible
 import com.bkplus.callscreen.api.entity.Item
+import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -22,11 +23,16 @@ class TopTrendingAdapter : BaseRecyclerViewAdapter<Item, LayoutItemTopTrendingBi
     ) {
         val item = items[position]
         holder.binding.apply {
+            BasePrefers.getPrefsInstance().listItemsFree.forEach {
+                if (it.url == item.url) {
+                    item.free = true
+                }
+            }
             root.setOnSingleClickListener {
                 onItemClick(item)
             }
             Glide.with(root.context)
-                .load(item.url)
+                .load(item.thumbnail)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(imgBackground)
             imgReward.isVisible = item.free != true

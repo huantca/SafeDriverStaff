@@ -6,16 +6,17 @@ import androidx.lifecycle.viewModelScope
 import com.bkplus.callscreen.api.ApiService
 import com.bkplus.callscreen.api.entity.Category
 import com.bkplus.callscreen.api.entity.HomeSectionEntity
+import com.bkplus.callscreen.api.entity.Item
 import com.bkplus.callscreen.api.onSuccess
+import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.database.WallpaperDao
 import com.bkplus.callscreen.database.WallpaperEntity
 import com.bkplus.callscreen.ui.main.home.adapter.LatestAdapter
-import com.harison.core.app.utils.SingleLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -87,5 +88,11 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun freeItem(item: Item) {
+        val freeItems = BasePrefers.getPrefsInstance().listItemsFree
+        freeItems.add(item)
+        BasePrefers.getPrefsInstance().listItemsFree = freeItems
     }
 }
