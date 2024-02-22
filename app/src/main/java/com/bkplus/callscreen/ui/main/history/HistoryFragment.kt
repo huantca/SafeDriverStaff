@@ -98,9 +98,19 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
     }
 
     private fun gotoViewLike(wallpaper: WallpaperEntity) {
-        val item = WallPaper(id = wallpaper.id?.toIntOrNull(), url = wallpaper.imageUrl)
+        val item = WallPaper(
+            id = wallpaper.id?.toIntOrNull(),
+            url = wallpaper.imageUrl,
+            free = wallpaper.free,
+            likeCount = wallpaper.loves
+        )
         val listItem = data?.map { item ->
-            WallPaper(id = item.id?.toIntOrNull(), url = item.imageUrl)
+            WallPaper(
+                id = item.id?.toIntOrNull(),
+                url = item.imageUrl,
+                free = item.free,
+                likeCount = item.loves
+            )
         }?.toTypedArray()
         loadAndShowInertAd {
             listItem?.let {

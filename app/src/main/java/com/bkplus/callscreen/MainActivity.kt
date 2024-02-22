@@ -13,7 +13,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.ads.bkplus_ads.core.callforward.BkPlusBannerAd
-import com.ads.bkplus_ads.core.toastDebug
 import com.bkplus.callscreen.common.BaseActivity
 import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ui.main.home.viewmodel.HomeViewModel
@@ -26,8 +25,8 @@ import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import timber.log.Timber
+import javax.inject.Inject
 import kotlin.system.exitProcess
 
 @AndroidEntryPoint

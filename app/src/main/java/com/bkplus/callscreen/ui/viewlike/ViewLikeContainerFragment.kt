@@ -102,6 +102,13 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
                 } else {
                     binding.setWallpaperBtn.visibility = View.VISIBLE
                 }
+                BasePrefers.getPrefsInstance().listItemsFree.forEach {
+                    if (list.getOrNull(position)?.url == it.url){
+                        binding.setWallpaperBtn.visibility = View.VISIBLE
+                        return@forEach
+                    }
+                }
+
                 currentPosition = position
             }
         })
