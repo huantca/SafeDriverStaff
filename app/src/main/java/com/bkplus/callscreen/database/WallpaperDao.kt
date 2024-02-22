@@ -41,4 +41,6 @@ interface WallpaperDao {
 
     @Query("SELECT COUNT(generateId) FROM WallpaperDB")
     fun getCount(): Int
+    @Query("SELECT COUNT(generateId) FROM WallpaperDB where isLiked = 1")
+    fun getLikeCount(): Int
 }

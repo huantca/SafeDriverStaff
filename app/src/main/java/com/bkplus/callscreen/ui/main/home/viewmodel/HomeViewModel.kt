@@ -12,6 +12,7 @@ import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.database.WallpaperDao
 import com.bkplus.callscreen.database.WallpaperEntity
 import com.bkplus.callscreen.ui.main.home.adapter.LatestAdapter
+import com.bkplus.callscreen.ui.viewlike.WallPaper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -81,7 +82,8 @@ class HomeViewModel @Inject constructor(
                         WallpaperEntity(
                             generateId = 0,
                             id = "1",
-                            imageUrl = "https://i.pinimg.com/736x/39/11/6c/39116c247669762f4ce72be4ce2b862e.jpg"
+                            imageUrl = "https://i.pinimg.com/736x/39/11/6c/39116c247669762f4ce72be4ce2b862e.jpg",
+                            isLiked = true
                         )
                     )
                     wallpaperDao.insertAll(list)
