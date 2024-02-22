@@ -64,7 +64,9 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
 
     override fun setupUI() {
         super.setupUI()
-        val pagerAdapter = ScreenSlidePagerAdapter(childFragmentManager, lifecycle, list)
+        val pagerAdapter = ScreenSlidePagerAdapter(childFragmentManager, lifecycle, list, action = {
+            binding.setWallpaperBtn.visibility = View.VISIBLE
+        })
         binding.viewPager.adapter = pagerAdapter
         initViewPager()
     }
@@ -95,7 +97,7 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
             ) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
                 Timber.tag(this.javaClass.simpleName).d("onPageScrolled: %s", position)
-                if (list.getOrNull(position)?.isAds == true) {
+                if (list.getOrNull(position)?.isAds == true || list.getOrNull(position)?.free != true) {
                     binding.setWallpaperBtn.visibility = View.INVISIBLE
                 } else {
                     binding.setWallpaperBtn.visibility = View.VISIBLE

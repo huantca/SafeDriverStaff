@@ -10,13 +10,15 @@ import com.bkplus.callscreen.ui.viewlike.WallPaper
 class ScreenSlidePagerAdapter(
     fa: FragmentManager,
     lifecycle: Lifecycle,
-    val items: List<WallPaper>
+    val items: List<WallPaper>,
+    val action: () -> Unit
 ) :
     FragmentStateAdapter(fa, lifecycle) {
         override fun getItemCount(): Int = items.size
 
         override fun createFragment(position: Int): Fragment {
             val fragment = ViewLikeItemFragment()
+            fragment.setActionShowButton { action.invoke() }
             fragment.initData(items[position])
             return fragment
         }

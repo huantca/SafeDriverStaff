@@ -1,18 +1,15 @@
 package com.bkplus.callscreen.ui.main.home.adapter
 
-import android.app.Activity
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.ads.bkplus_ads.core.model.BkNativeAd
 import com.bkplus.callscreen.api.entity.HomeSectionEntity
 import com.bkplus.callscreen.api.entity.Item
-import com.bkplus.callscreen.ui.main.home.model.Latest
 import com.bkplus.callscreen.ultis.toArrayList
 import com.harison.core.app.platform.BaseRecyclerViewAdapter
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.LayoutHomeLatestBinding
 import com.harrison.myapplication.databinding.LayoutHomeTrendyBinding
-import com.harrison.myapplication.databinding.LayoutRcyHomeBinding
 
 class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, ViewDataBinding>() {
 
@@ -73,15 +70,16 @@ class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, ViewDataBinding>(
             homeSectionEntity.items?.forEach {
                 it.let { listViewAll.add(it) }
             }
+            topTrendingAdapter.onItemClick = {
+                homeSectionEntity.items?.let { list ->
+                    onItemRcvClick(it, list.toArrayList())
+                }
+            }
         }
         topTrendingAdapter.updateItems(listTrendy)
         binding.rcyTopTrending.adapter = topTrendingAdapter
         binding.title.text = homeSectionEntity.name
-        topTrendingAdapter.onItemClick = {
-            homeSectionEntity.items?.let { list ->
-                onItemRcvClick(it, list.toArrayList())
-            }
-        }
+
         binding.tvViewAll.setOnClickListener {
             viewAll.invoke(listViewAll)
         }
@@ -91,35 +89,26 @@ class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, ViewDataBinding>(
         homeSectionEntity: HomeSectionEntity,
         binding: LayoutHomeLatestBinding
     ) {
-        val listLatest = ArrayList<Latest>()
+        val listLatest = ArrayList<Item>()
         if (homeSectionEntity.id == 2) {
             val shuffled = homeSectionEntity.items?.shuffled()
             val randomList = shuffled?.subList(0,15)
             randomList?.forEachIndexed { index, item ->
                 val count = index + 1;
-                listLatest.add(
-                    Latest(
-                        item.url,
-                        item.category,
-                        item.loves,
-                        item.free,
-                        null,
-                        LatestAdapter.ITEM
-                    )
-                )
+                listLatest.add(item)
                 if (count % 6 == 0) {
-                    listLatest.add(Latest(nativeAd = null, type = LatestAdapter.ADS))
+                    listLatest.add(Item(nativeAd = null, type = LatestAdapter.ADS))
+                }
+            }
+            latestAdapter.itemAction = {
+                homeSectionEntity.items?.let { it1 ->
+                    onItemRcvClick(it, it1.toArrayList())
                 }
             }
         }
         binding.tvLatest.text = homeSectionEntity.name
         latestAdapter.updateItems(listLatest)
         binding.rcyLatest.adapter = latestAdapter
-        latestAdapter.itemAction = {
-            homeSectionEntity.items?.let { it1 ->
-                onItemRcvClick(it, it1.toArrayList())
-            }
-        }
     }
 
     fun populateNativeAd(nativeAd: BkNativeAd?, fragment: Fragment) {

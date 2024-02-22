@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_radius_16"
+            android:backgroundTint="@color/navi1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/icReward"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginTop="-70dp"
+                android:layout_marginBottom="-20dp"
+                android:src="@drawable/ic_reward_dialog" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                style="@style/NormalTextButton1Medium"
+                android:text="@string/you_can_view_and_set"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnWatchAd"
+                style="@style/NormalTextButton1Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/bg_radius_8"
+                android:backgroundTint="@color/Primary100"
+                android:elevation="32dp"
+                android:gravity="center"
+                android:text="@string/watch_an_ads"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:cornerRadius="30dp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnCancel"
+                style="@style/NormalTextButton1Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_radius_8"
+
+                android:elevation="32dp"
+                android:gravity="center"
+                android:paddingHorizontal="40dp"
+                android:paddingVertical="6dp"
+                android:text="@string/cancel"
+                android:layout_marginTop="8dp"
+                android:textAllCaps="false"
+                android:textColor="#FFF"
+                android:textSize="16sp"
+                app:cornerRadius="30dp" />
+        </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</layout>

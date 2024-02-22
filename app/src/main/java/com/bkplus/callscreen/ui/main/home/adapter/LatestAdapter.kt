@@ -1,8 +1,5 @@
 package com.bkplus.callscreen.ui.main.home.adapter
 
-import android.app.Activity
-import android.graphics.Color
-import androidx.core.content.ContextCompat
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.databinding.ViewDataBinding
@@ -12,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ads.bkplus_ads.core.callforward.BkPlusNativeAd
 import com.ads.bkplus_ads.core.model.BkNativeAd
 import com.bkplus.callscreen.api.entity.Item
-import com.bkplus.callscreen.ui.main.home.model.Latest
+import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ultis.loadImage
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.harison.core.app.platform.BaseRecyclerViewAdapter
@@ -20,9 +17,8 @@ import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.ItemNativeHomeBinding
 import com.harrison.myapplication.databinding.LayoutItemLatestBinding
 
-class LatestAdapter : BaseRecyclerViewAdapter<Latest, ViewDataBinding>() {
+class LatestAdapter : BaseRecyclerViewAdapter<Item, ViewDataBinding>() {
 
-    private var onClickListener: OnClickListener? = null
     var itemAction: ((Item) -> Unit)? = null
     private var fragment: Fragment? = null
 
@@ -59,7 +55,7 @@ class LatestAdapter : BaseRecyclerViewAdapter<Latest, ViewDataBinding>() {
     }
 
     override fun onBindViewHolder(
-        holder: BaseViewHolder<ViewDataBinding, Latest>,
+        holder: BaseViewHolder<ViewDataBinding, Item>,
         position: Int
     ) {
         val item = items[position]
@@ -74,23 +70,30 @@ class LatestAdapter : BaseRecyclerViewAdapter<Latest, ViewDataBinding>() {
         }
     }
 
-    private fun bindItem(item: Latest, binding: LayoutItemLatestBinding) {
+    private fun bindItem(item: Item, binding: LayoutItemLatestBinding) {
         binding.apply {
-            imgBackground.loadImage(item.url)
+            BasePrefers.getPrefsInstance().listItemsFree.forEach {
+                if (it.url == item.url) {
+                    item.free = true
+                }
+            }
+            imgBackground.loadImage(item.thumbnail)
             imgReward.isVisible = item.free != true
             tvHeart.text = item.loves.toString()
             root.setOnSingleClickListener {
                 itemAction?.invoke(
                     Item(
                         url = item.url,
-                        category = item.category
+                        category = item.category,
+                        free = item.free,
+                        loves = item.loves
                     )
                 )
             }
         }
     }
 
-    private fun bindAds(item: Latest, binding: ItemNativeHomeBinding) {
+    private fun bindAds(item: Item, binding: ItemNativeHomeBinding) {
         if (item.nativeAd == null) {
             return
         } else {
@@ -116,12 +119,5 @@ class LatestAdapter : BaseRecyclerViewAdapter<Latest, ViewDataBinding>() {
         updateItems(items)
     }
 
-    fun setOnClickListener(onClickListener: OnClickListener) {
-        this.onClickListener = onClickListener
-    }
-
-    interface OnClickListener {
-        fun actionConnect(item: Latest)
-    }
 }
 
