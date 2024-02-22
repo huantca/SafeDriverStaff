@@ -1,36 +1,26 @@
 {
   "project_info": {
-    "project_number": "69748556012",
-    "project_id": "my-file-manager-bk-plus",
-    "storage_bucket": "my-file-manager-bk-plus.appspot.com"
+    "project_number": "12411856388",
+    "project_id": "pm-bk-4k-wallpaper",
+    "storage_bucket": "pm-bk-4k-wallpaper.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:69748556012:android:d93ac5d8c4c56d94ace5c9",
+        "mobilesdk_app_id": "1:12411856388:android:30fdb58f34295e2c573751",
         "android_client_info": {
-          "package_name": "com.harrison.myapplication.dev"
+          "package_name": "com.fc.p.bk.wallpaper.live.hdwallpaper.background"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "69748556012-f0fansubju6ub0rl9skcqv5bib8p1nl0.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBrFBjgoS8ykWns1EdF_-ouiATsYbF_M4Y"
+          "current_key": "AIzaSyBnDyO5lmIwHHjU-nui9fQiAKpbi5e4r9k"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "69748556012-f0fansubju6ub0rl9skcqv5bib8p1nl0.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

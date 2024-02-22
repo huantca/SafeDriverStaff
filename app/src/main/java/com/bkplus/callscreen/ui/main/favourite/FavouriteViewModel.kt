@@ -1,4 +1,4 @@
-package com.bkplus.callscreen.ui.main.home.favourite
+package com.bkplus.callscreen.ui.main.favourite
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,5 +28,4 @@ class FavouriteViewModel @Inject constructor(
             }
         }
     }
-
 }

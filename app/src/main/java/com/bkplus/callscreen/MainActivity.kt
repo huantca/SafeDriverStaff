@@ -81,25 +81,25 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     R.id.homeFragment -> {
                         setVisibleBottomView(true)
                         tabLayout.getTabAt(0)?.select()
-                        showBanner()
+                        showCollapsibleBanner()
                     }
 
                     R.id.categoryFragment -> {
                         setVisibleBottomView(true)
                         tabLayout.getTabAt(1)?.select()
-                        showBanner()
+                        showCollapsibleBanner()
                     }
 
                     R.id.historyFragment -> {
                         setVisibleBottomView(true)
                         tabLayout.getTabAt(2)?.select()
-                        showBanner()
+                        showCollapsibleBanner()
                     }
 
                     R.id.settingFragment -> {
                         setVisibleBottomView(true)
                         tabLayout.getTabAt(3)?.select()
-                        showBanner()
+                        showCollapsibleBanner()
                     }
 
                     R.id.viewLikeContainerFragment, R.id.favouriteFragment, R.id.searchFragment, R.id.categoryFragment, R.id.categoryDetailFragment -> {
@@ -180,6 +180,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         if (BasePrefers.getPrefsInstance().Banner_all) {
             binding.banner.visible()
             BkPlusBannerAd.showAdCollapsibleBanner(this, BuildConfig.Banner_all, binding.banner, null)
+        } else {
+            binding.banner.gone()
+        }
+    }
+
+    private fun showCollapsibleBanner() {
+        if (BasePrefers.getPrefsInstance().Banner_home_collapsible) {
+            binding.banner.visible()
+            BkPlusBannerAd.showAdCollapsibleBanner(this, BuildConfig.Banner_home_collapsible, binding.banner, null)
         } else {
             binding.banner.gone()
         }
