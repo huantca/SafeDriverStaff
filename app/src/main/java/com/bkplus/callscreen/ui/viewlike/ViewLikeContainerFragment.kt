@@ -24,7 +24,6 @@ import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentViewLikeContainerBinding
@@ -111,15 +110,15 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
 
     private fun goToSuccess() {
         toast(getString(R.string.set_wallpaper))
-        loadAndShowInter {
-            val containerFragment = CongratulationsDialog().apply {
-                actionHome = {
-                    findNavController().popBackStack(R.id.homeFragment, false)
-                }
-                actionBack = {
-
-                }
+        val containerFragment = CongratulationsDialog().apply {
+            actionHome = {
+                findNavController().popBackStack(R.id.homeFragment, false)
             }
+            actionBack = {
+
+            }
+        }
+        loadAndShowInter {
             containerFragment.show(childFragmentManager, "")
         }
 
@@ -182,6 +181,7 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
                         WallpaperManager.getInstance(ct).setBitmap(bitmap)
                         delay(1000L)
                     }
+
                     withContext(Dispatchers.Main) {
                         hideLoading()
                         goToSuccess()
@@ -241,8 +241,8 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
             activity?.let {
                 BkPlusAdmob.showAdInterstitial(it, BuildConfig.intersitial_setwallpaper,
                     object : BkPlusAdmobInterstitialCallback() {
-                        override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                            super.onAdLoaded(interstitialAd)
+                        override fun onAdShowed(tag: String, message: String) {
+                            super.onAdShowed(tag, message)
                             action.invoke()
                         }
 
