@@ -55,6 +55,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun setupUI() {
         super.setupUI()
         loadAdReward()
+        setupShowForceUpdate()
     }
 
     override fun setupData() {
