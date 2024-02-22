@@ -12,7 +12,7 @@ class HistoryRecyclerViewAdapter(
     val onSelectedAll: () -> Unit = {},
     val onNotSelectedAll: () -> Unit = {},
     val onClicked: () -> Unit = {},
-    val onNavigate : (item: WallpaperEntity) -> Unit = {}
+    val onNavigate: (item: WallpaperEntity) -> Unit = {}
 ) : BaseRecyclerViewAdapter<WallpaperEntity, ItemHistoryBinding>() {
     override fun getLayoutId(viewType: Int): Int {
         return R.layout.item_history
@@ -25,9 +25,9 @@ class HistoryRecyclerViewAdapter(
     override fun onBindViewHolder(
         holder: BaseViewHolder<ItemHistoryBinding, WallpaperEntity>, position: Int
     ) {
-        holder.binding.image.loadImage(items[position].imageUrl)
-        val checkSelecting = {
-            holder.binding.apply {
+        holder.binding.apply {
+            image.loadImage(items[position].imageUrl)
+            val checkSelecting = {
                 if (isSelecting && items[position].isSelected) {
                     checkBox.visible()
                     checkBoxBlank.gone()
@@ -41,20 +41,30 @@ class HistoryRecyclerViewAdapter(
                     checkBoxBlank.gone()
                 }
             }
-        }
-        checkSelecting()
-        holder.binding.image.setOnClickListener {
-            items[position].isSelected = items[position].isSelected.not()
-            if (items[position].isSelected) selectedCount++
-            else selectedCount--
-            if (selectedCount == itemCount) onSelectedAll()
-            else onNotSelectedAll()
-            if (isSelecting) {
-                onClicked()
-            } else {
-                onNavigate.invoke(items[position])
-            }
             checkSelecting()
+            if (holder.bindingAdapterPosition == 0) {
+                checkBox.gone()
+                checkBoxBlank.gone()
+                image.setOnClickListener {
+                    if (!isSelecting) {
+                        onNavigate.invoke(items[position])
+                    }
+                }
+            } else {
+                image.setOnClickListener {
+                    items[position].isSelected = items[position].isSelected.not()
+                    if (items[position].isSelected) selectedCount++
+                    else selectedCount--
+                    if (selectedCount == itemCount) onSelectedAll()
+                    else onNotSelectedAll()
+                    if (isSelecting) {
+                        onClicked()
+                    } else {
+                        onNavigate.invoke(items[position])
+                    }
+                    checkSelecting()
+                }
+            }
         }
     }
 }

@@ -24,6 +24,7 @@ object Constants {
     const val native_onbroading = "native_onbroading"
     const val native_welcome = "native_welcome"
     const val Banner_all = "Banner_all"
+    const val Banner_home_collapsible = "Banner_home_collapsible"
     const val Native_home = "Native_home"
     const val Native_toptrending = "Native_toptrending"
     const val native_categories = "native_categories"

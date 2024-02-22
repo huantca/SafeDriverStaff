@@ -68,6 +68,9 @@ class BasePrefers(context: Context) {
     var Banner_all
         get() = mPrefs.getBoolean(getPrefName(Constants.Banner_all), true)
         set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.Banner_all), value) }
+    var Banner_home_collapsible
+        get() = mPrefs.getBoolean(getPrefName(Constants.Banner_home_collapsible), true)
+        set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.Banner_home_collapsible), value) }
     var Native_home
         get() = mPrefs.getBoolean(getPrefName(Constants.Native_home), true)
         set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.Native_home), value) }

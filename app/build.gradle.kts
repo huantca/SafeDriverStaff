@@ -1,4 +1,3 @@
-
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -74,6 +73,7 @@ android {
             buildConfigField("String", "native_onbroading", "\"ca-app-pub-3940256099942544/2247696110\"")
             buildConfigField("String", "native_welcome", "\"ca-app-pub-3940256099942544/2247696110\"")
             buildConfigField("String", "Banner_all", "\"ca-app-pub-3940256099942544/6300978111\"")
+            buildConfigField("String", "Banner_home_collapsible", "\"ca-app-pub-3940256099942544/2014213617\"")
             buildConfigField("String", "Native_home", "\"ca-app-pub-3940256099942544/2247696110\"")
             buildConfigField("String", "Native_toptrending", "\"ca-app-pub-3940256099942544/2247696110\"")
             buildConfigField("String", "native_categories", "\"ca-app-pub-3940256099942544/2247696110\"")
@@ -94,6 +94,7 @@ android {
             buildConfigField("String", "native_onbroading", "\"ca-app-pub-1939315010587936/1930449139\"")
             buildConfigField("String", "native_welcome", "\"ca-app-pub-1939315010587936/8077055089\"")
             buildConfigField("String", "Banner_all", "\"ca-app-pub-1939315010587936/2549396230\"")
+            buildConfigField("String", "Banner_home_collapsible", "\"ca-app-pub-1939315010587936/9550822817\"")
             buildConfigField("String", "Native_home", "\"ca-app-pub-1939315010587936/8488936863\"")
             buildConfigField("String", "Native_toptrending", "\"ca-app-pub-1939315010587936/9617367461\"")
             buildConfigField("String", "native_categories", "\"ca-app-pub-1939315010587936/7175855191\"")
@@ -153,7 +154,7 @@ dependencies {
     implementation("com.xwray:groupie:2.8.1")
     implementation("com.xwray:groupie-viewbinding:2.8.1")
     //Dimens
-    implementation ("com.intuit.sdp:sdp-android:1.1.0")
+    implementation("com.intuit.sdp:sdp-android:1.1.0")
     //tbuomono dotIndicator
     implementation("com.tbuonomo:dotsindicator:4.3")
     //Timber
@@ -182,7 +183,7 @@ dependencies {
     ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     //BK Ads Lib
-    implementation("com.bkplus.ads:library:1.0.4-alpha07")
+    implementation("com.bkplus.ads:library:1.0.4-alpha08")
     //Appsflyer
     implementation("com.appsflyer:adrevenue:6.9.0")
     // https://mvnrepository.com/artifact/com.appsflyer/af-android-sdk
