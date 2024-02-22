@@ -73,9 +73,9 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
             findNavController().popBackStack()
         }
         detailAdapter.onItemRcvClick = { item, listData ->
-            val item = WallPaper(id = item.id, url = item.url)
+            val item = WallPaper(id = item.id, url = item.url, likeCount = item.loves, free = item.free)
             val listItem = listData.map { item ->
-                WallPaper(id = item.id, url = item.url)
+                WallPaper(id = item.id, url = item.url, likeCount = item.loves, free = item.free)
             }.toTypedArray()
             findNavController().navigate(
                 CategoryDetailFragmentDirections.actionCategoryDetailFragmentToViewLikeContainerFragment(
