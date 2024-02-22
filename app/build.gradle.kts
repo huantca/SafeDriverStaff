@@ -64,7 +64,6 @@ android {
     productFlavors {
         create("dev") {
             dimension = "version"
-            versionNameSuffix = "-dev"
             manifestPlaceholders["ad_app_id"] = "ca-app-pub-3940256099942544~3347511713"
             buildConfigField("String", "appopen_resume", "\"ca-app-pub-3940256099942544/9257395921\"")
             buildConfigField("String", "inter_splash", "\"ca-app-pub-3940256099942544/1033173712\"")
