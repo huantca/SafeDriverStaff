@@ -30,6 +30,7 @@ import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentViewLikeContainerBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -64,7 +65,9 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
 
     override fun setupUI() {
         super.setupUI()
-        val pagerAdapter = ScreenSlidePagerAdapter(childFragmentManager, lifecycle, list)
+        val pagerAdapter = ScreenSlidePagerAdapter(childFragmentManager, lifecycle, list, action = {
+            binding.setWallpaperBtn.visibility = View.VISIBLE
+        })
         binding.viewPager.adapter = pagerAdapter
         initViewPager()
     }
@@ -95,7 +98,7 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
             ) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
                 Timber.tag(this.javaClass.simpleName).d("onPageScrolled: %s", position)
-                if (list.getOrNull(position)?.isAds == true) {
+                if (list.getOrNull(position)?.isAds == true || list.getOrNull(position)?.free != true) {
                     binding.setWallpaperBtn.visibility = View.INVISIBLE
                 } else {
                     binding.setWallpaperBtn.visibility = View.VISIBLE
@@ -177,6 +180,7 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
                     showLoading()
                     withContext(Dispatchers.IO) {
                         WallpaperManager.getInstance(ct).setBitmap(bitmap)
+                        delay(1000L)
                     }
                     withContext(Dispatchers.Main) {
                         hideLoading()
@@ -197,6 +201,7 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
                     withContext(Dispatchers.IO) {
                         WallpaperManager.getInstance(ct)
                             .setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
+                        delay(1000L)
                     }
                     withContext(Dispatchers.Main) {
                         hideLoading()
@@ -218,6 +223,7 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
                         WallpaperManager.getInstance(ct).setBitmap(bitmap)
                         WallpaperManager.getInstance(ct)
                             .setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
+                        delay(1000L)
                     }
                     withContext(Dispatchers.Main) {
                         hideLoading()

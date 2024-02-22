@@ -8,7 +8,6 @@ import com.ads.bkplus_ads.core.model.BkNativeAd
 import com.bkplus.callscreen.api.entity.Item
 import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ui.main.home.adapter.LatestAdapter
-import com.bkplus.callscreen.ui.main.home.model.Latest
 import com.bkplus.callscreen.ui.viewlike.WallPaper
 import com.bkplus.callscreen.ultis.gone
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
@@ -21,7 +20,7 @@ import com.harrison.myapplication.databinding.FragmentTopTrendingBinding
 import timber.log.Timber
 
 
-class TopTrendingFragment : BaseFullScreenDialogFragment<FragmentTopTrendingBinding>(), LatestAdapter.OnClickListener {
+class TopTrendingFragment : BaseFullScreenDialogFragment<FragmentTopTrendingBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_top_trending
 
@@ -35,12 +34,12 @@ class TopTrendingFragment : BaseFullScreenDialogFragment<FragmentTopTrendingBind
     override fun setupData() {
         super.setupData()
         adapter = LatestAdapter()
-        val arr = ArrayList<Latest>()
+        val arr = ArrayList<Item>()
         data?.forEachIndexed { index, item ->
             val count = index + 1
-            arr.add(Latest(item.url, item.category, item.loves, item.free, null, LatestAdapter.ITEM))
+            arr.add(item)
             if (count % 6 == 0) {
-                arr.add(Latest(nativeAd = null, type = LatestAdapter.ADS))
+                arr.add(Item(nativeAd = null, type = LatestAdapter.ADS))
             }
         }
         adapter?.updateItems(arr)
@@ -60,8 +59,6 @@ class TopTrendingFragment : BaseFullScreenDialogFragment<FragmentTopTrendingBind
         }
     }
 
-    override fun actionConnect(item: Latest) {
-    }
 
     private val actionItem: (Item) -> Unit = { item ->
         val wallpaper = WallPaper(id = item.id, url = item.url, likeCount = item.loves, free = item.free)

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ads.bkplus_ads.core.callforward.BkPlusNativeAd
 import com.ads.bkplus_ads.core.model.BkNativeAd
 import com.bkplus.callscreen.api.entity.Item
+import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ui.main.home.adapter.LatestAdapter
 import com.bkplus.callscreen.ultis.loadImage
 import com.harison.core.app.platform.BaseRecyclerViewAdapter
@@ -63,7 +64,13 @@ class DetailAdapter : BaseRecyclerViewAdapter<Item, ViewDataBinding>() {
         binding ?: return
         item ?: return
 
-        binding.image.loadImage(item.url)
+        BasePrefers.getPrefsInstance().listItemsFree.forEach {
+            if (it.url == item.url) {
+                item.free = true
+                return@forEach
+            }
+        }
+        binding.image.loadImage(item.thumbnail)
         binding.tvHeart.text = item.loves.toString()
         binding.icReward.isVisible = item.free != true
         binding.image.setOnClickListener {

@@ -1,7 +1,6 @@
 package com.bkplus.callscreen.ui.splash
 
 import android.app.Activity
-import android.os.CountDownTimer
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -158,7 +157,6 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
     }
 
     private fun navigateNextScreen() {
-        findNavController().navigate(R.id.homeFragment)
         val newUser = BasePrefers.getPrefsInstance().newUser
         val doneOnboard = BasePrefers.getPrefsInstance().doneOnboard
         val doneWelcome = BasePrefers.getPrefsInstance().doneWelcome

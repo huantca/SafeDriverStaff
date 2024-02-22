@@ -3,12 +3,14 @@ package com.bkplus.callscreen.ui.viewlike
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bkplus.callscreen.api.entity.Item
+import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.database.WallpaperDao
 import com.bkplus.callscreen.database.WallpaperEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class ViewLikeViewModel @Inject constructor(
@@ -61,9 +63,18 @@ class ViewLikeViewModel @Inject constructor(
                         isUsed = true,
                         isUsing = true,
                         imageUrl = item.url,
-                    )
+                    ).apply {
+                        generateId = this.hashCode()
+                    }
                 )
             }
         }
     }
+
+    fun freeItem(item: Item) {
+        val freeItems = BasePrefers.getPrefsInstance().listItemsFree
+        freeItems.add(item)
+        BasePrefers.getPrefsInstance().listItemsFree = freeItems
+    }
 }
+

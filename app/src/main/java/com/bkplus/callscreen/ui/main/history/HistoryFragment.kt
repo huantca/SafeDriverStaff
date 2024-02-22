@@ -11,6 +11,7 @@ import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.database.WallpaperEntity
 import com.bkplus.callscreen.ui.viewlike.WallPaper
 import com.bkplus.callscreen.ultis.deleteFileIfExist
+import com.bkplus.callscreen.ultis.gone
 import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentHistoryBinding
@@ -72,10 +73,13 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
             adapter.items.removeIf { it.isSelected }
             binding.selectAll.performClick()
             adapter.notifyDataSetChanged()
+            if (adapter.itemCount == 1) {
+                binding.selectAll.gone()
+            }
         }
 
         binding.textSelectAll.setOnClickListener {
-            adapter.items.forEach { it.isSelected = true }
+            adapter.items.forEachIndexed { index, item -> item.isSelected = index > 0 }
             adapter.notifyDataSetChanged()
             binding.isSelectedAll = true
             updateDeleteText()

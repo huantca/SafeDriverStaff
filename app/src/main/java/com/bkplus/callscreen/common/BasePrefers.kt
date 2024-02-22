@@ -4,8 +4,9 @@ import android.content.Context
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import com.bkplus.callscreen.ultis.Constants
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.harrison.myapplication.BuildConfig
-import java.util.Calendar
 
 class BasePrefers(context: Context) {
 
@@ -23,6 +24,7 @@ class BasePrefers(context: Context) {
     private val prefsNativeOnboard = "prefsNativeOnboard"
     private val prefsInterOnboard = "prefsInterOnboard"
     private val prefsOpenResume = "prefsOpenResume"
+    private val prefsListThemeFreeHome = "prefsListThemeFreeHome"
 
     private val mPrefs = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -66,6 +68,9 @@ class BasePrefers(context: Context) {
     var Banner_all
         get() = mPrefs.getBoolean(getPrefName(Constants.Banner_all), true)
         set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.Banner_all), value) }
+    var Banner_home_collapsible
+        get() = mPrefs.getBoolean(getPrefName(Constants.Banner_home_collapsible), true)
+        set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.Banner_home_collapsible), value) }
     var Native_home
         get() = mPrefs.getBoolean(getPrefName(Constants.Native_home), true)
         set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.Native_home), value) }
@@ -99,6 +104,10 @@ class BasePrefers(context: Context) {
     var native_exit
         get() = mPrefs.getBoolean(getPrefName(Constants.native_exit), true)
         set(value) = mPrefs.edit { putBoolean(getPrefName(Constants.native_exit), value) }
+
+    var listItemsFree: ArrayList<com.bkplus.callscreen.api.entity.Item>
+        get() = Gson().fromJson(mPrefs.getString(prefsListThemeFreeHome, Gson().toJson(arrayListOf<com.bkplus.callscreen.api.entity.Item>())), object : TypeToken<ArrayList<com.bkplus.callscreen.api.entity.Item>>() {}.type)
+        set(value) = mPrefs.edit { putString(prefsListThemeFreeHome, Gson().toJson(value)).apply() }
 
     companion object {
         @Volatile
