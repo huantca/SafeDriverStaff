@@ -63,7 +63,9 @@ class ViewLikeViewModel @Inject constructor(
                         isUsed = true,
                         isUsing = true,
                         imageUrl = item.url,
-                    )
+                    ).apply {
+                        generateId = this.hashCode()
+                    }
                 )
             }
         }
@@ -75,3 +77,4 @@ class ViewLikeViewModel @Inject constructor(
         BasePrefers.getPrefsInstance().listItemsFree = freeItems
     }
 }
+
