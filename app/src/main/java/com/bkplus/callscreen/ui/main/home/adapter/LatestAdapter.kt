@@ -10,6 +10,7 @@ import com.ads.bkplus_ads.core.callforward.BkPlusNativeAd
 import com.ads.bkplus_ads.core.model.BkNativeAd
 import com.bkplus.callscreen.api.entity.Item
 import com.bkplus.callscreen.common.BasePrefers
+import com.bkplus.callscreen.ultis.gone
 import com.bkplus.callscreen.ultis.loadImage
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.harison.core.app.platform.BaseRecyclerViewAdapter
@@ -77,18 +78,16 @@ class LatestAdapter : BaseRecyclerViewAdapter<Item, ViewDataBinding>() {
                     item.free = true
                 }
             }
+            if (!BasePrefers.getPrefsInstance().reward_gif) {
+                imgReward.gone()
+                item.free = true
+            }else{
+                imgReward.isVisible = item.free != true
+            }
             imgBackground.loadImage(item.thumbnail)
-            imgReward.isVisible = item.free != true
             tvHeart.text = item.loves.toString()
             root.setOnSingleClickListener {
-                itemAction?.invoke(
-                    Item(
-                        url = item.url,
-                        category = item.category,
-                        free = item.free,
-                        loves = item.loves
-                    )
-                )
+                itemAction?.invoke(item)
             }
         }
     }
@@ -100,7 +99,11 @@ class LatestAdapter : BaseRecyclerViewAdapter<Item, ViewDataBinding>() {
             binding.shimmerContainerNative1.stopShimmer()
             binding.shimmerContainerNative1.visibility = View.GONE
             binding.flAdplaceholderActivity.visibility = View.VISIBLE
-            BkPlusNativeAd.populateNativeAd(fragment, item.nativeAd, binding.flAdplaceholderActivity)
+            BkPlusNativeAd.populateNativeAd(
+                fragment,
+                item.nativeAd,
+                binding.flAdplaceholderActivity
+            )
         }
     }
 

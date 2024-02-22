@@ -67,6 +67,10 @@ class ViewLikeItemFragment : BaseFragment<FragmentViewLikeItemBinding>() {
                 }
             }
 
+            if (!BasePrefers.getPrefsInstance().reward_gif) {
+                wallPaper?.free = true
+            }
+
             if (wallPaper?.free == true) {
                 binding.frNativeAd.gone()
                 binding.ctlAds.gone()
@@ -86,7 +90,6 @@ class ViewLikeItemFragment : BaseFragment<FragmentViewLikeItemBinding>() {
                             }
                         }
                     }.show(childFragmentManager, "")
-
                 }
             }
 
