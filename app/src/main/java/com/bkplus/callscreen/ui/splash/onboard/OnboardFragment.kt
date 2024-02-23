@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.bkplus.callscreen.common.BaseFragment
+import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.common.BaseViewPagerAdapter
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.harrison.myapplication.R
@@ -71,6 +72,7 @@ class OnboardFragment : BaseFragment<FragmentOnboardBinding>() {
                     viewpagerOnboard.currentItem = viewpagerOnboard.currentItem + 1
                 } else {
                     findNavController().navigate(R.id.welcomeFragment)
+                    BasePrefers.getPrefsInstance().doneOnboard = true
                 }
             }
         }

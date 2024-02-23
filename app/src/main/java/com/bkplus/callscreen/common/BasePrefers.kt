@@ -43,9 +43,10 @@ class BasePrefers(private val context: Context) {
     var doneOnboard
         get() = mPrefs.getBoolean(prefsOnBoard, false)
         set(value) = mPrefs.edit { putBoolean(prefsOnBoard, value) }
+
     var doneWelcome
-        get() = mPrefs.getBoolean(prefsOnBoard, false)
-        set(value) = mPrefs.edit { putBoolean(prefsOnBoard, value) }
+        get() = mPrefs.getBoolean(prefsWelcome, false)
+        set(value) = mPrefs.edit { putBoolean(prefsWelcome, value) }
 
     var locale
         get() = mPrefs.getString(prefsLocale, "en")

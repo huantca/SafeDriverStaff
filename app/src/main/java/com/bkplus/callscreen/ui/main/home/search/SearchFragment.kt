@@ -14,6 +14,7 @@ import com.bkplus.callscreen.api.entity.HomeSectionEntity
 import com.bkplus.callscreen.api.entity.Item
 import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.common.BasePrefers
+import com.bkplus.callscreen.ui.main.home.TopTrendingFragment
 import com.bkplus.callscreen.ui.main.home.search.adapter.CategoryAdapter
 import com.bkplus.callscreen.ui.main.home.search.adapter.HashTagAdapter
 import com.bkplus.callscreen.ui.main.home.search.adapter.SearchAdapter
@@ -22,6 +23,8 @@ import com.bkplus.callscreen.ui.main.home.viewmodel.HomeViewModel
 import com.bkplus.callscreen.ui.viewlike.WallPaper
 import com.bkplus.callscreen.ui.widget.RewardDialog
 import com.bkplus.callscreen.ultis.gone
+import com.bkplus.callscreen.ultis.setOnSingleClickListener
+import com.bkplus.callscreen.ultis.toArrayList
 import com.bkplus.callscreen.ultis.visible
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.rewarded.RewardedAd
@@ -55,6 +58,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     private var categoryList: ArrayList<Category>? = null
     private var homeSection: ArrayList<HomeSectionEntity>? = null
+    private var topTrendingList: ArrayList<Item> = arrayListOf()
 
     override fun setupData() {
         viewModel.getSearch()
@@ -79,6 +83,20 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                         findNavController().popBackStack()
                     }
                 }
+            }
+
+            viewAllTop.setOnSingleClickListener {
+                val topTrendingFragment = TopTrendingFragment().apply {
+                    setData(topTrendingList)
+                }
+
+                topTrendingFragment.dismissDialog = {
+                }
+                topTrendingFragment.show(childFragmentManager, "")
+            }
+
+            viewAllCategory.setOnSingleClickListener {
+                findNavController().navigate(R.id.categoryDetailFragment)
             }
 
             editTextId.addTextChangedListener {
@@ -132,6 +150,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             homeSection?.firstOrNull { it.name == "Top Trending" }?.let { section ->
                 section.items?.let { items ->
                     trendingAdapter.updateItems(ArrayList(items))
+                    topTrendingList.addAll(items.toArrayList())
                 }
             }
             categoryList?.let { categories ->

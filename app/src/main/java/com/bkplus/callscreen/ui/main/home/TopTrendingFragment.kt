@@ -1,5 +1,6 @@
 package com.bkplus.callscreen.ui.main.home
 
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.ads.bkplus_ads.core.callback.BkPlusAdmobInterstitialCallback
 import com.ads.bkplus_ads.core.callback.BkPlusNativeAdCallback
@@ -11,6 +12,7 @@ import com.bkplus.callscreen.ads.AdsContainer
 import com.bkplus.callscreen.api.entity.Item
 import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ui.main.home.adapter.LatestAdapter
+import com.bkplus.callscreen.ui.main.home.search.SearchFragmentDirections
 import com.bkplus.callscreen.ui.viewlike.WallPaper
 import com.bkplus.callscreen.ultis.gone
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
@@ -84,12 +86,29 @@ class TopTrendingFragment : BaseFullScreenDialogFragment<FragmentTopTrendingBind
             )
         }?.toTypedArray()
         listItem?.let {
-            findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToViewLikeContainerFragment(
-                    wallpaper,
-                    listItem
-                )
-            )
+            val previousScreen = findNavController().currentBackStackEntry?.destination?.id
+            Timber.tag("Previous screen").d("$previousScreen")
+            when (previousScreen) {
+                R.id.homeFragment -> {
+                    findNavController().navigate(
+                        HomeFragmentDirections.actionHomeFragmentToViewLikeContainerFragment(
+                            wallpaper,
+                            listItem
+                        )
+                    )
+                }
+
+                R.id.searchFragment -> {
+                    findNavController().navigate(
+                        SearchFragmentDirections.actionSearchFragmentToViewLikeContainerFragment(
+                            wallpaper,
+                            listItem
+                        )
+                    )
+                }
+
+                else -> { Toast.makeText(context, "This is the final destination", Toast.LENGTH_LONG) }
+            }
         }
     }
 
