@@ -122,14 +122,6 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
 
     private fun goToSuccess() {
         toast(getString(R.string.set_wallpaper))
-//        val containerFragment = CongratulationsDialog().apply {
-//            actionHome = {
-//                findNavController().popBackStack(R.id.homeFragment, false)
-//            }
-//            actionBack = {
-//
-//            }
-//        }
         showInterSetWallPaper {
             val bundle = Bundle()
             bundle.putInt("fragment",args.destination)
