@@ -24,7 +24,7 @@ class PreviewDialogFragment : BaseFullScreenDialogFragment<FragmentPreviewWallpa
         fun newInstance(
             item: WallPaper? = null,
             onDismiss: () -> Unit
-        ) : PreviewDialogFragment {
+        ): PreviewDialogFragment {
             val args = bundleOf(
                 AVATAR_URL_BUNDLE to item?.url
             )
@@ -51,6 +51,9 @@ class PreviewDialogFragment : BaseFullScreenDialogFragment<FragmentPreviewWallpa
     override fun setupListener() {
         super.setupListener()
         binding.backBtn.setOnSingleClickListener {
+            dismiss()
+        }
+        binding.ctlContainer.setOnSingleClickListener {
             dismiss()
         }
     }

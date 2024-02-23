@@ -1,6 +1,7 @@
 package com.bkplus.callscreen.di
 
 import android.content.Context
+import com.bkplus.callscreen.database.FavoriteDao
 import com.bkplus.callscreen.database.RoomDB
 import com.bkplus.callscreen.database.WallpaperDao
 import dagger.Module
@@ -25,5 +26,11 @@ class DatabaseModule {
     @Provides
     fun provideWallpaperDao(roomDB: RoomDB): WallpaperDao {
         return roomDB.itemDB()
+    }
+
+    @Singleton
+    @Provides
+    fun provideFavoriteDao(roomDB: RoomDB): FavoriteDao {
+        return roomDB.favoriteDB()
     }
 }
