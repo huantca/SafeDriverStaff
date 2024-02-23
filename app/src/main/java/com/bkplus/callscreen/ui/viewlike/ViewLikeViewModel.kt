@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bkplus.callscreen.api.entity.Item
 import com.bkplus.callscreen.common.BasePrefers
+import com.bkplus.callscreen.database.FavoriteDao
+import com.bkplus.callscreen.database.FavoriteEntity
 import com.bkplus.callscreen.database.WallpaperDao
 import com.bkplus.callscreen.database.WallpaperEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ViewLikeViewModel @Inject constructor(
-    private val wallpaperDao: WallpaperDao
+    private val wallpaperDao: WallpaperDao,
+    private val favoriteDao: FavoriteDao
 ) : ViewModel() {
 
     val list = MutableLiveData<List<WallPaper>>()
@@ -36,22 +39,22 @@ class ViewLikeViewModel @Inject constructor(
 
     fun saveFavourite(item: WallPaper?) {
         viewModelScope.launch(Dispatchers.IO) {
-            val wallPaperEntity = WallpaperEntity()
+            val favoriteEntity = FavoriteEntity()
             if (item?.url != null) {
-                wallPaperEntity.imageUrl = item.url
+                favoriteEntity.imageUrl = item.url
             }
-            wallPaperEntity.isLiked = true
-            wallPaperEntity.id = item?.id.toString()
-            wallPaperEntity.free = item?.free
-            wallPaperEntity.generateId = wallPaperEntity.hashCode()
-            wallPaperEntity.loves = item?.likeCount
-            wallPaperEntity.createdTime = System.currentTimeMillis()
-            wallpaperDao.insert(wallPaperEntity)
+            favoriteEntity.isLiked = true
+            favoriteEntity.id = item?.id.toString()
+            favoriteEntity.free = item?.free
+            favoriteEntity.generateId = favoriteEntity.hashCode()
+            favoriteEntity.loves = item?.likeCount
+            favoriteEntity.createdTime = System.currentTimeMillis()
+            favoriteDao.insert(favoriteEntity)
         }
     }
 
     fun disperse(item: WallPaper?) {
-        wallpaperDao.deleteFavourite(item?.id)
+        favoriteDao.deleteFavourite(item?.id)
     }
 
     fun saveHistory(item: WallPaper?) {
@@ -63,6 +66,8 @@ class ViewLikeViewModel @Inject constructor(
                         isUsed = true,
                         isUsing = true,
                         imageUrl = item.url,
+                        free = item.free,
+                        loves = item.likeCount
                     ).apply {
                         generateId = this.hashCode()
                     }

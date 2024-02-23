@@ -74,6 +74,7 @@ class TopTrendingFragment : BaseFullScreenDialogFragment<FragmentTopTrendingBind
 
 
     private val actionItem: (Item) -> Unit = { item ->
+        this.dismiss()
         val wallpaper =
             WallPaper(id = item.id, url = item.url, likeCount = item.loves, free = item.free)
         val listItem = data?.map { dataItem ->
@@ -85,29 +86,13 @@ class TopTrendingFragment : BaseFullScreenDialogFragment<FragmentTopTrendingBind
             )
         }?.toTypedArray()
         listItem?.let {
-            val previousScreen = findNavController().currentBackStackEntry?.destination?.id
-            Timber.tag("Previous screen").d("$previousScreen")
-            when (previousScreen) {
-                R.id.homeFragment -> {
-                    findNavController().navigate(
-                        HomeFragmentDirections.actionHomeFragmentToViewLikeContainerFragment(
-                            wallpaper,
-                            listItem
-                        )
-                    )
-                }
-
-                R.id.searchFragment -> {
-                    findNavController().navigate(
-                        SearchFragmentDirections.actionSearchFragmentToViewLikeContainerFragment(
-                            wallpaper,
-                            listItem
-                        )
-                    )
-                }
-
-                else -> { Toast.makeText(context, "This is the final destination", Toast.LENGTH_LONG) }
-            }
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToViewLikeContainerFragment(
+                    R.id.homeFragment,
+                    wallpaper,
+                    listItem
+                )
+            )
         }
         dismissDialog.invoke()
     }

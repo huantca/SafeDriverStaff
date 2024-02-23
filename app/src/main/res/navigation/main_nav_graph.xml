@@ -96,6 +96,9 @@
         android:label="ViewLikeContainerFragment"
         tools:layout="@layout/fragment_view_like_container" >
         <argument
+            android:name="destination"
+            app:argType="integer"/>
+        <argument
             android:name="item"
             app:argType="com.bkplus.callscreen.ui.viewlike.WallPaper" />
         <argument
@@ -128,4 +131,10 @@
             app:destination="@id/viewLikeContainerFragment">
         </action>
     </fragment>
+
+    <fragment
+        android:id="@+id/CongratulationFragment"
+        android:name="com.bkplus.callscreen.ui.widget.CongratulationsFragment"
+        android:label="CongratulationFragment"
+        tools:layout="@layout/fragment_congratulations"/>
 </navigation>

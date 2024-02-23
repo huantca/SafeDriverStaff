@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">My Application</string>
+    <string name="app_name" translatable="false">4K Wallpaper</string>
     <string name="back_pressed_finish">Please press back again to quit</string>
     <string name="setting_language">Languages</string>
     <string name="setting_policy">Privacy Policy</string>

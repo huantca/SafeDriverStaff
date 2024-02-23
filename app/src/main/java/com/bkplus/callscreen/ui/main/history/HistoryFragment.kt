@@ -12,6 +12,7 @@ import com.bkplus.callscreen.database.WallpaperEntity
 import com.bkplus.callscreen.ui.viewlike.WallPaper
 import com.bkplus.callscreen.ultis.deleteFileIfExist
 import com.bkplus.callscreen.ultis.gone
+import com.bkplus.callscreen.ultis.toArrayList
 import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentHistoryBinding
@@ -24,7 +25,6 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
         get() = R.layout.fragment_history
 
     private lateinit var adapter: HistoryRecyclerViewAdapter
-    private var data: List<WallpaperEntity>? = null
 
     companion object {
         fun newInstance(): HistoryFragment {
@@ -45,15 +45,12 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
             binding.isSelectedAll = false
         }, {
             updateDeleteText()
-        }, {
-            gotoViewLike(it)
+        }, { item, list ->
+            gotoViewLike(item,list)
         })
         binding.recyclerView.adapter = adapter
         viewModel.list.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
-                adapter.updateItems(ArrayList(it))
-                data = it
-            }
+            adapter.updateItems(it.toArrayList())
         }
     }
 
@@ -97,30 +94,29 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
         binding.deleteButton.text = "Delete ${adapter.selectedCount} images"
     }
 
-    private fun gotoViewLike(wallpaper: WallpaperEntity) {
+    private fun gotoViewLike(wallpaper: WallpaperEntity, list: ArrayList<WallpaperEntity>) {
         val item = WallPaper(
             id = wallpaper.id?.toIntOrNull(),
             url = wallpaper.imageUrl,
             free = wallpaper.free,
             likeCount = wallpaper.loves
         )
-        val listItem = data?.map { item ->
+        val listItem = list.map { item ->
             WallPaper(
                 id = item.id?.toIntOrNull(),
                 url = item.imageUrl,
                 free = item.free,
                 likeCount = item.loves
             )
-        }?.toTypedArray()
+        }.toTypedArray()
         loadAndShowInertAd {
-            listItem?.let {
-                findNavController().navigate(
-                    HistoryFragmentDirections.actionHistoryFragmentToViewLikeContainerFragment(
-                        item,
-                        listItem
-                    )
+            findNavController().navigate(
+                HistoryFragmentDirections.actionHistoryFragmentToViewLikeContainerFragment(
+                    R.id.historyFragment,
+                    item,
+                    listItem
                 )
-            }
+            )
         }
     }
 

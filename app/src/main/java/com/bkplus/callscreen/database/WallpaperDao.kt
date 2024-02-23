@@ -13,7 +13,6 @@ interface WallpaperDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(entity: WallpaperEntity)
-
     @Query("Select * From WallpaperDB where id=:string")
     fun getByName(string: String): Flow<WallpaperEntity>
 
@@ -36,11 +35,27 @@ interface WallpaperDao {
     @Query("Delete From WallpaperDB where generateId = :id")
     fun deleteItem(id: Int)
 
-    @Query("Delete From WallpaperDB where id = :id")
-    fun deleteFavourite(id: Int?)
-
     @Query("SELECT COUNT(generateId) FROM WallpaperDB")
     fun getCount(): Int
     @Query("SELECT COUNT(generateId) FROM WallpaperDB where isLiked = 1")
     fun getLikeCount(): Int
+}
+
+@Dao
+interface FavoriteDao{
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(entity: List<FavoriteEntity>)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(entity: FavoriteEntity)
+
+    @Query("Delete From FavoriteDB where id = :id")
+    fun deleteFavourite(id: Int?)
+
+    @Query("Select * From FavoriteDB order by createdTime")
+    fun getAll(): Flow<List<FavoriteEntity>>
+
+    @Query("SELECT COUNT(generateId) FROM FavoriteDB")
+    fun getCount(): Int
+
 }

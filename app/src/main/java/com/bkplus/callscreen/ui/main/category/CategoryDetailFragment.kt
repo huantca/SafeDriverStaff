@@ -223,6 +223,7 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
         }.toTypedArray()
         findNavController().navigate(
             CategoryDetailFragmentDirections.actionCategoryDetailFragmentToViewLikeContainerFragment(
+                R.id.categoryFragment,
                 item1,
                 listItem
             )

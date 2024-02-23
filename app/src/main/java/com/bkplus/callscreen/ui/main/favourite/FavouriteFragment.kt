@@ -8,9 +8,10 @@ import com.ads.bkplus_ads.core.callforward.BkPlusAdmob
 import com.bkplus.callscreen.ads.AdsContainer
 import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.common.BasePrefers
-import com.bkplus.callscreen.database.WallpaperEntity
+import com.bkplus.callscreen.database.FavoriteEntity
 import com.bkplus.callscreen.ui.viewlike.WallPaper
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
+import com.bkplus.callscreen.ultis.toArrayList
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
@@ -36,7 +37,7 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>() {
         binding.recyclerView.adapter = adapter
         viewModel.favouriteList.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
-                adapter?.updateItems(ArrayList(it))
+                adapter?.updateItems(it.toArrayList())
             }
         }
         adapter?.itemAction = { item, listData ->
@@ -108,23 +109,26 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>() {
         }
     }
 
-    private fun gotoViewLike(item: WallpaperEntity, listData: ArrayList<WallpaperEntity>) {
+    private fun gotoViewLike(item: FavoriteEntity, listData: ArrayList<FavoriteEntity>) {
         val wallpaper = WallPaper(
-            id = item.id?.toInt(),
+            id = item.id?.toIntOrNull(),
             url = item.imageUrl,
             likeCount = item.loves,
-            free = item.free
+            free = item.free,
+            isLiked = item.isLiked
         )
         val listItem = listData.map { dataItem ->
             WallPaper(
-                id = dataItem.id?.toInt(),
+                id = dataItem.id?.toIntOrNull(),
                 url = dataItem.imageUrl,
                 likeCount = dataItem.loves,
-                free = dataItem.free
+                free = dataItem.free,
+                isLiked = item.isLiked
             )
         }.toTypedArray()
         findNavController().navigate(
             FavouriteFragmentDirections.actionFavouriteFragmentToViewLikeContainerFragment(
+                R.id.homeFragment,
                 wallpaper,
                 listItem
             )

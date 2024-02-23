@@ -9,10 +9,11 @@ import com.bkplus.callscreen.api.entity.HomeSectionEntity
 import com.bkplus.callscreen.api.entity.Item
 import com.bkplus.callscreen.api.onSuccess
 import com.bkplus.callscreen.common.BasePrefers
+import com.bkplus.callscreen.database.FavoriteDao
+import com.bkplus.callscreen.database.FavoriteEntity
 import com.bkplus.callscreen.database.WallpaperDao
 import com.bkplus.callscreen.database.WallpaperEntity
 import com.bkplus.callscreen.ui.main.home.adapter.LatestAdapter
-import com.bkplus.callscreen.ui.viewlike.WallPaper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val apiService: ApiService,
-    private val wallpaperDao: WallpaperDao
+    private val wallpaperDao: WallpaperDao,
+    private val favoriteDao: FavoriteDao
 ) : ViewModel() {
 
     val homeSectionLiveData = MutableLiveData<ArrayList<HomeSectionEntity>>()
@@ -58,7 +60,7 @@ class HomeViewModel @Inject constructor(
         val result = arrayListOf<Category>()
         categories.forEachIndexed { index, category ->
             result.add(category)
-            if ((index + 1) % 4 == 0) {
+            if ((index + 1) % 6 == 0) {
                 result.add(Category(type = LatestAdapter.ADS))
             }
         }
@@ -83,10 +85,28 @@ class HomeViewModel @Inject constructor(
                             generateId = 0,
                             id = "1",
                             imageUrl = "https://i.pinimg.com/736x/39/11/6c/39116c247669762f4ce72be4ce2b862e.jpg",
-                            isLiked = true
+                            isLiked = false,
+                            free = true,
+                            loves = 0,
                         )
                     )
                     wallpaperDao.insertAll(list)
+                }
+            }
+
+            favoriteDao.getCount().apply {
+                if (this == 0) {
+                    val list = arrayListOf(
+                        FavoriteEntity(
+                            generateId = 0,
+                            id = "1",
+                            imageUrl = "https://i.pinimg.com/736x/39/11/6c/39116c247669762f4ce72be4ce2b862e.jpg",
+                            isLiked = true,
+                            free = true,
+                            loves = 1,
+                        )
+                    )
+                    favoriteDao.insertAll(list)
                 }
             }
         }
