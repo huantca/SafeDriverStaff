@@ -109,4 +109,8 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>() {
         binding.shimmerContainerNative1.visibility = View.GONE
         binding.flAdplaceholderActivity.visibility = View.GONE
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
 }

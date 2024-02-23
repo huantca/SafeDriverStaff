@@ -84,8 +84,12 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
 
     override fun setupListener() {
         binding.icBack.setOnClickListener {
-            showInterBackHome {
+            if (findNavController().previousBackStackEntry?.destination?.id == R.id.searchFragment) {
                 findNavController().popBackStack()
+            } else {
+                showInterBackHome {
+                    findNavController().popBackStack()
+                }
             }
         }
         detailAdapter.onItemRcvClick = { item, listData ->

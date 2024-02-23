@@ -78,7 +78,6 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>() {
                             }
                         })
                 }
-
             }
         }
     }

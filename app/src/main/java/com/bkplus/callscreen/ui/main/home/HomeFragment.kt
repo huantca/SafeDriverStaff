@@ -81,6 +81,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
 
             topTrendingFragment.dismissDialog = {
+                topTrendingFragment.dismiss()
             }
             topTrendingFragment.show(childFragmentManager, "")
         }
@@ -103,6 +104,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             imgHeart.setOnSingleClickListener {
                 findNavController().navigate(R.id.favouriteFragment)
             }
+            rcyHome.scrollToPosition(0)
         }
     }
 

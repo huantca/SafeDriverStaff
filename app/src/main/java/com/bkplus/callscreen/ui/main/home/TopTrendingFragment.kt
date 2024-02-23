@@ -1,5 +1,6 @@
 package com.bkplus.callscreen.ui.main.home
 
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.ads.bkplus_ads.core.callback.BkPlusAdmobInterstitialCallback
 import com.ads.bkplus_ads.core.callback.BkPlusNativeAdCallback
@@ -11,6 +12,7 @@ import com.bkplus.callscreen.ads.AdsContainer
 import com.bkplus.callscreen.api.entity.Item
 import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ui.main.home.adapter.LatestAdapter
+import com.bkplus.callscreen.ui.main.home.search.SearchFragmentDirections
 import com.bkplus.callscreen.ui.viewlike.WallPaper
 import com.bkplus.callscreen.ultis.gone
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
@@ -65,7 +67,6 @@ class TopTrendingFragment : BaseFullScreenDialogFragment<FragmentTopTrendingBind
             icBack.setOnSingleClickListener {
                 showInterBackHome {
                     dismiss()
-                    dismissDialog.invoke()
                 }
             }
         }
@@ -93,6 +94,7 @@ class TopTrendingFragment : BaseFullScreenDialogFragment<FragmentTopTrendingBind
                 )
             )
         }
+        dismissDialog.invoke()
     }
 
     private fun loadNativeAd() {

@@ -46,6 +46,17 @@
     </fragment>
 
     <fragment
+        android:id="@+id/topTrendingFragment"
+        android:name="com.bkplus.callscreen.ui.main.home.TopTrendingFragment"
+        android:label="topTrendingFragment"
+        tools:layout="@layout/fragment_top_trending">
+        <action
+            android:id="@+id/action_topTrendingFragment_to_viewLikeContainerFragment"
+            app:destination="@+id/viewLikeContainerFragment">
+        </action>
+    </fragment>
+
+    <fragment
         android:id="@+id/firstLanguageFragment"
         android:name="com.bkplus.callscreen.ui.splash.firstlanguage.FirstLanguageFragment"
         android:label="FirstLanguageFragment"

@@ -79,7 +79,8 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
                 }
 
                 override fun onFormComplete() {
-                    Timber.tag("BkPlusConsent").d("onFormComplete: ${BkPlusAdConsent.isCMPConsented(context)}")
+                    Timber.tag("BkPlusConsent")
+                        .d("onFormComplete: ${BkPlusAdConsent.isCMPConsented(context)}")
                     showInterSplash()
                 }
 
@@ -113,7 +114,9 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
     }
 
     private fun preloadNativeOnboarding() {
-        if (BasePrefers.getPrefsInstance().newUser && BasePrefers.getPrefsInstance().native_language) {
+        if (BasePrefers.getPrefsInstance().native_language
+            && !BasePrefers.getPrefsInstance().doneOnboard
+        ) {
             Timber.d("preloadNativeOnboarding()")
             for (i in 0 until 4) {
                 BkPlusNativeAd.loadNativeAd(

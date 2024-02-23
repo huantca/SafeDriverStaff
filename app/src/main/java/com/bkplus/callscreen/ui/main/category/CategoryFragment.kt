@@ -64,7 +64,6 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
         }
     }
 
-
     private fun loadNativeAd() {
         if (BasePrefers.getPrefsInstance().native_categories) {
             Timber.d("loadNativeAd()")
