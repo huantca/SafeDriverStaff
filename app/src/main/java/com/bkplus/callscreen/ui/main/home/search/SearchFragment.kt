@@ -85,16 +85,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 }
             }
 
-            viewAllTop.setOnSingleClickListener {
-                val topTrendingFragment = TopTrendingFragment().apply {
-                    setData(topTrendingList)
-                }
-
-                topTrendingFragment.dismissDialog = {
-                }
-                topTrendingFragment.show(childFragmentManager, "")
-            }
-
             viewAllCategory.setOnSingleClickListener {
                 findNavController().navigate(R.id.categoryDetailFragment)
             }
@@ -255,6 +245,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             }
         }
     }
+
     private fun showRewardAd(action: () -> Unit) {
         if (BasePrefers.getPrefsInstance().reward_gif) {
             activity?.let {
