@@ -27,3 +27,19 @@ class WallpaperEntity(
         )
     }
 }
+
+
+@Entity(tableName = "FavoriteDB")
+class FavoriteEntity(
+    @PrimaryKey var generateId: Int = 0,
+    @ColumnInfo(name = "id") var id: String? = null,
+    @ColumnInfo(name = "isUsing") var isUsing: Boolean? = false,
+    @ColumnInfo(name = "isUsed") var isUsed: Boolean? = false,
+    @ColumnInfo(name = "imageUrl") var imageUrl: String? = null,
+    @ColumnInfo(name = "imageUri") var imageUri: String? = null,
+    @ColumnInfo(name = "createdTime") var createdTime: Long = 0,
+    @ColumnInfo(name = "isSelected") var isSelected: Boolean = false,
+    @ColumnInfo(name = "isLiked") var isLiked: Boolean = false,
+    @ColumnInfo(name = "loves") var loves: Int? = null,
+    @ColumnInfo(name = "free") var free: Boolean? = null
+)

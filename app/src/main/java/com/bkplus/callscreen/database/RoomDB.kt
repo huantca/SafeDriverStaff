@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [WallpaperEntity::class],
+    entities = [WallpaperEntity::class, FavoriteEntity::class],
     version = 1
 )
 abstract class RoomDB : RoomDatabase() {
@@ -30,4 +30,5 @@ abstract class RoomDB : RoomDatabase() {
     }
 
     abstract fun itemDB(): WallpaperDao
+    abstract fun favoriteDB(): FavoriteDao
 }

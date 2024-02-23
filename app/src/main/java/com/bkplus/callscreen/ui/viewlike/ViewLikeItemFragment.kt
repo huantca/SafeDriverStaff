@@ -144,7 +144,6 @@ class ViewLikeItemFragment : BaseFragment<FragmentViewLikeItemBinding>() {
                 viewModel.saveFavourite(wallPaper)
             }
             likeCounts.text = likeCountLive.toString()
-            likeCountLive = likeCounts.text.toString().toInt()
         }
     }
 

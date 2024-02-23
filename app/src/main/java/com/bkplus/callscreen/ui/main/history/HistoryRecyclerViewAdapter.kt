@@ -12,7 +12,9 @@ class HistoryRecyclerViewAdapter(
     val onSelectedAll: () -> Unit = {},
     val onNotSelectedAll: () -> Unit = {},
     val onClicked: () -> Unit = {},
-    val onNavigate: (item: WallpaperEntity) -> Unit = {}
+    val onNavigate: (item: WallpaperEntity,list : ArrayList<WallpaperEntity>) -> Unit = {
+        item : WallpaperEntity,list : ArrayList<WallpaperEntity> ->
+    }
 ) : BaseRecyclerViewAdapter<WallpaperEntity, ItemHistoryBinding>() {
     override fun getLayoutId(viewType: Int): Int {
         return R.layout.item_history
@@ -47,7 +49,7 @@ class HistoryRecyclerViewAdapter(
                 checkBoxBlank.gone()
                 image.setOnClickListener {
                     if (!isSelecting) {
-                        onNavigate.invoke(items[position])
+                        onNavigate.invoke(items[position],items)
                     }
                 }
             } else {
@@ -60,7 +62,7 @@ class HistoryRecyclerViewAdapter(
                     if (isSelecting) {
                         onClicked()
                     } else {
-                        onNavigate.invoke(items[position])
+                        onNavigate.invoke(items[position],items)
                     }
                     checkSelecting()
                 }
