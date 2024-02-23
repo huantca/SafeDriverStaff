@@ -1,7 +1,8 @@
+
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 
 plugins {
     id("com.android.application")
@@ -238,7 +239,7 @@ dependencies {
     ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     //BK Ads Lib
-    implementation("com.bkplus.ads:library:1.0.4-alpha09")
+    implementation("com.bkplus.ads:library:1.0.4-alpha15")
     //Appsflyer
     implementation("com.appsflyer:adrevenue:6.9.0")
     // https://mvnrepository.com/artifact/com.appsflyer/af-android-sdk

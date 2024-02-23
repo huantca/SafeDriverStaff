@@ -1,22 +1,18 @@
 package com.bkplus.callscreen.common
 
-import android.Manifest
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.content.PermissionChecker
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.ads.bkplus_ads.core.BkPlusActivity
 import com.bkplus.callscreen.ultis.Constants
 import com.bkplus.callscreen.ultis.ContextUtils
 import java.util.Locale
 
-abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
+abstract class BaseActivity<T : ViewDataBinding> : BkPlusActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
