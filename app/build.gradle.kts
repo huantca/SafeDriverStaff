@@ -40,9 +40,9 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("key/bkplus")
+            storeFile = file("key/release_fc")
             storePassword = "bkplus@123"
-            keyAlias = "wifi_password"
+            keyAlias = "4k_wallpaper"
             keyPassword = "bkplus@123"
         }
     }
