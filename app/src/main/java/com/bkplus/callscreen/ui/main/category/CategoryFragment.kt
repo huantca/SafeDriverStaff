@@ -2,8 +2,6 @@ package com.bkplus.callscreen.ui.main.category
 
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.ads.bkplus_ads.core.callback.BkPlusNativeAdCallback
 import com.ads.bkplus_ads.core.callforward.BkPlusNativeAd
@@ -17,9 +15,6 @@ import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentCategoryBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -69,7 +64,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
             Timber.d("loadNativeAd()")
             BkPlusNativeAd.loadNativeAd(
                 this,
-                BuildConfig.Native_toptrending,
+                BuildConfig.native_categories,
                 R.layout.native_onboarding,
                 object : BkPlusNativeAdCallback() {
                     override fun onNativeAdLoaded(nativeAd: BkNativeAd) {

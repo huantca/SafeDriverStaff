@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import com.ads.bkplus_ads.core.model.BkNativeAd
 import com.bkplus.callscreen.api.entity.HomeSectionEntity
 import com.bkplus.callscreen.api.entity.Item
+import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ultis.toArrayList
 import com.harison.core.app.platform.BaseRecyclerViewAdapter
 import com.harrison.myapplication.R
@@ -96,7 +97,7 @@ class HomeAdapter : BaseRecyclerViewAdapter<HomeSectionEntity, ViewDataBinding>(
             randomList?.forEachIndexed { index, item ->
                 val count = index + 1;
                 listLatest.add(item)
-                if (count % 6 == 0) {
+                if (count % 6 == 0 && BasePrefers.getPrefsInstance().Native_home) {
                     listLatest.add(Item(nativeAd = null, type = LatestAdapter.ADS))
                 }
             }

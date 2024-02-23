@@ -24,7 +24,7 @@ class ViewLikeViewModel @Inject constructor(
 
     fun matchWallpaperToDB(items: ArrayList<WallPaper>) {
         viewModelScope.launch(Dispatchers.IO) {
-            wallpaperDao.getLiked().collect { listLiked ->
+            favoriteDao.getLiked().collect { listLiked ->
                 listLiked.forEach { item ->
                     items.find {
                         it.url == item.imageUrl

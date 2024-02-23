@@ -6,6 +6,7 @@ import com.ads.bkplus_ads.core.callback.BkPlusNativeAdCallback
 import com.ads.bkplus_ads.core.callforward.BkPlusNativeAd
 import com.ads.bkplus_ads.core.model.BkNativeAd
 import com.bkplus.callscreen.common.BaseFragment
+import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.bumptech.glide.Glide
 import com.google.android.gms.ads.LoadAdError
@@ -18,10 +19,10 @@ class CongratulationsFragment : BaseFragment<FragmentCongratulationsBinding>() {
 
     override val layoutId: Int
         get() = R.layout.fragment_congratulations
-    var fragmentId : Int?= null
+    var fragmentId: Int? = null
     override fun setupUI() {
         super.setupUI()
-        fragmentId  = arguments?.getInt("fragment")
+        fragmentId = arguments?.getInt("fragment")
         binding.apply {
             context?.let {
                 Glide.with(it)
@@ -44,29 +45,37 @@ class CongratulationsFragment : BaseFragment<FragmentCongratulationsBinding>() {
             }
 
             homeBtn.setOnSingleClickListener {
-                fragmentId?.let { it1 -> findNavController().popBackStack(it1,false) }
+                fragmentId?.let { it1 -> findNavController().popBackStack(it1, false) }
+                    ?: kotlin.run {
+                        findNavController().popBackStack()
+                    }
             }
         }
     }
 
 
     private fun loadNativeAd() {
-        BkPlusNativeAd.loadNativeAd(
-            this,
-            BuildConfig.native_categories,
-            R.layout.layout_native_congratulation,
-            object : BkPlusNativeAdCallback() {
-                override fun onNativeAdLoaded(nativeAd: BkNativeAd) {
-                    super.onNativeAdLoaded(nativeAd)
-                    populateNativeAd(nativeAd)
-                }
+        if (BasePrefers.getPrefsInstance().native_sucsess) {
+            BkPlusNativeAd.loadNativeAd(
+                this,
+                BuildConfig.native_sucsess,
+                R.layout.layout_native_congratulation,
+                object : BkPlusNativeAdCallback() {
+                    override fun onNativeAdLoaded(nativeAd: BkNativeAd) {
+                        super.onNativeAdLoaded(nativeAd)
+                        populateNativeAd(nativeAd)
+                    }
 
-                override fun onAdFailedToLoad(error: LoadAdError) {
-                    super.onAdFailedToLoad(error)
-                    removeNativeAd()
+                    override fun onAdFailedToLoad(error: LoadAdError) {
+                        super.onAdFailedToLoad(error)
+                        removeNativeAd()
+                    }
                 }
-            }
-        )
+            )
+        } else {
+            removeNativeAd()
+        }
+
     }
 
     private fun populateNativeAd(nativeAd: BkNativeAd) {
