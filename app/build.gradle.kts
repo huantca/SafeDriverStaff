@@ -1,7 +1,7 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 
 plugins {
     id("com.android.application")
@@ -24,7 +24,7 @@ android {
         minSdk = 26
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0"
 
         archivesName.set(
             "Wallpaper_FC_${versionName}(${versionCode})_${
@@ -35,6 +35,12 @@ android {
             }"
         )
 
+        vectorDrawables {
+            useSupportLibrary = true
+        }
+        ndk {
+            abiFilters.addAll(arrayOf("armeabi-v7a", "arm64-v8a", "x86_64"))
+        }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -60,25 +66,90 @@ android {
             isDebuggable = true
         }
     }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+
+    buildFeatures {
+        dataBinding = true
+        buildConfig = true
+    }
+    packaging {
+        resources.excludes.add("META-INF/*")
+    }
     flavorDimensions += "version"
     productFlavors {
         create("dev") {
             dimension = "version"
             manifestPlaceholders["ad_app_id"] = "ca-app-pub-3940256099942544~3347511713"
-            buildConfigField("String", "appopen_resume", "\"ca-app-pub-3940256099942544/9257395921\"")
+            buildConfigField(
+                "String",
+                "appopen_resume",
+                "\"ca-app-pub-3940256099942544/9257395921\""
+            )
             buildConfigField("String", "inter_splash", "\"ca-app-pub-3940256099942544/1033173712\"")
-            buildConfigField("String", "native_language", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField("String", "native_onbroading", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField("String", "native_welcome", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField(
+                "String",
+                "native_language",
+                "\"ca-app-pub-3940256099942544/2247696110\""
+            )
+            buildConfigField(
+                "String",
+                "native_onbroading",
+                "\"ca-app-pub-3940256099942544/2247696110\""
+            )
+            buildConfigField(
+                "String",
+                "native_welcome",
+                "\"ca-app-pub-3940256099942544/2247696110\""
+            )
             buildConfigField("String", "Banner_all", "\"ca-app-pub-3940256099942544/6300978111\"")
-            buildConfigField("String", "Banner_home_collapsible", "\"ca-app-pub-3940256099942544/2014213617\"")
+            buildConfigField(
+                "String",
+                "Banner_home_collapsible",
+                "\"ca-app-pub-3940256099942544/2014213617\""
+            )
             buildConfigField("String", "Native_home", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField("String", "Native_toptrending", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField("String", "native_categories", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField("String", "native_viewcategories", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField("String", "intersitial_backhome", "\"ca-app-pub-3940256099942544/1033173712\"")
-            buildConfigField("String", "intersitial_setwallpaper", "\"ca-app-pub-3940256099942544/1033173712\"")
-            buildConfigField("String", "native_viewwallpaper", "\"ca-app-pub-3940256099942544/2247696110\"")
+            buildConfigField(
+                "String",
+                "Native_toptrending",
+                "\"ca-app-pub-3940256099942544/2247696110\""
+            )
+            buildConfigField(
+                "String",
+                "native_categories",
+                "\"ca-app-pub-3940256099942544/2247696110\""
+            )
+            buildConfigField(
+                "String",
+                "native_viewcategories",
+                "\"ca-app-pub-3940256099942544/2247696110\""
+            )
+            buildConfigField(
+                "String",
+                "intersitial_backhome",
+                "\"ca-app-pub-3940256099942544/1033173712\""
+            )
+            buildConfigField(
+                "String",
+                "intersitial_setwallpaper",
+                "\"ca-app-pub-3940256099942544/1033173712\""
+            )
+            buildConfigField(
+                "String",
+                "native_viewwallpaper",
+                "\"ca-app-pub-3940256099942544/2247696110\""
+            )
             buildConfigField("String", "reward_gif", "\"ca-app-pub-3940256099942544/5224354917\"")
             buildConfigField("String", "intersitial_viewhistory", "\"ca-app-pub-3940256099942544/1033173712\"")
             buildConfigField("String", "native_sucsess", "\"ca-app-pub-3940256099942544/2247696110\"")
@@ -105,20 +176,6 @@ android {
             buildConfigField("String", "native_sucsess", "\"ca-app-pub-1939315010587936/7946011385\"")
             buildConfigField("String", "native_exit", "\"ca-app-pub-1939315010587936/3670906219\"")
         }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-    buildFeatures {
-        dataBinding = true
-        buildConfig = true
-    }
-    packaging {
-        resources.excludes.add("META-INF/*")
     }
 }
 
