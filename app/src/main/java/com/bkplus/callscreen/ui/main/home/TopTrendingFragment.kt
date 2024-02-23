@@ -67,7 +67,6 @@ class TopTrendingFragment : BaseFullScreenDialogFragment<FragmentTopTrendingBind
             icBack.setOnSingleClickListener {
                 showInterBackHome {
                     dismiss()
-                    dismissDialog.invoke()
                 }
             }
         }
@@ -110,6 +109,7 @@ class TopTrendingFragment : BaseFullScreenDialogFragment<FragmentTopTrendingBind
                 else -> { Toast.makeText(context, "This is the final destination", Toast.LENGTH_LONG) }
             }
         }
+        dismissDialog.invoke()
     }
 
     private fun loadNativeAd() {
