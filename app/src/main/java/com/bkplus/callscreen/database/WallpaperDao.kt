@@ -58,4 +58,7 @@ interface FavoriteDao{
     @Query("SELECT COUNT(generateId) FROM FavoriteDB")
     fun getCount(): Int
 
+    @Query("Select * From FavoriteDB where isLiked=1")
+    fun getLiked(): Flow<List<WallpaperEntity>>
+
 }

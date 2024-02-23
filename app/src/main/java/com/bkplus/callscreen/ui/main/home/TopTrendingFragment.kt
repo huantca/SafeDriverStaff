@@ -1,6 +1,5 @@
 package com.bkplus.callscreen.ui.main.home
 
-import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.ads.bkplus_ads.core.callback.BkPlusAdmobInterstitialCallback
 import com.ads.bkplus_ads.core.callback.BkPlusNativeAdCallback
@@ -12,7 +11,6 @@ import com.bkplus.callscreen.ads.AdsContainer
 import com.bkplus.callscreen.api.entity.Item
 import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ui.main.home.adapter.LatestAdapter
-import com.bkplus.callscreen.ui.main.home.search.SearchFragmentDirections
 import com.bkplus.callscreen.ui.viewlike.WallPaper
 import com.bkplus.callscreen.ultis.gone
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
@@ -76,13 +74,14 @@ class TopTrendingFragment : BaseFullScreenDialogFragment<FragmentTopTrendingBind
     private val actionItem: (Item) -> Unit = { item ->
         this.dismiss()
         val wallpaper =
-            WallPaper(id = item.id, url = item.url, likeCount = item.loves, free = item.free)
+            WallPaper(id = item.id, url = item.url, likeCount = item.loves, free = item.free, isLiked = item.isLiked)
         val listItem = data?.map { dataItem ->
             WallPaper(
                 id = dataItem.id,
                 url = dataItem.url,
                 likeCount = dataItem.loves,
-                free = wallpaper.free
+                free = wallpaper.free,
+                isLiked = wallpaper.isLiked
             )
         }?.toTypedArray()
         listItem?.let {

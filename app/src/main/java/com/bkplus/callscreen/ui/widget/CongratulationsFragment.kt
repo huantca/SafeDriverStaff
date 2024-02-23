@@ -44,7 +44,9 @@ class CongratulationsFragment : BaseFragment<FragmentCongratulationsBinding>() {
             }
 
             homeBtn.setOnSingleClickListener {
-                fragmentId?.let { it1 -> findNavController().popBackStack(it1,false) }
+                fragmentId?.let { it1 -> findNavController().popBackStack(it1,false) } ?: kotlin.run {
+                    findNavController().popBackStack()
+                }
             }
         }
     }
