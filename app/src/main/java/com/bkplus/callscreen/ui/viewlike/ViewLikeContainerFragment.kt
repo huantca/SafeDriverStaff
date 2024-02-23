@@ -54,7 +54,7 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
         list.clear()
         args.listData.forEachIndexed { index, wallPaper ->
             list.add(wallPaper)
-            if (index % 6 == 0) {
+            if (index % 6 == 0 && BasePrefers.getPrefsInstance().native_viewwallpaper) {
                 list.add(WallPaper(isAds = true))
             }
         }
