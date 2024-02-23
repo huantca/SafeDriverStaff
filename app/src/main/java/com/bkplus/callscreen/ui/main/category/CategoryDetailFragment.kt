@@ -136,11 +136,11 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
     }
 
     private fun loadNativeAd() {
-        if (BasePrefers.getPrefsInstance().native_categories) {
+        if (BasePrefers.getPrefsInstance().native_viewcategories) {
             Timber.d("loadNativeAd()")
             BkPlusNativeAd.loadNativeAd(
                 this,
-                BuildConfig.Native_toptrending,
+                BuildConfig.native_viewcategories,
                 R.layout.native_onboarding,
                 object : BkPlusNativeAdCallback() {
                     override fun onNativeAdLoaded(nativeAd: BkNativeAd) {
