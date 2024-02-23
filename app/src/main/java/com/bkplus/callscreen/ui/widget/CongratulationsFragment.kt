@@ -1,27 +1,27 @@
 package com.bkplus.callscreen.ui.widget
 
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import com.ads.bkplus_ads.core.callback.BkPlusNativeAdCallback
 import com.ads.bkplus_ads.core.callforward.BkPlusNativeAd
 import com.ads.bkplus_ads.core.model.BkNativeAd
+import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.bumptech.glide.Glide
 import com.google.android.gms.ads.LoadAdError
-import com.harison.core.app.platform.BaseFullScreenDialogFragment
 import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentCongratulationsBinding
 
-class CongratulationsDialog: BaseFullScreenDialogFragment<FragmentCongratulationsBinding>() {
+
+class CongratulationsFragment : BaseFragment<FragmentCongratulationsBinding>() {
 
     override val layoutId: Int
         get() = R.layout.fragment_congratulations
-
-    var actionHome = {}
-    var actionBack = {}
-
+    var fragmentId : Int?= null
     override fun setupUI() {
         super.setupUI()
+        fragmentId  = arguments?.getInt("fragment")
         binding.apply {
             context?.let {
                 Glide.with(it)
@@ -35,16 +35,16 @@ class CongratulationsDialog: BaseFullScreenDialogFragment<FragmentCongratulation
         super.onStart()
         loadNativeAd()
     }
+
     override fun setupListener() {
         super.setupListener()
         binding.apply {
             backBtn.setOnSingleClickListener {
-                actionBack.invoke()
-                dismiss()
+                findNavController().popBackStack()
             }
 
             homeBtn.setOnSingleClickListener {
-                actionHome.invoke()
+                fragmentId?.let { it1 -> findNavController().popBackStack(it1,false) }
             }
         }
     }
@@ -60,6 +60,7 @@ class CongratulationsDialog: BaseFullScreenDialogFragment<FragmentCongratulation
                     super.onNativeAdLoaded(nativeAd)
                     populateNativeAd(nativeAd)
                 }
+
                 override fun onAdFailedToLoad(error: LoadAdError) {
                     super.onAdFailedToLoad(error)
                     removeNativeAd()

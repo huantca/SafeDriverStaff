@@ -4,6 +4,7 @@ import android.app.WallpaperManager
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -15,28 +16,31 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.ads.bkplus_ads.core.callback.BkPlusAdmobInterstitialCallback
 import com.ads.bkplus_ads.core.callforward.BkPlusAdmob
+import com.bkplus.callscreen.ads.AdsContainer
 import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ui.viewlike.adapter.ScreenSlidePagerAdapter
-import com.bkplus.callscreen.ui.widget.CongratulationsDialog
 import com.bkplus.callscreen.ui.widget.SetWallpaperBottomSheet
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentViewLikeContainerBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>() {
 
+    @Inject
+    lateinit var adsContainer : AdsContainer
     override val layoutId: Int
         get() = R.layout.fragment_view_like_container
 
@@ -64,6 +68,7 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
 
     override fun setupUI() {
         super.setupUI()
+        loadInterSetWallPaper()
         val pagerAdapter = ScreenSlidePagerAdapter(childFragmentManager, lifecycle, list, action = {
             binding.setWallpaperBtn.visibility = View.VISIBLE
         })
@@ -117,16 +122,18 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
 
     private fun goToSuccess() {
         toast(getString(R.string.set_wallpaper))
-        val containerFragment = CongratulationsDialog().apply {
-            actionHome = {
-                findNavController().popBackStack(R.id.homeFragment, false)
-            }
-            actionBack = {
-
-            }
-        }
-        loadAndShowInter {
-            containerFragment.show(childFragmentManager, "")
+//        val containerFragment = CongratulationsDialog().apply {
+//            actionHome = {
+//                findNavController().popBackStack(R.id.homeFragment, false)
+//            }
+//            actionBack = {
+//
+//            }
+//        }
+        showInterSetWallPaper {
+            val bundle = Bundle()
+            bundle.putInt("fragment",args.destination)
+            findNavController().navigate(R.id.CongratulationFragment,bundle)
         }
 
     }
@@ -186,18 +193,16 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
                     showLoading()
                     withContext(Dispatchers.IO) {
                         WallpaperManager.getInstance(ct).setBitmap(bitmap)
-                        delay(1000L)
                     }
 
-                    withContext(Dispatchers.Main) {
-                        hideLoading()
-                        goToSuccess()
-                    }
                 }
+                hideLoading()
+                goToSuccess()
             } catch (e: Exception) {
                 toast(e.message.toString())
             }
         }
+
     }
 
     fun setLockScreen(bitmap: Bitmap) {
@@ -208,13 +213,10 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
                     withContext(Dispatchers.IO) {
                         WallpaperManager.getInstance(ct)
                             .setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
-                        delay(1000L)
-                    }
-                    withContext(Dispatchers.Main) {
-                        hideLoading()
-                        goToSuccess()
                     }
                 }
+                hideLoading()
+                goToSuccess()
             } catch (e: Exception) {
                 toast(e.message.toString())
             }
@@ -230,36 +232,59 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
                         WallpaperManager.getInstance(ct).setBitmap(bitmap)
                         WallpaperManager.getInstance(ct)
                             .setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
-                        delay(1000L)
-                    }
-                    withContext(Dispatchers.Main) {
-                        hideLoading()
-                        goToSuccess()
                     }
                 }
+                hideLoading()
+                goToSuccess()
             } catch (e: Exception) {
                 toast(e.message.toString())
             }
         }
     }
 
-    private fun loadAndShowInter(action: () -> Unit) {
+
+    private fun loadInterSetWallPaper() {
         if (BasePrefers.getPrefsInstance().intersitial_setwallpaper) {
             activity?.let {
-                BkPlusAdmob.showAdInterstitial(it, BuildConfig.intersitial_setwallpaper,
+                if (!adsContainer.isInterAdReady(BuildConfig.intersitial_setwallpaper)) {
+                    BkPlusAdmob.loadAdInterstitial(it, BuildConfig.intersitial_setwallpaper,
+                        object : BkPlusAdmobInterstitialCallback() {
+                            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                                super.onAdLoaded(interstitialAd)
+                                adsContainer.saveInterAd(
+                                    BuildConfig.intersitial_setwallpaper,
+                                    interstitialAd
+                                )
+                            }
+                        })
+                }
+
+            }
+        }
+    }
+
+    private fun showInterSetWallPaper(action: () -> Unit) {
+        if (BasePrefers.getPrefsInstance().intersitial_setwallpaper) {
+            activity?.let {
+                BkPlusAdmob.showAdInterstitial(it,
+                    adsContainer.getInterAd(BuildConfig.intersitial_setwallpaper),
                     object : BkPlusAdmobInterstitialCallback() {
-                        override fun onAdShowed(tag: String, message: String) {
-                            super.onAdShowed(tag, message)
+                        override fun onShowAdRequestProgress(tag: String, message: String) {
+                            super.onShowAdRequestProgress(tag, message)
                             action.invoke()
                         }
 
                         override fun onAdFailed(tag: String, errorMessage: String) {
                             super.onAdFailed(tag, errorMessage)
-                            action.invoke()
+                            adsContainer.removeInterAd(BuildConfig.intersitial_setwallpaper)
+                        }
+
+                        override fun onAdDismissed(tag: String, message: String) {
+                            super.onAdDismissed(tag, message)
+                            adsContainer.removeInterAd(BuildConfig.intersitial_setwallpaper)
                         }
                     })
             }
-
         } else {
             action.invoke()
         }

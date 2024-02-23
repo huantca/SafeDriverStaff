@@ -187,6 +187,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }.toTypedArray()
         findNavController().navigate(
             HomeFragmentDirections.actionHomeFragmentToViewLikeContainerFragment(
+                R.id.homeFragment,
                 wallpaper,
                 listItem
             )

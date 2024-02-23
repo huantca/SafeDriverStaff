@@ -129,6 +129,7 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>() {
         }.toTypedArray()
         findNavController().navigate(
             FavouriteFragmentDirections.actionFavouriteFragmentToViewLikeContainerFragment(
+                R.id.homeFragment,
                 wallpaper,
                 listItem
             )

@@ -213,6 +213,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         }.toTypedArray()
         findNavController().navigate(
             SearchFragmentDirections.actionSearchFragmentToViewLikeContainerFragment(
+                R.id.homeFragment,
                 item1,
                 listItem
             )
