@@ -73,6 +73,7 @@ class TopTrendingFragment : BaseFullScreenDialogFragment<FragmentTopTrendingBind
 
 
     private val actionItem: (Item) -> Unit = { item ->
+        this.dismiss()
         val wallpaper =
             WallPaper(id = item.id, url = item.url, likeCount = item.loves, free = item.free)
         val listItem = data?.map { dataItem ->
@@ -86,6 +87,7 @@ class TopTrendingFragment : BaseFullScreenDialogFragment<FragmentTopTrendingBind
         listItem?.let {
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToViewLikeContainerFragment(
+                    R.id.homeFragment,
                     wallpaper,
                     listItem
                 )

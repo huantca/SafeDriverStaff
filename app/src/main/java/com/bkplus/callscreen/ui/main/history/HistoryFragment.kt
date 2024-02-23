@@ -112,6 +112,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
         loadAndShowInertAd {
             findNavController().navigate(
                 HistoryFragmentDirections.actionHistoryFragmentToViewLikeContainerFragment(
+                    R.id.historyFragment,
                     item,
                     listItem
                 )
