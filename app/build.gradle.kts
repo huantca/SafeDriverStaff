@@ -21,7 +21,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.fc.p.bk.wallpaper.live.hdwallpaper.background"
+        applicationId = "com.fc.p.bk.wallpaper.hdwallpaper.live.background"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

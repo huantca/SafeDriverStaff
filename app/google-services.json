@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:12411856388:android:30fdb58f34295e2c573751",
+        "mobilesdk_app_id": "1:12411856388:android:1aab9ab02d9d26ca573751",
         "android_client_info": {
-          "package_name": "com.fc.p.bk.wallpaper.live.hdwallpaper.background"
+          "package_name": "com.fc.p.bk.wallpaper.hdwallpaper.live.background"
         }
       },
       "oauth_client": [],
