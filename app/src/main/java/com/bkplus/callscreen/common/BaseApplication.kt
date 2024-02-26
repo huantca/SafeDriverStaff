@@ -1,6 +1,7 @@
 package com.bkplus.callscreen.common
 
 import com.ads.bkplus_ads.core.BkPlusAdmobApplication
+import com.bkplus.callscreen.MainActivity
 import com.bkplus.callscreen.ads.TrackingManager
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.harison.core.app.utils.timber.CrashlyticsTree
@@ -28,6 +29,10 @@ class BaseApplication : BkPlusAdmobApplication() {
     private fun fetchRemoteConfig() {
         firebaseRemoteConfig.initRemoteConfig()
         firebaseRemoteConfig.fetchRemoteConfig()
+    }
+
+    override fun getAppOpenWhiteList(): List<Class<*>> {
+        return listOf(MainActivity::class.java)
     }
 
     override fun getAdOpenAppUnitId(): String {

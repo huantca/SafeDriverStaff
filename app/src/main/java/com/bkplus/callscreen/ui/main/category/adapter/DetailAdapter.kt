@@ -44,7 +44,7 @@ class DetailAdapter : BaseRecyclerViewAdapter<Item, ViewDataBinding>() {
     private fun getSpanSizeLookup(): GridLayoutManager.SpanSizeLookup {
         return object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                return when (items[position].type) {
+                return when (items.getOrNull(position)?.type) {
                     LatestAdapter.ADS -> 3
                     else -> 1
                 }

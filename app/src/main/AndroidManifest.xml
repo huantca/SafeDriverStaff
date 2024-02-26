@@ -50,7 +50,7 @@
         </activity>
 
         <service
-            android:name=".MyFirebaseMessaging"
+            android:name="com.bkplus.callscreen.MyFirebaseMessaging"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
