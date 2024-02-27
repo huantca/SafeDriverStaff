@@ -42,9 +42,9 @@ object Constants {
     const val LINK_STORE =
         "https://play.google.com/store/apps/details?id=${BuildConfig.APPLICATION_ID}&hl=en_IE"
     const val PRIVACY_POLICY_LINK =
-        "https://firebasestorage.googleapis.com/v0/b/pm-bk-4k-wallpaper.appspot.com/o/Policy.html?alt=media&token=38ef467a-30b8-40cf-a915-ba31570e4df0"
+        "https://firebasestorage.googleapis.com/v0/b/pm-bk-4k-wallpaper.appspot.com/o/Policy1.html?alt=media&token=4e34de8b-d4f9-491a-8d0f-5873ab596ffa"
     const val TERMS_OF_USE_LINK =
-        "https://firebasestorage.googleapis.com/v0/b/pm-bk-4k-wallpaper.appspot.com/o/TOS.html?alt=media&token=a409478e-0f69-44d1-8243-f49a53c27e09"
+        "https://firebasestorage.googleapis.com/v0/b/pm-bk-4k-wallpaper.appspot.com/o/TOS1.html?alt=media&token=5e7931d9-caf2-4534-8a7e-8b3c525406f3"
 
     //const support language
     const val en = "en"
