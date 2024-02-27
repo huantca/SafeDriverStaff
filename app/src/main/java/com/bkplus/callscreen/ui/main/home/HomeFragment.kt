@@ -98,7 +98,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         super.setupListener()
         binding.apply {
             imgSearch.setOnClickListener {
-                findNavController().navigate(R.id.searchFragment)
+                val bundle = Bundle()
+                bundle.putInt("destination",R.id.homeFragment)
+                findNavController().navigate(R.id.searchFragment,bundle)
             }
 
             imgHeart.setOnSingleClickListener {
