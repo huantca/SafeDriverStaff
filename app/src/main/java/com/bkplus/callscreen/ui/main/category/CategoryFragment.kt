@@ -60,7 +60,9 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
     override fun setupListener() {
         binding.imgSearch.setOnClickListener {
-            findNavController().navigate(R.id.searchFragment)
+            val bundle = Bundle()
+            bundle.putInt("destination",R.id.categoryFragment)
+            findNavController().navigate(R.id.searchFragment,bundle)
         }
     }
 

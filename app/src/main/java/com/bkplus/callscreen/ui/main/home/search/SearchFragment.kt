@@ -59,8 +59,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private var categoryList: ArrayList<Category>? = null
     private var homeSection: ArrayList<HomeSectionEntity>? = null
     private var topTrendingList: ArrayList<Item> = arrayListOf()
+    private var destination : Int?= null
 
     override fun setupData() {
+        destination = arguments?.getInt("destination")
         viewModel.getSearch()
         loadAdReward()
         loadInterBackHome()
@@ -87,7 +89,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
             viewAllCategory.setOnSingleClickListener {
                 val bundle = Bundle()
-                bundle.putInt("destination",R.id.homeFragment)
+                bundle.putInt("destination",destination ?: R.id.homeFragment)
                 findNavController().navigate(R.id.categoryDetailFragment, bundle)
             }
 
@@ -224,7 +226,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         }.toTypedArray()
         findNavController().navigate(
             SearchFragmentDirections.actionSearchFragmentToViewLikeContainerFragment(
-                R.id.homeFragment,
+                destination ?:R.id.homeFragment,
                 item1,
                 listItem
             )
