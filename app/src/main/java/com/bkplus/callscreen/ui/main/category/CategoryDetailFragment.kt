@@ -52,6 +52,7 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
     private var categoryList: ArrayList<Category>? = null
     private var homeSection: ArrayList<HomeSectionEntity>? = null
     private var isInit = false
+    private var destination: Int? = null
 
     override fun setupData() {
         if (!isInit) {
@@ -67,6 +68,7 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
     override fun setupUI() {
         loadAdReward()
         loadInterBackHome()
+        destination = arguments?.getInt("destination")
         viewModel.homeSectionAndCategoryLiveData.observe(viewLifecycleOwner) { boolean ->
             categoryList = viewModel.categories.value
             categoryList?.let { categories ->
@@ -103,7 +105,7 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
                             gotoViewLike(item, listData)
                         }
                     }
-                }.show(childFragmentManager,"")
+                }.show(childFragmentManager, "")
             }
         }
     }
@@ -223,7 +225,7 @@ class CategoryDetailFragment : BaseFragment<FragmentCategoryDetailBinding>() {
         }.toTypedArray()
         findNavController().navigate(
             CategoryDetailFragmentDirections.actionCategoryDetailFragmentToViewLikeContainerFragment(
-                R.id.categoryFragment,
+                destination ?: R.id.categoryFragment,
                 item1,
                 listItem
             )

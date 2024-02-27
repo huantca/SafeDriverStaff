@@ -1,5 +1,6 @@
 package com.bkplus.callscreen.ui.main.home.search
 
+import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
@@ -14,7 +15,6 @@ import com.bkplus.callscreen.api.entity.HomeSectionEntity
 import com.bkplus.callscreen.api.entity.Item
 import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.common.BasePrefers
-import com.bkplus.callscreen.ui.main.home.TopTrendingFragment
 import com.bkplus.callscreen.ui.main.home.search.adapter.CategoryAdapter
 import com.bkplus.callscreen.ui.main.home.search.adapter.HashTagAdapter
 import com.bkplus.callscreen.ui.main.home.search.adapter.SearchAdapter
@@ -86,7 +86,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             }
 
             viewAllCategory.setOnSingleClickListener {
-                findNavController().navigate(R.id.categoryDetailFragment)
+                val bundle = Bundle()
+                bundle.putInt("destination",R.id.homeFragment)
+                findNavController().navigate(R.id.categoryDetailFragment, bundle)
             }
 
             editTextId.addTextChangedListener {

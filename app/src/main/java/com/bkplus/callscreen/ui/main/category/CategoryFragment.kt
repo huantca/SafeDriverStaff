@@ -28,6 +28,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     private val categoryAdapter = CategoryAdapter {
         findNavController().navigate(R.id.categoryDetailFragment, Bundle().apply {
             putString("id", it)
+            putInt("destination", R.id.categoryFragment)
         })
     }
 
@@ -46,7 +47,11 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
     override fun setupUI() {
         viewModel.categories.observe(viewLifecycleOwner) {
-            categoryAdapter.updateItems(if (BasePrefers.getPrefsInstance().native_categories) viewModel.addNativeAd(it) else it)
+            categoryAdapter.updateItems(
+                if (BasePrefers.getPrefsInstance().native_categories) viewModel.addNativeAd(
+                    it
+                ) else it
+            )
             if (it.isNotEmpty()) {
                 loadNativeAd()
             }
