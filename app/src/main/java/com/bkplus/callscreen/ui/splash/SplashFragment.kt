@@ -13,6 +13,8 @@ import com.ads.bkplus_ads.core.callforward.BkPlusAdmob
 import com.ads.bkplus_ads.core.callforward.BkPlusNativeAd
 import com.ads.bkplus_ads.core.model.BkNativeAd
 import com.bkplus.callscreen.ads.AdsContainer
+import com.bkplus.callscreen.ads.EventTracking
+import com.bkplus.callscreen.ads.TrackingManager
 import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ui.widget.ProgressBarAnimation
@@ -22,10 +24,10 @@ import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentSplashBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class SplashFragment : BaseFragment<FragmentSplashBinding>() {
@@ -133,6 +135,11 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
                             super.onAdFailedToLoad(error)
                             adsContainer.saveNativeAdResponse(error)
                         }
+
+                        override fun onAdClicked() {
+                            super.onAdClicked()
+                            TrackingManager.tracking(EventTracking.fb003_click_ads_onboarding)
+                        }
                     })
             }
         }
@@ -154,6 +161,11 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
                     override fun onAdFailedToLoad(error: LoadAdError) {
                         super.onAdFailedToLoad(error)
                         adsContainer.nativeFirstLanguage.postValue(error)
+                    }
+
+                    override fun onAdClicked() {
+                        super.onAdClicked()
+                        TrackingManager.tracking(EventTracking.fb003_click_ads_native_language)
                     }
                 })
         }

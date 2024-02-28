@@ -1,8 +1,10 @@
 package com.bkplus.callscreen.common
 
 import com.ads.bkplus_ads.core.BkPlusAdmobApplication
+import com.ads.bkplus_ads.core.adjust_sdk.AdjustTracking
 import com.bkplus.callscreen.MainActivity
 import com.bkplus.callscreen.ads.TrackingManager
+import com.bkplus.callscreen.ultis.Constants
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.harison.core.app.utils.timber.CrashlyticsTree
 import com.harison.core.app.utils.timber.MyDebugTree
@@ -24,6 +26,8 @@ class BaseApplication : BkPlusAdmobApplication() {
         fetchRemoteConfig()
         setupTimber()
         TrackingManager.init(this)
+        initAdjust(BuildConfig.DEBUG, Constants.adjust_token)
+        AdjustTracking.setRevenueToken(Constants.ads_revenue)
     }
 
     private fun fetchRemoteConfig() {

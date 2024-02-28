@@ -10,6 +10,8 @@ import com.ads.bkplus_ads.core.callforward.BkPlusNativeAd
 import com.ads.bkplus_ads.core.model.BkNativeAd
 import com.ads.bkplus_ads.core.toastDebug
 import com.bkplus.callscreen.ads.AdsContainer
+import com.bkplus.callscreen.ads.EventTracking
+import com.bkplus.callscreen.ads.TrackingManager
 import com.bkplus.callscreen.api.entity.Item
 import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.common.BasePrefers
@@ -113,14 +115,17 @@ class ViewLikeItemFragment : BaseFragment<FragmentViewLikeItemBinding>() {
         binding.apply {
 
             likeBtn.setOnSingleClickListener {
+                TrackingManager.tracking(EventTracking.fb003_detail_template_heart)
                 handleLikeAction()
             }
 
             shareBtn.setOnSingleClickListener {
+                TrackingManager.tracking(EventTracking.fb003_detail_template_share)
                 activity.openShare()
             }
 
             previewBtn.setOnSingleClickListener {
+                TrackingManager.tracking(EventTracking.fb003_detail_template_preview)
                 PreviewDialogFragment.newInstance(
                     item = wallPaper,
                     onDismiss = { }

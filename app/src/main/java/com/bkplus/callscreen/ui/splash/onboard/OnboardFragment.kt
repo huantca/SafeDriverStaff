@@ -3,6 +3,8 @@ package com.bkplus.callscreen.ui.splash.onboard
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import com.bkplus.callscreen.ads.EventTracking
+import com.bkplus.callscreen.ads.TrackingManager
 import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.common.BaseViewPagerAdapter
@@ -15,6 +17,7 @@ class OnboardFragment : BaseFragment<FragmentOnboardBinding>() {
         get() = R.layout.fragment_onboard
 
     private lateinit var adapterVP: BaseViewPagerAdapter
+    private var currentPosition = 0
     override fun setupUI() {
         super.setupUI()
         adapterVP = BaseViewPagerAdapter(childFragmentManager, lifecycle)
@@ -53,21 +56,36 @@ class OnboardFragment : BaseFragment<FragmentOnboardBinding>() {
                 ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
+                    when (position) {
+                        0 -> TrackingManager.tracking(EventTracking.fb003_onboarding_1_view)
+                        1 -> TrackingManager.tracking(EventTracking.fb003_onboarding_2_view)
+                        2 -> TrackingManager.tracking(EventTracking.fb003_onboarding_3_view)
+                        3 -> TrackingManager.tracking(EventTracking.fb003_onboarding_4_view)
+                    }
+                    if (currentPosition < position) {
+                        // handle swipe LEFT
+                        TrackingManager.tracking(EventTracking.fb003_onboarding_swipe_left)
+                    } else if (currentPosition > position) {
+                        // handle swipe RIGHT
+                        TrackingManager.tracking(EventTracking.fb003_onboarding_swipe_right)
+                    }
+                    currentPosition = position
+
                     if (position == 3) {
                         continueButton.setText(R.string.get_started_btn)
                     } else {
                         continueButton.setText(R.string.next)
                     }
-                    when (position) {
-//                    0 -> AppsFlyerLib.getInstance().logEvent(context, "fb001_onboarding_1", mapOf())
-//                    1 -> AppsFlyerLib.getInstance().logEvent(context, "fb001_onboarding_2", mapOf())
-//                    2 -> AppsFlyerLib.getInstance().logEvent(context, "fb001_onboarding_3", mapOf())
-//                    3 -> AppsFlyerLib.getInstance().logEvent(context, "fb001_onboarding_4", mapOf())
-                    }
                 }
             })
 
             continueButton.setOnSingleClickListener {
+                when (viewpagerOnboard.currentItem) {
+                    0 -> TrackingManager.tracking(EventTracking.fb003_onboarding_1_next_click)
+                    1 -> TrackingManager.tracking(EventTracking.fb003_onboarding_2_next_click)
+                    2 -> TrackingManager.tracking(EventTracking.fb003_onboarding_3_next_click)
+                    3 -> TrackingManager.tracking(EventTracking.fb003_onboarding_4_get_start_click)
+                }
                 if (viewpagerOnboard.currentItem < 3) {
                     viewpagerOnboard.currentItem = viewpagerOnboard.currentItem + 1
                 } else {

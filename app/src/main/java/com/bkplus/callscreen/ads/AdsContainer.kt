@@ -1,5 +1,6 @@
 package com.bkplus.callscreen.ads
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.ads.bkplus_ads.core.model.BkNativeAd
 import com.google.android.gms.ads.interstitial.InterstitialAd
@@ -102,6 +103,7 @@ class AdsContainer @Inject constructor() {
 
     @Synchronized
     fun saveNativeAdResponse(response: Any) {
+        Log.d("----","saveNativeAdResponse: ${response.javaClass.simpleName}")
         stack.add(response)
         nativeOnboardingAdResponse.postValue(true)
     }

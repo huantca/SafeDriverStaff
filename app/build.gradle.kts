@@ -24,8 +24,8 @@ android {
         applicationId = "com.fc.p.bk.wallpaper.hdwallpaper.live.background"
         minSdk = 26
         targetSdk = 34
-        versionCode = 3
-        versionName = "1.0.2"
+        versionCode = 4
+        versionName = "1.0.3"
 
         archivesName.set(
             "Wallpaper_FC_${versionName}(${versionCode})_${
@@ -181,6 +181,7 @@ android {
 }
 
 dependencies {
+    implementation(files("libs/adjust-lib.aar"))
     implementation("com.google.android.flexbox:flexbox:3.0.0")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -247,6 +248,12 @@ dependencies {
     implementation("com.android.installreferrer:installreferrer:2.2")
     implementation("com.miui.referrer:homereferrer:1.0.0.6")
     implementation("com.appsflyer:adrevenue:6.9.0")
+    //Adjust
+    implementation("com.adjust.sdk:adjust-android:4.35.0")
+    implementation ("com.android.installreferrer:installreferrer:2.2")
+    // Add the following if you are using the Adjust SDK inside web views on your app
+    implementation("com.adjust.sdk:adjust-android-webbridge:4.33.5")
+    implementation("com.google.android.gms:play-services-appset:16.0.2")
 
     //Mediation Ads
     implementation("com.google.ads.mediation:applovin:12.1.0.0")

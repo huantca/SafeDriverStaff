@@ -5,6 +5,8 @@ import androidx.navigation.fragment.findNavController
 import com.ads.bkplus_ads.core.callback.BkPlusNativeAdCallback
 import com.ads.bkplus_ads.core.callforward.BkPlusNativeAd
 import com.ads.bkplus_ads.core.model.BkNativeAd
+import com.bkplus.callscreen.ads.EventTracking
+import com.bkplus.callscreen.ads.TrackingManager
 import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
@@ -22,6 +24,7 @@ class CongratulationsFragment : BaseFragment<FragmentCongratulationsBinding>() {
     var fragmentId: Int? = null
     override fun setupUI() {
         super.setupUI()
+        TrackingManager.tracking(EventTracking.fb003_native_success)
         fragmentId = arguments?.getInt("fragment")
         binding.apply {
             context?.let {

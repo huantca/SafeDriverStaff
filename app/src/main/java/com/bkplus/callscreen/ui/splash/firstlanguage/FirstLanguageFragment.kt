@@ -1,8 +1,6 @@
 package com.bkplus.callscreen.ui.splash.firstlanguage
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -12,11 +10,12 @@ import com.ads.bkplus_ads.core.callback.BkPlusNativeAdCallback
 import com.ads.bkplus_ads.core.callforward.BkPlusNativeAd
 import com.ads.bkplus_ads.core.model.BkNativeAd
 import com.bkplus.callscreen.ads.AdsContainer
+import com.bkplus.callscreen.ads.EventTracking
+import com.bkplus.callscreen.ads.TrackingManager
 import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ui.setting.language.LanguageItem
 import com.bkplus.callscreen.ui.setting.language.LanguageViewModel
-import com.bkplus.callscreen.ultis.Constants
 import com.bkplus.callscreen.ultis.ContextUtils
 import com.bkplus.callscreen.ultis.Language
 import com.bkplus.callscreen.ultis.MyContextWrapper
@@ -30,9 +29,9 @@ import com.harrison.myapplication.databinding.FragmentFirstLanguageBinding
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import java.util.Locale
 import javax.inject.Inject
+import timber.log.Timber
 
 @AndroidEntryPoint
 class FirstLanguageFragment : BaseFragment<FragmentFirstLanguageBinding>(), LanguageItem.OnLanguageListener {
@@ -68,6 +67,7 @@ class FirstLanguageFragment : BaseFragment<FragmentFirstLanguageBinding>(), Lang
 
     override fun setupUI() {
         super.setupUI()
+        TrackingManager.tracking(EventTracking.fb003_LFO_view)
         binding.apply {
             languageSettingRcv.apply {
                 setHasFixedSize(false)
@@ -83,6 +83,7 @@ class FirstLanguageFragment : BaseFragment<FragmentFirstLanguageBinding>(), Lang
         super.setupListener()
 
         binding.confirmLanguage.setOnSingleClickListener {
+            TrackingManager.tracking(EventTracking.fb003_language_choose_language_v_click)
             newLocale =
                 languageViewModel.chosenLanguage?.code ?: Locale.getDefault().displayLanguage
             if (newLocale != null) {
@@ -140,6 +141,11 @@ class FirstLanguageFragment : BaseFragment<FragmentFirstLanguageBinding>(), Lang
                     override fun onAdFailedToLoad(error: LoadAdError) {
                         super.onAdFailedToLoad(error)
                         adsContainer.nativeFirstLanguage.postValue(error)
+                    }
+
+                    override fun onAdClicked() {
+                        super.onAdClicked()
+                        TrackingManager.tracking(EventTracking.fb003_click_ads_native_language)
                     }
                 })
         }

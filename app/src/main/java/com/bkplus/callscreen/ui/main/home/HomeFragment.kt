@@ -9,6 +9,8 @@ import com.ads.bkplus_ads.core.callforward.BkPlusAdmob
 import com.ads.bkplus_ads.core.callforward.BkPlusNativeAd
 import com.ads.bkplus_ads.core.model.BkNativeAd
 import com.bkplus.callscreen.ads.AdsContainer
+import com.bkplus.callscreen.ads.EventTracking
+import com.bkplus.callscreen.ads.TrackingManager
 import com.bkplus.callscreen.api.entity.HomeSectionEntity
 import com.bkplus.callscreen.api.entity.Item
 import com.bkplus.callscreen.common.BaseFragment
@@ -54,6 +56,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun setupUI() {
         super.setupUI()
+        TrackingManager.tracking(EventTracking.fb003_home_view)
         loadAdReward()
         setupShowForceUpdate()
     }
@@ -65,6 +68,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             if (item.free == true) {
                 gotoViewLike(item, listData)
             } else {
+                TrackingManager.tracking(EventTracking.fb003_home_choose_template_reward)
                 RewardDialog().apply {
                     action = {
                         showRewardAd {
@@ -76,6 +80,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
         adapter?.viewAll = {
+            TrackingManager.tracking(EventTracking.fb003_home_top_trending_view_all)
             val topTrendingFragment = TopTrendingFragment().apply {
                 setData(it)
             }
@@ -97,13 +102,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun setupListener() {
         super.setupListener()
         binding.apply {
-            imgSearch.setOnClickListener {
+            imgSearch.setOnSingleClickListener {
+                TrackingManager.tracking(EventTracking.fb003_home_search_click)
                 val bundle = Bundle()
                 bundle.putInt("destination",R.id.homeFragment)
                 findNavController().navigate(R.id.searchFragment,bundle)
             }
 
             imgHeart.setOnSingleClickListener {
+                TrackingManager.tracking(EventTracking.fb003_home_heart_click)
                 findNavController().navigate(R.id.favouriteFragment)
             }
             rcyHome.scrollToPosition(0)

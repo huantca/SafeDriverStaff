@@ -7,8 +7,11 @@ import androidx.navigation.fragment.findNavController
 import com.ads.bkplus_ads.core.callback.BkPlusNativeAdCallback
 import com.ads.bkplus_ads.core.callforward.BkPlusNativeAd
 import com.ads.bkplus_ads.core.model.BkNativeAd
+import com.bkplus.callscreen.ads.EventTracking
+import com.bkplus.callscreen.ads.TrackingManager
 import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.common.BasePrefers
+import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.google.android.gms.ads.LoadAdError
 import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
@@ -25,6 +28,7 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>() {
 
     override fun setupUI() {
         super.setupUI()
+        TrackingManager.tracking(EventTracking.fb003_welcome)
         context?.let {
             binding.continueButton.apply {
                 backgroundTintList =
@@ -65,7 +69,8 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>() {
     override fun setupListener() {
         super.setupListener()
         binding.apply {
-            continueButton.setOnClickListener {
+            continueButton.setOnSingleClickListener {
+                TrackingManager.tracking(EventTracking.fb003_welcome_next)
                 if (adapter.hasSelectedItem()) {
                     goToHome()
                 }

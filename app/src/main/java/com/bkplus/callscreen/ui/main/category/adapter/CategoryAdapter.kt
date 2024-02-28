@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ads.bkplus_ads.core.callforward.BkPlusNativeAd
 import com.ads.bkplus_ads.core.model.BkNativeAd
+import com.bkplus.callscreen.ads.EventTracking
+import com.bkplus.callscreen.ads.TrackingManager
 import com.bkplus.callscreen.api.entity.Category
 import com.bkplus.callscreen.ui.main.home.adapter.LatestAdapter
 import com.bkplus.callscreen.ultis.loadImage
@@ -64,6 +66,7 @@ class CategoryAdapter(val onClick: (String) -> Unit) :
         binding.number.text = "${item.number} ${binding.root.context.getString(R.string.wallpapers)}"
         binding.image.loadImage(item.thumbnail)
         binding.image.setOnClickListener {
+            TrackingManager.trackingString(EventTracking.fb003_category_view_, item.name.orEmpty())
             item.id?.let { it1 -> onClick(it1) }
         }
     }

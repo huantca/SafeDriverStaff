@@ -7,6 +7,8 @@ import com.ads.bkplus_ads.core.callback.BkPlusNativeAdCallback
 import com.ads.bkplus_ads.core.callforward.BkPlusNativeAd
 import com.ads.bkplus_ads.core.model.BkNativeAd
 import com.bkplus.callscreen.ads.AdsContainer
+import com.bkplus.callscreen.ads.EventTracking
+import com.bkplus.callscreen.ads.TrackingManager
 import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ultis.gone
@@ -105,6 +107,11 @@ class ChildOnboardFragment : BaseFragment<FragmentOnboardChildBinding>() {
                         override fun onAdFailedToLoad(error: LoadAdError) {
                             super.onAdFailedToLoad(error)
                             removeNativeAd()
+                        }
+
+                        override fun onAdClicked() {
+                            super.onAdClicked()
+                            TrackingManager.tracking(EventTracking.fb003_click_ads_onboarding)
                         }
                     }
                 )

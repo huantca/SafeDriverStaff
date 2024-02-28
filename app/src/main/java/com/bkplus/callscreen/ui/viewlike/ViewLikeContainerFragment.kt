@@ -17,6 +17,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.ads.bkplus_ads.core.callback.BkPlusAdmobInterstitialCallback
 import com.ads.bkplus_ads.core.callforward.BkPlusAdmob
 import com.bkplus.callscreen.ads.AdsContainer
+import com.bkplus.callscreen.ads.EventTracking
+import com.bkplus.callscreen.ads.TrackingManager
 import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ui.viewlike.adapter.ScreenSlidePagerAdapter
@@ -51,6 +53,7 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
 
     override fun setupData() {
         super.setupData()
+        TrackingManager.tracking(EventTracking.fb003_detail_template_view)
         list.clear()
         args.listData.forEachIndexed { index, wallPaper ->
             list.add(wallPaper)
@@ -116,6 +119,18 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
 
                 currentPosition = position
             }
+
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                if (currentPosition < position) {
+                    // handle swipe LEFT
+                    TrackingManager.tracking(EventTracking.fb003_detail_template_swipe_left)
+                } else if (currentPosition > position) {
+                    // handle swipe RIGHT
+                    TrackingManager.tracking(EventTracking.fb003_detail_template_swipe_right)
+                }
+                currentPosition = position
+            }
         })
         binding.viewPager.setCurrentItem(currentPosition, false)
     }
@@ -134,6 +149,7 @@ class ViewLikeContainerFragment : BaseFragment<FragmentViewLikeContainerBinding>
         super.setupListener()
         binding.apply {
             setWallpaperBtn.setOnSingleClickListener {
+                TrackingManager.tracking(EventTracking.fb003_detail_template_set_wallpaper)
                 setWallpaper()
             }
 

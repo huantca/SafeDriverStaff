@@ -1,6 +1,8 @@
 package com.bkplus.callscreen.ui.setting.language
 
 import android.view.View
+import com.bkplus.callscreen.ads.EventTracking
+import com.bkplus.callscreen.ads.TrackingManager
 import com.bkplus.callscreen.ultis.Language
 import com.bkplus.callscreen.ultis.setOnSingleClickListener
 import com.harrison.myapplication.R
@@ -42,6 +44,7 @@ class LanguageItem(
         viewBinding.root.setOnSingleClickListener {
             onLanguageListener.onChooseLanguage(language, position)
             viewBinding.checkbox.setImageResource(R.drawable.ic_check)
+            TrackingManager.tracking(EventTracking.fb003_language_choose_language_click)
         }
     }
 }

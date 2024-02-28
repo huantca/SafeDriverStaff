@@ -6,6 +6,8 @@ import androidx.navigation.fragment.findNavController
 import com.ads.bkplus_ads.core.callback.BkPlusNativeAdCallback
 import com.ads.bkplus_ads.core.callforward.BkPlusNativeAd
 import com.ads.bkplus_ads.core.model.BkNativeAd
+import com.bkplus.callscreen.ads.EventTracking
+import com.bkplus.callscreen.ads.TrackingManager
 import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.common.BasePrefers
 import com.bkplus.callscreen.ui.main.category.adapter.CategoryAdapter
@@ -42,6 +44,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     }
 
     override fun setupData() {
+        TrackingManager.tracking(EventTracking.fb003_category_view)
         binding.recyclerViewCategory.adapter = categoryAdapter
     }
 

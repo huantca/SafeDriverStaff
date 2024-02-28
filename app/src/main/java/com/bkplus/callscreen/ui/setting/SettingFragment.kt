@@ -6,6 +6,8 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.navigation.fragment.findNavController
 import com.ads.bkplus_ads.core.callforward.BkPlusAppOpenAdManager
+import com.bkplus.callscreen.ads.EventTracking
+import com.bkplus.callscreen.ads.TrackingManager
 import com.bkplus.callscreen.common.BaseFragment
 import com.bkplus.callscreen.ultis.Constants
 import com.bkplus.callscreen.ultis.goToFeedback
@@ -32,6 +34,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
     @SuppressLint("SetTextI18n")
     override fun setupUI() {
         super.setupUI()
+        TrackingManager.tracking(EventTracking.fb003_settings_view)
         binding.tvVersion.text = "Ver " + BuildConfig.VERSION_NAME
     }
 
