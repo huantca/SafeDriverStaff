@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/bg_splash" />
+            android:src="@mipmap/sample_category" />
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/progressBar"
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:gravity="center"
-            android:text="@string/_4k_wallpaper"
+            android:text="@string/app_name"
             app:layout_constraintBottom_toTopOf="@id/tv_contain_ads" />
 
         <TextView

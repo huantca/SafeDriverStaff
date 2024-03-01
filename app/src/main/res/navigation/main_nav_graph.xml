@@ -7,134 +7,44 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.bkplus.callscreen.ui.splash.SplashFragment"
+        android:name="com.bkplus.android.ui.splash.SplashFragment"
         android:label="splashFragment"
         tools:layout="@layout/fragment_splash" />
 
     <fragment
         tools:layout="@layout/fragment_setting"
-        android:name="com.bkplus.callscreen.ui.setting.SettingFragment"
+        android:name="com.bkplus.android.ui.setting.SettingFragment"
         android:id="@+id/settingFragment"
         android:label="settingFragment" />
 
     <fragment
-        android:id="@+id/historyFragment"
-        android:name="com.bkplus.callscreen.ui.main.history.HistoryFragment"
-        android:label="FragmentHistory"
-        tools:layout="@layout/fragment_history">
-
-        <action
-            android:id="@+id/action_historyFragment_to_viewLikeContainerFragment"
-            app:destination="@id/viewLikeContainerFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/categoryFragment"
-        android:name="com.bkplus.callscreen.ui.main.category.CategoryFragment"
-        android:label="categoryFragment"
-        tools:layout="@layout/fragment_category" />
-
-    <fragment
         android:id="@+id/homeFragment"
-        android:name="com.bkplus.callscreen.ui.main.home.HomeFragment"
+        android:name="com.bkplus.android.ui.main.home.HomeFragment"
         android:label="homeFragment"
         tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_homeFragment_to_viewLikeContainerFragment"
-            app:destination="@id/viewLikeContainerFragment">
-        </action>
-    </fragment>
-
-    <fragment
-        android:id="@+id/topTrendingFragment"
-        android:name="com.bkplus.callscreen.ui.main.home.TopTrendingFragment"
-        android:label="topTrendingFragment"
-        tools:layout="@layout/fragment_top_trending">
-        <action
-            android:id="@+id/action_topTrendingFragment_to_viewLikeContainerFragment"
-            app:destination="@+id/viewLikeContainerFragment">
-        </action>
     </fragment>
 
     <fragment
         android:id="@+id/firstLanguageFragment"
-        android:name="com.bkplus.callscreen.ui.splash.firstlanguage.FirstLanguageFragment"
+        android:name="com.bkplus.android.ui.splash.firstlanguage.FirstLanguageFragment"
         android:label="FirstLanguageFragment"
         tools:layout="@layout/fragment_first_language" />
 
     <fragment
         android:id="@+id/onboardFragment"
-        android:name="com.bkplus.callscreen.ui.splash.onboard.OnboardFragment"
+        android:name="com.bkplus.android.ui.splash.onboard.OnboardFragment"
         android:label="OnboardFragment"
         tools:layout="@layout/fragment_onboard" />
 
     <fragment
         android:id="@+id/welcomeFragment"
-        android:name="com.bkplus.callscreen.ui.splash.welcome.WelcomeFragment"
+        android:name="com.bkplus.android.ui.splash.welcome.WelcomeFragment"
         android:label="OnboardFragment"
         tools:layout="@layout/fragment_welcome" />
-
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.bkplus.callscreen.ui.main.home.search.SearchFragment"
-        android:label="SearchFragment"
-        tools:layout="@layout/fragment_search" >
-        <action
-            android:id="@+id/action_searchFragment_to_viewLikeContainerFragment"
-            app:destination="@id/viewLikeContainerFragment">
-        </action>
-    </fragment>
     <fragment
         android:id="@+id/languageFragment"
-        android:name="com.bkplus.callscreen.ui.setting.language.LanguageFragment"
+        android:name="com.bkplus.android.ui.setting.language.LanguageFragment"
         android:label="LanguageFragment"
         tools:layout="@layout/fragment_language" />
 
-    <fragment
-        android:id="@+id/viewLikeContainerFragment"
-        android:name="com.bkplus.callscreen.ui.viewlike.ViewLikeContainerFragment"
-        android:label="ViewLikeContainerFragment"
-        tools:layout="@layout/fragment_view_like_container" >
-        <argument
-            android:name="destination"
-            app:argType="integer"/>
-        <argument
-            android:name="item"
-            app:argType="com.bkplus.callscreen.ui.viewlike.WallPaper" />
-        <argument
-            android:name="listData"
-            app:argType="com.bkplus.callscreen.ui.viewlike.WallPaper[]" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/favouriteFragment"
-        android:name="com.bkplus.callscreen.ui.main.favourite.FavouriteFragment"
-        android:label="FavouriteFragment"
-        tools:layout="@layout/fragment_favourite">
-        <action
-            android:id="@+id/action_favouriteFragment_to_viewLikeContainerFragment"
-            app:destination="@id/viewLikeContainerFragment">
-        </action>
-    </fragment>
-
-    <action
-        android:id="@+id/goToViewLikeContainer"
-        app:destination="@+id/viewLikeContainerFragment"/>
-
-    <fragment
-        android:id="@+id/categoryDetailFragment"
-        android:name="com.bkplus.callscreen.ui.main.category.CategoryDetailFragment"
-        android:label="CategoryDetailFragment"
-        tools:layout="@layout/fragment_category_detail">
-        <action
-            android:id="@+id/action_categoryDetailFragment_to_viewLikeContainerFragment"
-            app:destination="@id/viewLikeContainerFragment">
-        </action>
-    </fragment>
-
-    <fragment
-        android:id="@+id/CongratulationFragment"
-        android:name="com.bkplus.callscreen.ui.widget.CongratulationsFragment"
-        android:label="CongratulationFragment"
-        tools:layout="@layout/fragment_congratulations"/>
 </navigation>

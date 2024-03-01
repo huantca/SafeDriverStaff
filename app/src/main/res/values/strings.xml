@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name" translatable="false">4K Wallpaper</string>
+    <string name="app_name" translatable="false">Base App BkPlus</string>
     <string name="back_pressed_finish">Please press back again to quit</string>
+
+    <!--Setting-->
     <string name="setting_language">Languages</string>
     <string name="setting_policy">Privacy Policy</string>
     <string name="setting_en">English</string>
@@ -26,13 +28,19 @@
     <string name="your_friend">\"Your friend \"</string>
     <string name="visit_app">\" wants you to check out our app!. Visit us at: \"</string>
     <string name="choose_way_share">Choose a way to share:</string>
-    <string name="top_trending">Top Trending</string>
-    <string name="view_all">View All</string>
-    <string name="latest">Latest</string>
-    <string name="_4k_wallpaper">4K Wallpaper</string>
-    <string name="the_action_may_contain_advertising">The action may contain advertising</string>
+    <string name="rate_app">Rate app</string>
+    <string name="share_us">Share Us</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="term_of_users">Term of Users</string>
+    <string name="version_app">Version App</string>
+    <string name="language">Language</string>
+
+    <!--No Internet-->
     <string name="no_internet">Your internet connection is not working. Please check your network and try to connect again.</string>
     <string name="connect">Connect</string>
+
+    <!-- Onboarding -->
+    <string name="the_action_may_contain_advertising">The action may contain advertising</string>
     <string name="ob1_title">Trendy Wallpapers</string>
     <string name="ob2_title">Personalize Wallpaper Creation</string>
     <string name="ob3_title">Set Wallpaper</string>
@@ -43,16 +51,16 @@
     <string name="ob4_description">Let\'s explore 4k wallpapers with our hot themes now.</string>
     <string name="next">Next</string>
     <string name="get_started_btn">Get Started</string>
+
+    <!-- App-->
     <string name="congratulations">Congratulations</string>
     <string name="success_installing_text">You have successfully installed this</string>
     <string name="home">Home</string>
     <string name="setting">Setting</string>
-    <string name="language">Language</string>
-    <string name="rate_app">Rate app</string>
-    <string name="share_us">Share Us</string>
-    <string name="privacy_policy">Privacy Policy</string>
-    <string name="term_of_users">Term of Users</string>
-    <string name="version_app">Version App</string>
+    <string name="top_trending">Top Trending</string>
+    <string name="view_all">View All</string>
+    <string name="latest">Latest</string>
+    <string name="_4k_wallpaper">4K Wallpaper</string>
     <string name="application_update">Application Updates</string>
     <string name="your_are_has_new">Your app has a new updated version \n Please update for a better experience</string>
     <string name="update_now">Update now!</string>

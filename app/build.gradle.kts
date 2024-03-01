@@ -21,14 +21,14 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.fc.p.bk.wallpaper.hdwallpaper.live.background"
+        applicationId = "com.base.bkplus.math"
         minSdk = 26
         targetSdk = 34
         versionCode = 4
         versionName = "1.0.3"
 
         archivesName.set(
-            "Wallpaper_FC_${versionName}(${versionCode})_${
+            "Base_App_v${versionName}(${versionCode})_${
                 SimpleDateFormat(
                     "dd.MM.yyyy",
                     Locale.US
@@ -65,6 +65,7 @@ android {
         }
         debug {
             isDebuggable = true
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
@@ -181,27 +182,27 @@ android {
 }
 
 dependencies {
-    implementation(files("libs/adjust-lib.aar"))
     implementation("com.google.android.flexbox:flexbox:3.0.0")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     //Navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
     //AndroidX
     implementation("androidx.preference:preference-ktx:1.2.1")
     //Hilt
     implementation("com.google.dagger:hilt-android:2.46.1")
     kapt("com.google.dagger:hilt-android-compiler:2.46.1")
     //lifecycle
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
-    implementation("androidx.lifecycle:lifecycle-common-java8:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-common-java8:2.7.0")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     //UI
     implementation("com.github.bumptech.glide:glide:4.16.0")
@@ -224,9 +225,9 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:31.1.1"))
     implementation("com.google.firebase:firebase-config-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation("com.google.firebase:firebase-messaging-ktx:23.4.0")
-    implementation("com.google.firebase:firebase-crashlytics-ktx:18.6.0")
-    implementation("com.google.gms:google-services:4.4.0")
+    implementation("com.google.firebase:firebase-messaging-ktx:23.4.1")
+    implementation("com.google.firebase:firebase-crashlytics-ktx:18.6.2")
+    implementation("com.google.gms:google-services:4.4.1")
     //Api
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -240,7 +241,7 @@ dependencies {
     ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     //BK Ads Lib
-    implementation("com.bkplus.ads:library:1.0.4-alpha15")
+    implementation("com.bkplus.ads:library:1.0.5-alpha05")
     //Appsflyer
     implementation("com.appsflyer:adrevenue:6.9.0")
     // https://mvnrepository.com/artifact/com.appsflyer/af-android-sdk
@@ -249,6 +250,7 @@ dependencies {
     implementation("com.miui.referrer:homereferrer:1.0.0.6")
     implementation("com.appsflyer:adrevenue:6.9.0")
     //Adjust
+    implementation(files("libs/adjust-lib.aar"))
     implementation("com.adjust.sdk:adjust-android:4.35.0")
     implementation ("com.android.installreferrer:installreferrer:2.2")
     // Add the following if you are using the Adjust SDK inside web views on your app
@@ -256,13 +258,13 @@ dependencies {
     implementation("com.google.android.gms:play-services-appset:16.0.2")
 
     //Mediation Ads
-    implementation("com.google.ads.mediation:applovin:12.1.0.0")
-    implementation("com.google.ads.mediation:inmobi:10.6.2.0")
+    implementation("com.google.ads.mediation:applovin:12.1.0.1")
+    implementation("com.google.ads.mediation:inmobi:10.6.6.0")
     implementation("com.google.ads.mediation:vungle:7.1.0.0") {
         exclude(group = "com.google.protobuf")
     }
     implementation("com.google.ads.mediation:facebook:6.16.0.0")
-    implementation("com.google.ads.mediation:mintegral:16.5.91.1")
-    implementation("com.google.ads.mediation:pangle:5.7.0.2.0")
+    implementation("com.google.ads.mediation:mintegral:16.6.34.0")
+    implementation("com.google.ads.mediation:pangle:5.7.0.3.0")
     implementation("com.facebook.fresco:fresco:2.3.0")
 }

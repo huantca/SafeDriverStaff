@@ -15,7 +15,7 @@ dependencyResolutionManagement {
             url = uri("https://maven.pkg.github.com/BKPlusResearch/BKPlus-Ads")
             credentials {
                 username = "bkplus.firebase.apero@gmail.com"
-                password = "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"
+                password = "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"
             }
         }
 
@@ -30,5 +30,5 @@ dependencyResolutionManagement {
 
 }
 
-rootProject.name = "fb003-4k-wallpaper"
+rootProject.name = "base-app-bkplus"
 include(":app")

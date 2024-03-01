@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "12411856388",
-    "project_id": "pm-bk-4k-wallpaper",
-    "storage_bucket": "pm-bk-4k-wallpaper.appspot.com"
+    "project_number": "66789768568",
+    "project_id": "bk-plus-base-project",
+    "storage_bucket": "bk-plus-base-project.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:12411856388:android:1aab9ab02d9d26ca573751",
+        "mobilesdk_app_id": "1:66789768568:android:afce44cc9ff2c5cb155c8d",
         "android_client_info": {
-          "package_name": "com.fc.p.bk.wallpaper.hdwallpaper.live.background"
+          "package_name": "com.base.bkplus.math"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBnDyO5lmIwHHjU-nui9fQiAKpbi5e4r9k"
+          "current_key": "AIzaSyDR7HVQIs2aVg8u7CpTY8BbTXlJPpfyBO8"
         }
       ],
       "services": {
