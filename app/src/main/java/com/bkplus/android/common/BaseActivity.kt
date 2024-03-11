@@ -2,17 +2,17 @@ package com.bkplus.android.common
 
 import android.content.Context
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import com.ads.bkplus_ads.core.BkPlusActivity
 import com.bkplus.android.ultis.Constants
 import com.bkplus.android.ultis.ContextUtils
 import java.util.Locale
 
-abstract class BaseActivity<T : ViewDataBinding> : BkPlusActivity() {
+abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

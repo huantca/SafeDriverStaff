@@ -1,10 +1,7 @@
 package com.bkplus.android.common
 
-import com.ads.bkplus_ads.core.BkPlusAdmobApplication
-import com.ads.bkplus_ads.core.adjust_sdk.AdjustTracking
-import com.bkplus.android.MainActivity
+import android.app.Application
 import com.bkplus.android.ads.TrackingManager
-import com.bkplus.android.ultis.Constants
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.harison.core.app.utils.timber.CrashlyticsTree
 import com.harison.core.app.utils.timber.MyDebugTree
@@ -14,7 +11,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltAndroidApp
-class BaseApplication : BkPlusAdmobApplication() {
+class BaseApplication : Application() {
 
     @Inject
     lateinit var firebaseRemoteConfig: FirebaseRemoteConfig
@@ -26,21 +23,11 @@ class BaseApplication : BkPlusAdmobApplication() {
         fetchRemoteConfig()
         setupTimber()
         TrackingManager.init(this)
-        initAdjust(BuildConfig.DEBUG, Constants.adjust_token)
-        AdjustTracking.setRevenueToken(Constants.ads_revenue)
     }
 
     private fun fetchRemoteConfig() {
         firebaseRemoteConfig.initRemoteConfig()
         firebaseRemoteConfig.fetchRemoteConfig()
-    }
-
-    override fun getAppOpenWhiteList(): List<Class<*>> {
-        return listOf(MainActivity::class.java)
-    }
-
-    override fun getAdOpenAppUnitId(): String {
-        return BuildConfig.appopen_resume
     }
 
     /** Setup Timber Log*/

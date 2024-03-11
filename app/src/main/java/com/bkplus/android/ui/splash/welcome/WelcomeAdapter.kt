@@ -37,7 +37,6 @@ class WelcomeAdapter : RecyclerView.Adapter<WelcomeAdapter.WelcomeViewHolder>() 
                 container.setOnClickListener {
                     item.isSelected = !item.isSelected
                     onItemClickListener.invoke()
-                    notifyItemChanged(bindingAdapterPosition)
                 }
             }
         }

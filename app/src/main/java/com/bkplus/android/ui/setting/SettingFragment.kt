@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.navigation.fragment.findNavController
-import com.ads.bkplus_ads.core.callforward.BkPlusAppOpenAdManager
 import com.bkplus.android.ads.EventTracking
 import com.bkplus.android.ads.TrackingManager
 import com.bkplus.android.common.BaseFragment
@@ -44,7 +43,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
                 findNavController().navigate(R.id.languageFragment)
             }
             btnRate.setOnSingleClickListener {
-                BkPlusAppOpenAdManager.disableAdResume()
                 activity.openAppInPlayStore()
             }
 
@@ -52,13 +50,11 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
                 activity.openShare()
             }
             btnPolicy.setOnSingleClickListener {
-                BkPlusAppOpenAdManager.disableAdResume()
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.data = Uri.parse(Constants.PRIVACY_POLICY_LINK)
                 startActivity(intent)
             }
             btnTerm.setOnSingleClickListener {
-                BkPlusAppOpenAdManager.disableAdResume()
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.data = Uri.parse(Constants.TERMS_OF_USE_LINK)
                 startActivity(intent)

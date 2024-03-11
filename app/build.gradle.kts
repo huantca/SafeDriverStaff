@@ -94,89 +94,9 @@ android {
         create("dev") {
             dimension = "version"
             manifestPlaceholders["ad_app_id"] = "ca-app-pub-3940256099942544~3347511713"
-            buildConfigField(
-                "String",
-                "appopen_resume",
-                "\"ca-app-pub-3940256099942544/9257395921\""
-            )
-            buildConfigField("String", "inter_splash", "\"ca-app-pub-3940256099942544/1033173712\"")
-            buildConfigField(
-                "String",
-                "native_language",
-                "\"ca-app-pub-3940256099942544/2247696110\""
-            )
-            buildConfigField(
-                "String",
-                "native_onbroading",
-                "\"ca-app-pub-3940256099942544/2247696110\""
-            )
-            buildConfigField(
-                "String",
-                "native_welcome",
-                "\"ca-app-pub-3940256099942544/2247696110\""
-            )
-            buildConfigField("String", "Banner_all", "\"ca-app-pub-3940256099942544/6300978111\"")
-            buildConfigField(
-                "String",
-                "Banner_home_collapsible",
-                "\"ca-app-pub-3940256099942544/2014213617\""
-            )
-            buildConfigField("String", "Native_home", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField(
-                "String",
-                "Native_toptrending",
-                "\"ca-app-pub-3940256099942544/2247696110\""
-            )
-            buildConfigField(
-                "String",
-                "native_categories",
-                "\"ca-app-pub-3940256099942544/2247696110\""
-            )
-            buildConfigField(
-                "String",
-                "native_viewcategories",
-                "\"ca-app-pub-3940256099942544/2247696110\""
-            )
-            buildConfigField(
-                "String",
-                "intersitial_backhome",
-                "\"ca-app-pub-3940256099942544/1033173712\""
-            )
-            buildConfigField(
-                "String",
-                "intersitial_setwallpaper",
-                "\"ca-app-pub-3940256099942544/1033173712\""
-            )
-            buildConfigField(
-                "String",
-                "native_viewwallpaper",
-                "\"ca-app-pub-3940256099942544/2247696110\""
-            )
-            buildConfigField("String", "reward_gif", "\"ca-app-pub-3940256099942544/5224354917\"")
-            buildConfigField("String", "intersitial_viewhistory", "\"ca-app-pub-3940256099942544/1033173712\"")
-            buildConfigField("String", "native_sucsess", "\"ca-app-pub-3940256099942544/2247696110\"")
-            buildConfigField("String", "native_exit", "\"ca-app-pub-3940256099942544/2247696110\"")
         }
         create("production") {
             manifestPlaceholders["ad_app_id"] = "ca-app-pub-1939315010587936~5129465726"
-            buildConfigField("String", "appopen_resume", "\"ca-app-pub-1939315010587936/6488641245\"")
-            buildConfigField("String", "inter_splash", "\"ca-app-pub-1939315010587936/2885256398\"")
-            buildConfigField("String", "native_language", "\"ca-app-pub-1939315010587936/5018619239\"")
-            buildConfigField("String", "native_onbroading", "\"ca-app-pub-1939315010587936/1930449139\"")
-            buildConfigField("String", "native_welcome", "\"ca-app-pub-1939315010587936/8077055089\"")
-            buildConfigField("String", "Banner_all", "\"ca-app-pub-1939315010587936/2549396230\"")
-            buildConfigField("String", "Banner_home_collapsible", "\"ca-app-pub-1939315010587936/9550822817\"")
-            buildConfigField("String", "Native_home", "\"ca-app-pub-1939315010587936/8488936863\"")
-            buildConfigField("String", "Native_toptrending", "\"ca-app-pub-1939315010587936/9617367461\"")
-            buildConfigField("String", "native_categories", "\"ca-app-pub-1939315010587936/7175855191\"")
-            buildConfigField("String", "native_viewcategories", "\"ca-app-pub-1939315010587936/1236314565\"")
-            buildConfigField("String", "intersitial_backhome", "\"ca-app-pub-1939315010587936/9466158370\"")
-            buildConfigField("String", "intersitial_setwallpaper", "\"ca-app-pub-1939315010587936/3705537569\"")
-            buildConfigField("String", "native_viewwallpaper", "\"ca-app-pub-1939315010587936/8923232899\"")
-            buildConfigField("String", "reward_gif", "\"ca-app-pub-1939315010587936/2392455898\"")
-            buildConfigField("String", "intersitial_viewhistory", "\"ca-app-pub-1939315010587936/4983987885\"")
-            buildConfigField("String", "native_sucsess", "\"ca-app-pub-1939315010587936/7946011385\"")
-            buildConfigField("String", "native_exit", "\"ca-app-pub-1939315010587936/3670906219\"")
         }
     }
 }
@@ -240,8 +160,6 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
-    //BK Ads Lib
-    implementation("com.bkplus.ads:library:1.0.5-alpha05")
     //Appsflyer
     implementation("com.appsflyer:adrevenue:6.9.0")
     // https://mvnrepository.com/artifact/com.appsflyer/af-android-sdk
@@ -249,22 +167,9 @@ dependencies {
     implementation("com.android.installreferrer:installreferrer:2.2")
     implementation("com.miui.referrer:homereferrer:1.0.0.6")
     implementation("com.appsflyer:adrevenue:6.9.0")
-    //Adjust
-    implementation(files("libs/adjust-lib.aar"))
-    implementation("com.adjust.sdk:adjust-android:4.35.0")
-    implementation ("com.android.installreferrer:installreferrer:2.2")
+
     // Add the following if you are using the Adjust SDK inside web views on your app
     implementation("com.adjust.sdk:adjust-android-webbridge:4.33.5")
     implementation("com.google.android.gms:play-services-appset:16.0.2")
-
-    //Mediation Ads
-    implementation("com.google.ads.mediation:applovin:12.1.0.1")
-    implementation("com.google.ads.mediation:inmobi:10.6.6.0")
-    implementation("com.google.ads.mediation:vungle:7.1.0.0") {
-        exclude(group = "com.google.protobuf")
-    }
-    implementation("com.google.ads.mediation:facebook:6.16.0.0")
-    implementation("com.google.ads.mediation:mintegral:16.6.34.0")
-    implementation("com.google.ads.mediation:pangle:5.7.0.3.0")
     implementation("com.facebook.fresco:fresco:2.3.0")
 }

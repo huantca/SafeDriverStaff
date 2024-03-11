@@ -12,16 +12,11 @@ import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.ads.bkplus_ads.core.callforward.BkPlusBannerAd
 import com.bkplus.android.common.BaseActivity
-import com.bkplus.android.common.BasePrefers
 import com.bkplus.android.ui.main.home.HomeViewModel
 import com.bkplus.android.ui.widget.NoInternetDialogFragment
 import com.bkplus.android.ui.widget.PopupExitDialogFragment
 import com.bkplus.android.ultis.NetworkState
-import com.bkplus.android.ultis.gone
-import com.bkplus.android.ultis.visible
-import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -78,18 +73,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     R.id.homeFragment -> {
                         setVisibleBottomView(true)
                         tabLayout.getTabAt(0)?.select()
-                        showCollapsibleBanner()
                     }
 
                     R.id.settingFragment -> {
                         setVisibleBottomView(true)
                         tabLayout.getTabAt(3)?.select()
-                        showCollapsibleBanner()
                     }
 
                     else -> {
                         setVisibleBottomView(false)
-                        binding.banner.gone()
                     }
                 }
             }
@@ -155,24 +147,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     fun showLoading() {
         binding.loadingMain.isVisible = true
-    }
-
-    private fun showBanner() {
-        if (BasePrefers.getPrefsInstance().Banner_all) {
-            binding.banner.visible()
-            BkPlusBannerAd.showAdCollapsibleBanner(this, BuildConfig.Banner_all, binding.banner, null)
-        } else {
-            binding.banner.gone()
-        }
-    }
-
-    private fun showCollapsibleBanner() {
-        if (BasePrefers.getPrefsInstance().Banner_home_collapsible) {
-            binding.banner.visible()
-            BkPlusBannerAd.showAdCollapsibleBanner(this, BuildConfig.Banner_home_collapsible, binding.banner, null)
-        } else {
-            binding.banner.gone()
-        }
     }
 
     fun hideLoading() {

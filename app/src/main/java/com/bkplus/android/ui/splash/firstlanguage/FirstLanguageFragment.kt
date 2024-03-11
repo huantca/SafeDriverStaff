@@ -1,14 +1,10 @@
 package com.bkplus.android.ui.splash.firstlanguage
 
 import android.annotation.SuppressLint
-import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ads.bkplus_ads.core.callback.BkPlusNativeAdCallback
-import com.ads.bkplus_ads.core.callforward.BkPlusNativeAd
-import com.ads.bkplus_ads.core.model.BkNativeAd
 import com.bkplus.android.ads.AdsContainer
 import com.bkplus.android.ads.EventTracking
 import com.bkplus.android.ads.TrackingManager
@@ -19,11 +15,7 @@ import com.bkplus.android.ui.setting.language.LanguageViewModel
 import com.bkplus.android.ultis.ContextUtils
 import com.bkplus.android.ultis.Language
 import com.bkplus.android.ultis.MyContextWrapper
-import com.bkplus.android.ultis.gone
 import com.bkplus.android.ultis.setOnSingleClickListener
-import com.bkplus.android.ultis.visible
-import com.google.android.gms.ads.LoadAdError
-import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentFirstLanguageBinding
 import com.xwray.groupie.GroupAdapter
@@ -31,7 +23,6 @@ import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 import javax.inject.Inject
-import timber.log.Timber
 
 @AndroidEntryPoint
 class FirstLanguageFragment : BaseFragment<FragmentFirstLanguageBinding>(), LanguageItem.OnLanguageListener {
@@ -54,16 +45,8 @@ class FirstLanguageFragment : BaseFragment<FragmentFirstLanguageBinding>(), Lang
         groupLanguage = GroupAdapter()
         groupLanguage.clear()
         initLanguage()
-        showNativeAdIfReady()
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (BasePrefers.getPrefsInstance().native_language && canReloadAd) {
-            reloadNativeAd()
-        }
-        canReloadAd = true
-    }
 
     override fun setupUI() {
         super.setupUI()
@@ -122,58 +105,5 @@ class FirstLanguageFragment : BaseFragment<FragmentFirstLanguageBinding>(), Lang
         findNavController().navigate(R.id.onboardFragment)
     }
 
-    private fun reloadNativeAd() {
-        if (BasePrefers.getPrefsInstance().native_language) {
-            Timber.d("reload native ad")
-            binding.flAdplaceholderActivity.removeAllViews()
-            binding.shimmerContainerNative1.startShimmer()
-            binding.shimmerContainerNative1.visibility = View.VISIBLE
-            BkPlusNativeAd.loadNativeAd(
-                activity,
-                BuildConfig.native_language,
-                R.layout.native_first_language,
-                object : BkPlusNativeAdCallback() {
-                    override fun onNativeAdLoaded(nativeAd: BkNativeAd) {
-                        super.onNativeAdLoaded(nativeAd)
-                        adsContainer.nativeFirstLanguage.postValue(nativeAd)
-                    }
 
-                    override fun onAdFailedToLoad(error: LoadAdError) {
-                        super.onAdFailedToLoad(error)
-                        adsContainer.nativeFirstLanguage.postValue(error)
-                    }
-
-                    override fun onAdClicked() {
-                        super.onAdClicked()
-                        TrackingManager.tracking(EventTracking.fb011_click_ads_native_language)
-                    }
-                })
-        }
-    }
-
-    private fun showNativeAdIfReady() {
-        if (BasePrefers.getPrefsInstance().native_language) {
-            adsContainer.nativeFirstLanguage.observe(viewLifecycleOwner) {
-                when (it) {
-                    is LoadAdError -> removeNativeAd()
-                    is BkNativeAd -> populateNativeAd(it)
-                }
-            }
-        } else {
-            removeNativeAd()
-        }
-    }
-
-    private fun populateNativeAd(nativeAd: BkNativeAd) {
-        binding.shimmerContainerNative1.gone()
-        binding.shimmerContainerNative1.stopShimmer()
-        binding.flAdplaceholderActivity.visible()
-        BkPlusNativeAd.populateNativeAd(this, nativeAd, binding.flAdplaceholderActivity)
-    }
-
-    private fun removeNativeAd() {
-        binding.shimmerContainerNative1.stopShimmer()
-        binding.shimmerContainerNative1.gone()
-        binding.frNativeAds.gone()
-    }
 }

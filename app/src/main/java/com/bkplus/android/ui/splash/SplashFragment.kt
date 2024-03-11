@@ -1,33 +1,19 @@
 package com.bkplus.android.ui.splash
 
-import android.app.Activity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.ads.bkplus_ads.core.callback.BkPlusAdConsentCallback
-import com.ads.bkplus_ads.core.callback.BkPlusAdmobInterstitialCallback
-import com.ads.bkplus_ads.core.callback.BkPlusNativeAdCallback
-import com.ads.bkplus_ads.core.callforward.BkPlusAdConsent
-import com.ads.bkplus_ads.core.callforward.BkPlusAdmob
-import com.ads.bkplus_ads.core.callforward.BkPlusNativeAd
-import com.ads.bkplus_ads.core.model.BkNativeAd
 import com.bkplus.android.ads.AdsContainer
-import com.bkplus.android.ads.EventTracking
-import com.bkplus.android.ads.TrackingManager
 import com.bkplus.android.common.BaseFragment
 import com.bkplus.android.common.BasePrefers
 import com.bkplus.android.ui.widget.ProgressBarAnimation
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.ump.FormError
-import com.harrison.myapplication.BuildConfig
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentSplashBinding
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SplashFragment : BaseFragment<FragmentSplashBinding>() {
@@ -55,121 +41,15 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
                 delay(3000)
-                checkCMP()
+                navigateNextScreen()
             }
         }
     }
-
-    private fun checkCMP() {
-        activity?.let {
-            BkPlusAdConsent.setupConsent(object : BkPlusAdConsentCallback {
-                override fun activity(): Activity {
-                    return it
-                }
-
-                override fun isDebug(): Boolean {
-                    return BuildConfig.DEBUG
-                }
-
-                override fun isUnderAgeAd(): Boolean {
-                    return false
-                }
-
-                override fun onNotUsingAdConsent() {
-                    Timber.tag("BkPlusConsent").d("onNotUsingAdConsent")
-                    showInterSplash()
-                }
-
-                override fun onFormComplete() {
-                    Timber.tag("BkPlusConsent")
-                        .d("onFormComplete: ${BkPlusAdConsent.isCMPConsented(context)}")
-                    showInterSplash()
-                }
-
-                override fun onFormError(formError: FormError) {
-                    Timber.tag("BkPlusConsent").e(formError.message)
-                    showInterSplash()
-                }
-            })
-        }
-    }
-
     private fun showInterSplash() {
-        preloadNativeLanguage()
-        preloadNativeOnboarding()
-        if (BasePrefers.getPrefsInstance().inter_splash) {
-            BkPlusAdmob.showAdInterstitialSplash(activity, BuildConfig.inter_splash, object :
-                BkPlusAdmobInterstitialCallback() {
-                override fun onShowAdRequestProgress(tag: String, message: String) {
-                    super.onShowAdRequestProgress(tag, message)
-                    navigateNextScreen()
-                }
-
-                override fun onAdFailed(tag: String, errorMessage: String) {
-                    super.onAdFailed(tag, errorMessage)
-                    toast(errorMessage)
-                }
-            })
-        } else {
-            navigateNextScreen()
-        }
+        navigateNextScreen()
     }
 
-    private fun preloadNativeOnboarding() {
-        if (BasePrefers.getPrefsInstance().native_language
-            && !BasePrefers.getPrefsInstance().doneOnboard
-        ) {
-            Timber.d("preloadNativeOnboarding()")
-            for (i in 0 until 4) {
-                BkPlusNativeAd.loadNativeAd(
-                    activity,
-                    BuildConfig.native_onbroading,
-                    R.layout.native_onboarding,
-                    object : BkPlusNativeAdCallback() {
-                        override fun onNativeAdLoaded(nativeAd: BkNativeAd) {
-                            super.onNativeAdLoaded(nativeAd)
-                            adsContainer.saveNativeAdResponse(nativeAd)
-                        }
 
-                        override fun onAdFailedToLoad(error: LoadAdError) {
-                            super.onAdFailedToLoad(error)
-                            adsContainer.saveNativeAdResponse(error)
-                        }
-
-                        override fun onAdClicked() {
-                            super.onAdClicked()
-                            TrackingManager.tracking(EventTracking.fb011_click_ads_onboarding)
-                        }
-                    })
-            }
-        }
-    }
-
-    private fun preloadNativeLanguage() {
-        if (BasePrefers.getPrefsInstance().newUser && BasePrefers.getPrefsInstance().native_language) {
-            Timber.d("preloadNativeLanguage()")
-            BkPlusNativeAd.loadNativeAd(
-                activity,
-                BuildConfig.native_language,
-                R.layout.native_first_language,
-                object : BkPlusNativeAdCallback() {
-                    override fun onNativeAdLoaded(nativeAd: BkNativeAd) {
-                        super.onNativeAdLoaded(nativeAd)
-                        adsContainer.nativeFirstLanguage.postValue(nativeAd)
-                    }
-
-                    override fun onAdFailedToLoad(error: LoadAdError) {
-                        super.onAdFailedToLoad(error)
-                        adsContainer.nativeFirstLanguage.postValue(error)
-                    }
-
-                    override fun onAdClicked() {
-                        super.onAdClicked()
-                        TrackingManager.tracking(EventTracking.fb011_click_ads_native_language)
-                    }
-                })
-        }
-    }
 
     private fun navigateNextScreen() {
         val newUser = BasePrefers.getPrefsInstance().newUser
