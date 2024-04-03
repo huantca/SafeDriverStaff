@@ -26,6 +26,7 @@ dependencyResolutionManagement {
         maven {
             url = uri("https://artifact.bytedance.com/repository/pangle/")
         }
+        maven {  url = uri("https://jitpack.io") }
     }
 
 }

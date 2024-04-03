@@ -162,4 +162,10 @@
     <style name="rounded_corner_20">
         <item name="cornerSize">20dp</item>
     </style>
+
+    <style name="ShapeAppearance.CircularBorder16dp" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>

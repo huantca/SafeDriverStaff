@@ -14,6 +14,7 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("kotlin-parcelize")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -95,10 +96,18 @@ android {
             dimension = "version"
             manifestPlaceholders["ad_app_id"] = "ca-app-pub-3940256099942544~3347511713"
         }
+
         create("production") {
             manifestPlaceholders["ad_app_id"] = "ca-app-pub-1939315010587936~5129465726"
         }
     }
+    secrets {
+        propertiesFileName = "secrets.properties"
+        defaultPropertiesFileName = "local.defaults.properties"
+        ignoreList.add("keyToIgnore") // Ignore the key "keyToIgnore"
+        ignoreList.add("sdk.*")       // Ignore all keys matching the regexp "sdk.*"
+    }
+
 }
 
 dependencies {
@@ -172,4 +181,15 @@ dependencies {
     implementation("com.adjust.sdk:adjust-android-webbridge:4.33.5")
     implementation("com.google.android.gms:play-services-appset:16.0.2")
     implementation("com.facebook.fresco:fresco:2.3.0")
+
+    implementation("com.github.NaikSoftware:StompProtocolAndroid:1.6.6")
+    implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
+
+    implementation("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:1.3.0")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    // Maps SDK for Android KTX Library
+    implementation ("com.google.maps.android:maps-ktx:3.0.0")
+
+    // Maps SDK for Android Utility Library KTX Library
+    implementation ("com.google.maps.android:maps-utils-ktx:3.0.0")
 }

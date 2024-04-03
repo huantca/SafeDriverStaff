@@ -47,4 +47,10 @@
         android:label="LanguageFragment"
         tools:layout="@layout/fragment_language" />
 
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.bkplus.android.ui.main.location.MapFragment"
+        android:label="MapFragment"
+        tools:layout="@layout/fragment_map" />
+
 </navigation>

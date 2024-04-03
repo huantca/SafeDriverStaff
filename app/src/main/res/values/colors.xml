@@ -13,6 +13,7 @@
     <color name="transparent">#00000000</color>
 
     <!-- Primary-->
+    <color name="primary">#6C63FF</color>
     <color name="Primary5">#FFECE5</color>
     <color name="Primary10">#FBDBD0</color>
     <color name="Primary20">#FAC8B6</color>

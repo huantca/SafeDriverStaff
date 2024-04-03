@@ -93,4 +93,18 @@
     <string name="watch_an_ads">Watch an ADS</string>
     <string name="load_ads_fail">load ads fail</string>
     <string name="you_can_view_and_set">You can view and set this wallpaper by watching an ad! Ready?</string>
+    <string name="hello_friend">Hello friend</string>
+    <string name="sign_in_to_your_account">Sign in to your account</string>
+    <string name="your_email">Your Email</string>
+    <string name="password">Password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="forget_password">Forget password ?</string>
+    <string name="total_income">Total income</string>
+    <string name="number_of_times_set">Number of times set</string>
+    <string name="latest_request">Latest request</string>
+    <string name="hello">Hello</string>
+    <string name="start_location">Start location</string>
+    <string name="end_location">End location</string>
+    <string name="accept">Accept</string>
+    <string name="moving">Moving</string>
 </resources>

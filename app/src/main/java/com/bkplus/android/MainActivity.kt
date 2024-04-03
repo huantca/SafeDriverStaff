@@ -17,6 +17,7 @@ import com.bkplus.android.ui.main.home.HomeViewModel
 import com.bkplus.android.ui.widget.NoInternetDialogFragment
 import com.bkplus.android.ui.widget.PopupExitDialogFragment
 import com.bkplus.android.ultis.NetworkState
+import com.bkplus.android.websocket.WebSocket
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,6 +27,8 @@ import kotlin.system.exitProcess
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
+    @Inject
+    lateinit var webSocket: WebSocket
     private val viewModel: HomeViewModel by viewModels()
     private var navController: NavController? = null
     override val layoutId: Int
@@ -153,4 +156,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         binding.loadingMain.isVisible = false
     }
 
+    override fun onDestroy() {
+        webSocket.disconnect()
+        super.onDestroy()
+    }
 }

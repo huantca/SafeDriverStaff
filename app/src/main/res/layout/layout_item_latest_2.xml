@@ -13,21 +13,37 @@
         android:layout_marginHorizontal="10dp">
 
         <TextView
-            android:id="@+id/tvHeart"
+            android:id="@+id/tvName"
             style="@style/headingH1Bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1234"
             android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btnAccept"
+        <TextView
+            android:id="@+id/tvStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="accept"
+            android:text="wait"
+            android:textSize="20dp"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="cancel"
+            android:background="@drawable/bg_radius_8"
+            android:backgroundTint="@color/gray1"
+            android:textSize="20dp"
+            android:padding="5dp"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
