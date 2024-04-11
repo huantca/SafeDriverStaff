@@ -51,16 +51,35 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcyTest"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/layout_item_latest"
-            app:layout_constraintTop_toBottomOf="@+id/tvSendRequest"
-            android:layout_marginBottom="30dp"
-            app:layout_constraintBottom_toTopOf="@id/ctlUser"/>
+
+        <TextView
+            android:id="@+id/driver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_radius_12"
+            android:backgroundTint="@color/neutral30"
+            android:padding="10dp"
+            android:text="driver fragment"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvMap" />
+
+        <TextView
+            android:id="@+id/userFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_radius_12"
+            android:backgroundTint="@color/neutral30"
+            android:padding="10dp"
+            android:text="User fragment"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvMap" />
+
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

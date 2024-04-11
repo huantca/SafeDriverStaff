@@ -107,4 +107,18 @@
     <string name="end_location">End location</string>
     <string name="accept">Accept</string>
     <string name="moving">Moving</string>
+    <string name="note">Note : </string>
+    <string name="good_moring">Good morning</string>
+    <string name="by_km">By km</string>
+    <string name="hourly">Hourly</string>
+    <string name="recent_history">Recent history</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
+    <string name="time">Time</string>
+    <string name="trip">Trip</string>
+    <string name="change">Change</string>
+    <string name="rates">Rates: </string>
+    <string name="distance">Distance: </string>
+    <string name="book">Book</string>
+    <string name="your_GPS">Your GPS seems to be disabled, do you want to enable it?</string>
 </resources>

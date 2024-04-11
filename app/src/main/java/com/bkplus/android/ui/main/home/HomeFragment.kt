@@ -5,13 +5,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bkplus.android.ads.AdsContainer
 import com.bkplus.android.common.BaseFragment
-import com.bkplus.android.model.Driver
-import com.bkplus.android.model.StatusE
 import com.bkplus.android.model.Trip
 import com.bkplus.android.model.User
 import com.bkplus.android.ui.main.home.adapter.HomeAdapter
 import com.bkplus.android.ultis.setOnSingleClickListener
-import com.bkplus.android.ultis.visible
 import com.bkplus.android.websocket.WebSocket
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentHomeBinding
@@ -29,7 +26,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_home
     private val viewModel: HomeViewModel by activityViewModels()
-    private var adapter : HomeAdapter?= null
+    private var adapter: HomeAdapter? = null
 
     companion object {
         fun newInstance(): HomeFragment {
@@ -50,49 +47,43 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun setupData() {
         super.setupData()
         webSocket.connectWebSocket()
-        adapter = HomeAdapter()
-        adapter?.action = {
-            it.driver = Driver(2, name = "adam")
-            it.status = StatusE.CONFIRM
-            webSocket.acceptTrip(it)
-        }
-        binding.rcyTest.adapter = adapter
-        val arrTrip = ArrayList<Trip>()
-        webSocket.mutableLiveData.observe(viewLifecycleOwner){
-            it?.let { trip ->
-                binding.ctlUser.visible()
-                binding.tvName.text = trip.user?.name
-                binding.tvStatus.text = trip.status?.name
-                if (trip.status == StatusE.CANCEL){
-                    val item = arrTrip.find { tripCancel ->
-                        tripCancel.id == trip.id
-                    }
-                    arrTrip.remove(item)
-                }else{
-                    arrTrip.add(trip)
-                }
-            }
-            adapter?.updateItems(arrTrip)
-        }
-        webSocket.acceptTrip.observe(viewLifecycleOwner){
-            binding.tvStatus.text = it.status?.name
-        }
     }
 
     override fun setupListener() {
         super.setupListener()
         binding.apply {
-            tvSendRequest.setOnSingleClickListener{
-                webSocket.sendRequest(Trip(user = User(352, name = "huấn")))
+            tvSendRequest.setOnSingleClickListener {
+                webSocket.sendRequest(
+                    Trip(
+                        user = User(
+                            352,
+                            name = "huấn",
+                            latitude = 13.029727,
+                            longitude = 77.5933021
+                        ),
+                        pick_up_location = "10b P. Nguyễn Hiền, Bách Khoa, Hai Bà Trưng, Hà Nội, Vietnam",
+                        pick_up_location_latitude = 21.0012,
+                        pick_up_location_longitude = 105.8479,
+                        drop_off_location = "16 Ng. 41 P. Vọng, Đồng Tâm, Hai Bà Trưng, Hà Nội, Vietnam",
+                        drop_off_location_latitude = 20.9993,
+                        drop_off_location_longitude = 105.8423
+                    )
+                )
             }
-            reconnect.setOnSingleClickListener{
+            reconnect.setOnSingleClickListener {
                 webSocket.connectWebSocket()
             }
-            tvCancel.setOnSingleClickListener{
+            tvCancel.setOnSingleClickListener {
                 webSocket.cancelTrip(Trip(user = User(352, name = "huấn")))
             }
-            tvMap.setOnSingleClickListener{
+            tvMap.setOnSingleClickListener {
                 findNavController().navigate(R.id.mapFragment)
+            }
+            driver.setOnSingleClickListener {
+                findNavController().navigate(R.id.driverFragment)
+            }
+            userFragment.setOnSingleClickListener{
+                findNavController().navigate(R.id.userFragment)
             }
         }
     }

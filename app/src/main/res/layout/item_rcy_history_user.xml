@@ -6,91 +6,39 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_radius_16_sl"
         android:layout_marginTop="20dp"
+        android:background="@drawable/bg_radius_16_sl"
         android:padding="20dp">
 
         <RelativeLayout
             android:id="@+id/rltHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_radius_16"
+            android:backgroundTint="#F5F5FF"
+            android:padding="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/imgAvatar"
-                android:layout_width="51dp"
-                android:layout_height="51dp"
-                android:layout_centerVertical="true"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/sample_image"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.CircularBorder16dp" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="20dp"
-                android:layout_toEndOf="@id/imgAvatar"
-                android:orientation="vertical">
+                android:fontFamily="@font/roboto_bold"
+                android:text="1 May, 2022"
+                android:textColor="#5256E8"
+                android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/tvName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="Bùi Xuân Huấn "
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/tvTypeVehicle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Loại Xe: Ô tô TOYOTA "
-                    android:textColor="#353535"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/tvTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Thời gian dự kiến : 10 phút"
-                    android:textColor="#353535"
-                    android:textSize="14sp" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvCost"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="30.000đ"
-                    android:textColor="#FB154C"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/tvKm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="30km"
-                    android:textColor="#254686"
-                    android:textSize="14sp" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                android:fontFamily="@font/roboto_regular"
+                android:text="$2400"
+                android:textColor="#266352"
+                android:textSize="24sp"
+                android:textStyle="italic" />
 
         </RelativeLayout>
 
@@ -151,7 +99,6 @@
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/tvStartLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -182,7 +129,6 @@
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/tvEndLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -196,6 +142,7 @@
             </LinearLayout>
 
         </RelativeLayout>
+
         <LinearLayout
             android:id="@+id/lnNote"
             android:layout_width="match_parent"
@@ -207,36 +154,21 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
                 android:text="@string/note"
                 android:textColor="@color/black"
-                android:textSize="16sp"
-                android:fontFamily="@font/roboto_bold"/>
+                android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tvNote"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
                 android:layout_marginStart="10dp"
-                android:textColor="#5A5A5A"
                 android:maxLines="3"
-                tools:text="@tools:sample/lorem/random"/>
+                android:textColor="#5A5A5A"
+                android:textSize="14sp"
+                tools:text="@tools:sample/lorem/random" />
 
         </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnAccept"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="50dp"
-            android:background="@drawable/bg_radius_18"
-            android:backgroundTint="@color/primary"
-            android:text="@string/accept"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:layout_marginTop="10dp"
-            android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@id/lnNote"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

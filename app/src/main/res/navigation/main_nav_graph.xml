@@ -53,4 +53,23 @@
         android:label="MapFragment"
         tools:layout="@layout/fragment_map" />
 
+
+    <fragment
+        android:id="@+id/driverFragment"
+        android:name="com.bkplus.android.ui.main.driver.DriverFragment"
+        android:label="DriverFragment"
+        tools:layout="@layout/fragment_driver" />
+
+    <fragment
+        android:id="@+id/tripUserFragment"
+        android:name="com.bkplus.android.ui.main.user.map.TripUserFragment"
+        android:label="TripUserFragment"
+        tools:layout="@layout/fragment_trip_user" />
+
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.bkplus.android.ui.main.user.UserFragment"
+        android:label="UserFragment"
+        tools:layout="@layout/fragment_user" />
+
 </navigation>
