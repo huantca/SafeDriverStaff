@@ -3,8 +3,6 @@ package com.bkplus.android.ui.main.location
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Location
-import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Handler
 import android.os.Looper
@@ -14,11 +12,13 @@ import androidx.core.content.ContextCompat
 import com.bkplus.android.common.BaseFragment
 import com.bkplus.android.model.LocationSend
 import com.bkplus.android.model.Trip
+import com.bkplus.android.ultis.getBitmapFromVectorDrawable
 import com.bkplus.android.websocket.WebSocket
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnPolylineClickListener
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -62,12 +62,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
         val isGpsEnabled = locationMap.isProviderEnabled(LocationManager.GPS_PROVIDER)
         val isNetworkEnabled = locationMap.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
 
-        context?.let {
+        context?.let {context ->
             if (ActivityCompat.checkSelfPermission(
-                    it,
+                    context,
                     Manifest.permission.ACCESS_FINE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                    it,
+                    context,
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
@@ -81,45 +81,48 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
                     locationMap.requestLocationUpdates(
                         LocationManager.GPS_PROVIDER,
                         1000L, // Minimum time between updates
-                        10.0F, // Minimum distance change
-                        object : LocationListener {
-                            override fun onLocationChanged(location: Location) {
-                                locationSend = LocationSend(
-                                    location.latitude,
-                                    location.longitude,
-                                    tripOj.user?.id
-                                )
-                                locationSend?.let { it3 ->
-                                    webSocket.sendLocation(it3)
-                                }
+                        10.0F
+                    ) // Minimum distance change
+                    { location ->
+                        locationSend = LocationSend(
+                            location.latitude,
+                            location.longitude,
+                            tripOj.user?.id
+                        )
+                        locationSend?.let { it3 ->
+                            webSocket.sendLocation(it3)
+                        }
 
 
-                                it2.clear()
-                                googleMap = it2
-                                val zoomLevel = 15f
-                                val lc = LatLng(location.latitude, location.longitude)
-                                addMarkers(it2, lc)
-                                val cameraUpdate = CameraUpdateFactory.newLatLngZoom(lc, zoomLevel)
-                                it2.animateCamera(cameraUpdate)
+                        it2.clear()
+                        googleMap = it2
+                        val zoomLevel = 15f
+                        val lc = LatLng(location.latitude, location.longitude)
+                        addMarkers(it2, lc)
+                        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(lc, zoomLevel)
+                        it2.animateCamera(cameraUpdate)
 
-                                val locationUser =
-                                    tripOj.pick_up_location_latitude?.let { it1 ->
-                                        tripOj.pick_up_location_longitude?.let { it3 ->
-                                            LatLng(
-                                                it1,
-                                                it3
-                                            )
-                                        }
-                                    }
-
-                                locationUser?.let { latLng ->
-                                    it2.addMarker(MarkerOptions().position(latLng).title("User"))
-                                    calculateDirections(latLng,lc)
+                        val locationUser =
+                            tripOj.pick_up_location_latitude?.let { it1 ->
+                                tripOj.pick_up_location_longitude?.let { it3 ->
+                                    LatLng(
+                                        it1,
+                                        it3
+                                    )
                                 }
                             }
 
+                        locationUser?.let { latLng ->
+                            it2.addMarker(MarkerOptions().icon(
+                                BitmapDescriptorFactory.fromBitmap(
+                                    context.getBitmapFromVectorDrawable(
+                                        R.drawable.user_gps
+                                    )
+                                )
+                            ).position(latLng).title("User"))
+                            calculateDirections(latLng, lc)
                         }
-                    )
+                    }
 
                 }
 
@@ -127,7 +130,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
 
             if (mGeoApiContext == null) {
                 mGeoApiContext = GeoApiContext.Builder()
-                    .apiKey("AIzaSyCqpHHNZ1jLfRMSO5mpDYn0pfsR96U3gi8")
+                    .apiKey("AIzaSyBOD5-j2ElNi1GuIbPEZntT1iNLHKassW4")
                     .build()
             }
 
@@ -174,6 +177,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
             mDriverPosition.latitude,
             mDriverPosition.longitude
         )
+        Log.e("huanhuan mgeo", mGeoApiContext.toString())
         val directions = DirectionsApiRequest(mGeoApiContext)
         directions.alternatives(true)
         directions.origin(
@@ -186,22 +190,23 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
         directions.destination(destination).setCallback(object : PendingResult.Callback<DirectionsResult?> {
 
             override fun onResult(result: DirectionsResult?) {
+                Log.e("huanhuan onResult",result.toString())
                 if (result != null) {
                     Timber.tag("huanhuan").d("onResult: routes: " + result.routes[0].toString())
                     Timber.tag("huanhuan")
                         .d("onResult: geocodedWayPoints: " + result.geocodedWaypoints[0].toString())
-                    addPolylinesToMap(result)
+                    addPolylineToMap(result)
                 }
             }
 
             override fun onFailure(e: Throwable?) {
-
+                Log.e("huanhuan onFailure",e?.message.toString())
             }
 
         })
     }
 
-    private fun addPolylinesToMap(result: DirectionsResult) {
+    private fun addPolylineToMap(result: DirectionsResult) {
         Handler(Looper.getMainLooper()).post(Runnable {
             Log.d(TAG, "run: result routes: " + result.routes.size)
 

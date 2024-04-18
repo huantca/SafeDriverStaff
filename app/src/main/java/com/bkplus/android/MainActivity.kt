@@ -13,17 +13,21 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.bkplus.android.common.BaseActivity
+import com.bkplus.android.common.BasePrefers
+import com.bkplus.android.model.Trip
 import com.bkplus.android.ui.main.home.HomeViewModel
 import com.bkplus.android.ui.widget.NoInternetDialogFragment
 import com.bkplus.android.ui.widget.PopupExitDialogFragment
 import com.bkplus.android.ultis.NetworkState
 import com.bkplus.android.websocket.WebSocket
+import com.google.android.libraries.places.api.Places
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.system.exitProcess
+
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
@@ -55,6 +59,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         super.onCreate(savedInstanceState)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        Places.initialize(this, getString(R.string.api_key_map));
+        Places.createClient(this)
         navController = navHostFragment.navController
         registerBackPress()
         setUpNoInternetDialog()
@@ -158,6 +164,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onDestroy() {
         webSocket.disconnect()
+        BasePrefers.getPrefsInstance().requestTrip = Trip()
         super.onDestroy()
     }
 }

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Base App BkPlus</string>
     <string name="back_pressed_finish">Please press back again to quit</string>
+    <string name="api_key_map" translatable="false">AIzaSyBOD5-j2ElNi1GuIbPEZntT1iNLHKassW4</string>
 
     <!--Setting-->
     <string name="setting_language">Languages</string>
@@ -121,4 +122,5 @@
     <string name="distance">Distance: </string>
     <string name="book">Book</string>
     <string name="your_GPS">Your GPS seems to be disabled, do you want to enable it?</string>
+    <string name="error">Error</string>
 </resources>

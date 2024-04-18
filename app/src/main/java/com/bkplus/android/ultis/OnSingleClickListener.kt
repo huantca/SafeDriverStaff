@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 class OnSingleClickListener(
     private val clickListener: View.OnClickListener,
-    private var millisecond: Long = 1000
+    private var millisecond: Long = 500
 ) : View.OnClickListener {
     constructor(clickListener: View.OnClickListener, time: Long?) : this(clickListener) {
         if (time != null) {

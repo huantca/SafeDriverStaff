@@ -40,6 +40,7 @@ class DriverFragment : BaseFragment<FragmentDriverBinding>() {
             val json = gson.toJson(it)
             bundle?.putString("trip", json)
             webSocket.acceptTrip(it)
+            //findNavController().navigate(R.id.mapFragment, bundle)
             websocketAcceptTrip()
         }
         binding.rcyDriver.adapter = adapter

@@ -3,6 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="isShowMap"
+            type="Boolean" />
+
+        <variable
+            name="isHourly"
+            type="Boolean" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -73,6 +86,7 @@
             app:layout_constraintTop_toBottomOf="@id/rltHeader">
 
             <TextView
+                android:id="@+id/btnByKm"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
@@ -83,6 +97,7 @@
                 android:textColor="#100D40" />
 
             <TextView
+                android:id="@+id/btnHourly"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
@@ -105,6 +120,7 @@
             app:layout_constraintTop_toBottomOf="@id/lnOption">
 
             <RelativeLayout
+                android:id="@+id/rltStart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_radius_8_stroke"
@@ -119,6 +135,7 @@
                     android:src="@drawable/ic_location_start" />
 
                 <TextView
+                    android:id="@+id/tvStart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -131,6 +148,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rltEnd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
@@ -146,6 +164,7 @@
                     android:src="@drawable/ic_location_end" />
 
                 <TextView
+                    android:id="@+id/tvEnd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -158,12 +177,14 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rltTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:background="@drawable/bg_radius_8_stroke"
                 android:paddingHorizontal="9dp"
-                android:paddingVertical="18dp">
+                android:paddingVertical="18dp"
+                android:visibility="@{isHourly == true ? View.VISIBLE: View.GONE}">
 
                 <ImageView
                     android:id="@+id/imgTime"
@@ -235,5 +256,17 @@
             app:layout_constraintTop_toBottomOf="@id/rltLatestRequest"
             tools:listitem="@layout/item_rcy_history_user" />
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#F8F8FF"
+            android:visibility="@{isShowMap == true ? View.VISIBLE: View.GONE}">
+
+            <fragment
+                android:id="@+id/autocomplete_fragment"
+                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

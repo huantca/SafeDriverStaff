@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import com.bkplus.android.model.Item
+import com.bkplus.android.model.Trip
 import com.bkplus.android.ultis.Constants
+import com.bkplus.android.ultis.GsonUtils
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.harrison.myapplication.BuildConfig
@@ -15,6 +17,7 @@ class BasePrefers(private val context: Context) {
     private val prefsOnBoard = "prefsOnBoard${BuildConfig.VERSION_NAME}"
     private val prefsWelcome = "prefsWelcome${BuildConfig.VERSION_NAME}"
     private val prefsLocale = "prefsLocale"
+    private val prefsInfoUser = "prefsInfoUser"
     private val prefsTimer = "prefsTimer"
 
     private val prefsBanner = "prefsBanner"
@@ -47,6 +50,11 @@ class BasePrefers(private val context: Context) {
     var doneWelcome
         get() = mPrefs.getBoolean(prefsWelcome, false)
         set(value) = mPrefs.edit { putBoolean(prefsWelcome, value) }
+
+
+    var requestTrip: Trip?
+        set(value) = mPrefs.edit { putString(prefsInfoUser, GsonUtils.saveObject(value)).apply() }
+        get() = GsonUtils.fromJsonSafe<Trip>(mPrefs.getString(prefsInfoUser, ""))
 
     var locale
         get() = mPrefs.getString(prefsLocale, "en")

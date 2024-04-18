@@ -117,6 +117,7 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("com.google.android.gms:play-services-location:21.2.0")
+    implementation("com.google.android.libraries.places:places:3.4.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -194,7 +195,7 @@ dependencies {
     // Maps SDK for Android Utility Library KTX Library
     implementation ("com.google.maps.android:maps-utils-ktx:3.0.0")
 
-    implementation ("com.google.maps:google-maps-services:0.2.9")
+    implementation ("com.google.maps:google-maps-services:0.2.11")
     implementation("org.slf4j:slf4j-nop:1.7.25")
 
 }

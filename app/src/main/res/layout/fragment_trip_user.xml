@@ -4,6 +4,16 @@
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="isShow"
+            type="Boolean" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,6 +34,7 @@
         </FrameLayout>
 
         <ImageView
+            android:id="@+id/imgBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
@@ -35,6 +46,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ctlContainer"
             android:layout_width="match_parent"
+            android:visibility="@{isShow == true ? View.VISIBLE: View.GONE}"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_radius_25_top"
             android:backgroundTint="@color/white"
@@ -155,20 +167,22 @@
                 app:layout_constraintTop_toBottomOf="@id/rlt2">
 
                 <TextView
+                    android:id="@+id/tvFee"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="50.000đ"
+                    android:text="@string/error"
                     android:textColor="#254686"
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/tvKm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="10km"
+                    android:text="@string/error"
                     android:textColor="#254686"
                     android:textSize="20sp" />
             </RelativeLayout>
@@ -221,7 +235,7 @@
             android:layout_height="35dp"
             android:layout_marginBottom="20dp"
             android:src="@drawable/ic_up_map"
-            android:visibility="gone"
+            android:visibility="@{isShow == false ? View.VISIBLE: View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
