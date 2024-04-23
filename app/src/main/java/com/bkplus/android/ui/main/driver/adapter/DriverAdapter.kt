@@ -1,6 +1,8 @@
 package com.bkplus.android.ui.main.driver.adapter
 
+import android.annotation.SuppressLint
 import com.bkplus.android.model.Trip
+import com.bkplus.android.ultis.numberToVND
 import com.bkplus.android.ultis.setOnSingleClickListener
 import com.harison.core.app.platform.BaseRecyclerViewAdapter
 import com.harrison.myapplication.R
@@ -13,6 +15,7 @@ class DriverAdapter : BaseRecyclerViewAdapter<Trip, ItemRcyHomeDriverBinding>() 
         return R.layout.item_rcy_home_driver
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(
         holder: BaseViewHolder<ItemRcyHomeDriverBinding, Trip>,
         position: Int
@@ -20,8 +23,10 @@ class DriverAdapter : BaseRecyclerViewAdapter<Trip, ItemRcyHomeDriverBinding>() 
         val item = items[position]
         holder.binding.apply {
             tvName.text = item.user?.name
-            tvCost.text = item.fee.toString()
-            tvTypeVehicle.text = item.vehicle_type
+            tvCost.text = item.fee?.let { numberToVND(it) }
+            tvNameCar.text = item.car_name
+            tvRangeCar.text = item.range_of_vehicle
+            tvKm.text = String.format("%.2f Km", item.km)
             tvStartLocation.text = item.pick_up_location
             tvEndLocation.text = item.drop_off_location
             tvNote.text = item.note

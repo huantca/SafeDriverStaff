@@ -29,14 +29,27 @@ class BasePrefers(private val context: Context) {
     private val prefsInterOnboard = "prefsInterOnboard"
     private val prefsOpenResume = "prefsOpenResume"
     private val prefsListThemeFreeHome = "prefsListThemeFreeHome"
+    private val prefsModelVehicleUser = "prefsModelVehicleUser"
+    private val prefsRangeOfVehicleUser = "prefsRangeOfVehicleUser"
 
     private val mPrefs = PreferenceManager.getDefaultSharedPreferences(context)
 
     var app_version_force_update
-        get() = mPrefs.getString(getPrefName(Constants.app_version_force_update), BuildConfig.VERSION_NAME)
-        set(value) = mPrefs.edit { putString(getPrefName(Constants.app_version_force_update), value) }
+        get() = mPrefs.getString(
+            getPrefName(Constants.app_version_force_update),
+            BuildConfig.VERSION_NAME
+        )
+        set(value) = mPrefs.edit {
+            putString(
+                getPrefName(Constants.app_version_force_update),
+                value
+            )
+        }
     var app_version_latest
-        get() = mPrefs.getString(getPrefName(Constants.app_version_latest), BuildConfig.VERSION_NAME)
+        get() = mPrefs.getString(
+            getPrefName(Constants.app_version_latest),
+            BuildConfig.VERSION_NAME
+        )
         set(value) = mPrefs.edit { putString(getPrefName(Constants.app_version_latest), value) }
 
     var newUser
@@ -55,6 +68,14 @@ class BasePrefers(private val context: Context) {
     var requestTrip: Trip?
         set(value) = mPrefs.edit { putString(prefsInfoUser, GsonUtils.saveObject(value)).apply() }
         get() = GsonUtils.fromJsonSafe<Trip>(mPrefs.getString(prefsInfoUser, ""))
+
+    var vehicleModelUser
+        get() = mPrefs.getString(prefsModelVehicleUser, "Vios")
+        set(value) = mPrefs.edit { putString(prefsModelVehicleUser, value) }
+
+    var rangeOfVehicleUser
+        get() = mPrefs.getString(prefsRangeOfVehicleUser, " Automatic transmission")
+        set(value) = mPrefs.edit { putString(prefsRangeOfVehicleUser, value) }
 
     var locale
         get() = mPrefs.getString(prefsLocale, "en")

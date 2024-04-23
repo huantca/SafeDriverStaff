@@ -21,6 +21,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -31,14 +32,14 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/tvFee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:fontFamily="@font/roboto_regular"
                 android:text="$2400"
                 android:textColor="#266352"
-                android:textSize="24sp"
-                android:textStyle="italic" />
+                android:textSize="24sp" />
 
         </RelativeLayout>
 
@@ -99,6 +100,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/tvStartLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -129,6 +131,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/tvEndLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -160,6 +163,7 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/tvNote"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"

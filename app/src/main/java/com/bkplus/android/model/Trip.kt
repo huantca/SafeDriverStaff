@@ -7,9 +7,17 @@ enum class StatusE{
     CANCEL,
     COMPLETE
 }
+
+enum class RangeVehicle{
+   CAR,MOTORBIKE,BICYCLE
+}
+
+enum class TypeVehicle{
+  AUTO,CONTROL
+}
 data class Trip (
     val id: Long? = null,
-    val date_of_hire: Long? = null,
+    var date_of_hire: Long? = null,
     val time_start: Long? = null,
     val time_end: Long? = null,
     var pick_up_location: String? = null,
@@ -28,4 +36,5 @@ data class Trip (
     var user: User? = null,
     var driver: Driver? = null,
     var evaluates: List<Evaluate>? = null,
+    var km : Double?= null
 )

@@ -1,6 +1,8 @@
 package com.bkplus.android.ui.main.user
 
 import android.util.Log
+import android.widget.FrameLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bkplus.android.SharedViewModel
@@ -8,6 +10,7 @@ import com.bkplus.android.common.BaseFragment
 import com.bkplus.android.common.BasePrefers
 import com.bkplus.android.model.Trip
 import com.bkplus.android.model.User
+import com.bkplus.android.ui.main.user.adapter.UserAdapter
 import com.bkplus.android.ultis.setOnSingleClickListener
 import com.bkplus.android.websocket.WebSocket
 import com.google.android.gms.common.api.Status
@@ -28,6 +31,7 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private var trip: Trip? = null
     private var selectedPosition = 0
+    private var userAdapter : UserAdapter?= null
 
     override val layoutId: Int
         get() = R.layout.fragment_user
@@ -38,13 +42,17 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
         trip = Trip()
         trip?.user = User(id = 352, name = "Bùi Xuân Huấn")
         autocompleteForPlaces()
-        webSocket.acceptTrip.observe(viewLifecycleOwner) {
-
+        sharedViewModel.getListHistory(trip?.user!!)
+        userAdapter = UserAdapter()
+        binding.rcyHistory.adapter = userAdapter
+        sharedViewModel.historyLiveData.observe(viewLifecycleOwner){
+            userAdapter?.updateItems(it)
         }
     }
 
     override fun setupUI() {
         super.setupUI()
+        activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = false
         binding.apply {
             isHourly = false
             isShowMap = false
@@ -69,6 +77,7 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
                 isShowMap = true
             }
             tvNext.setOnSingleClickListener {
+                activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = true
                 BasePrefers.getPrefsInstance().requestTrip = trip
                 findNavController().navigate(R.id.tripUserFragment)
             }

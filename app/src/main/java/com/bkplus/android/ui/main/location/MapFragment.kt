@@ -7,8 +7,10 @@ import android.location.LocationManager
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.widget.FrameLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.bkplus.android.common.BaseFragment
 import com.bkplus.android.model.LocationSend
 import com.bkplus.android.model.Trip
@@ -33,6 +35,7 @@ import com.google.maps.model.DirectionsResult
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentMapBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Runnable
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -42,26 +45,23 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
 
     @Inject
     lateinit var webSocket: WebSocket
-
-    private val TAG = "huan"
     override val layoutId: Int
         get() = R.layout.fragment_map
-    var latLng: LatLng? = null
     var googleMap: GoogleMap? = null
     private var locationSend: LocationSend? = null
     private var mGeoApiContext: GeoApiContext? = null
     private var mPolyLinesData = ArrayList<PolylineData>()
     private val mTripMarkers = ArrayList<Marker>()
+    private var tripOj : Trip?= null
 
     override fun setupData() {
         super.setupData()
         val trip = arguments?.getString("trip")
         val gson = Gson()
-        val tripOj = gson.fromJson(trip, Trip::class.java)
+        tripOj = gson.fromJson(trip, Trip::class.java)
         val locationMap = context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val isGpsEnabled = locationMap.isProviderEnabled(LocationManager.GPS_PROVIDER)
         val isNetworkEnabled = locationMap.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-
         context?.let {context ->
             if (ActivityCompat.checkSelfPermission(
                     context,
@@ -87,7 +87,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
                         locationSend = LocationSend(
                             location.latitude,
                             location.longitude,
-                            tripOj.user?.id
+                            tripOj?.user?.id
                         )
                         locationSend?.let { it3 ->
                             webSocket.sendLocation(it3)
@@ -97,14 +97,14 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
                         it2.clear()
                         googleMap = it2
                         val zoomLevel = 15f
-                        val lc = LatLng(location.latitude, location.longitude)
-                        addMarkers(it2, lc)
-                        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(lc, zoomLevel)
+                        val latLngDriver = LatLng(location.latitude, location.longitude)
+                        addMarkers(it2, latLngDriver)
+                        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLngDriver, zoomLevel)
                         it2.animateCamera(cameraUpdate)
 
                         val locationUser =
-                            tripOj.pick_up_location_latitude?.let { it1 ->
-                                tripOj.pick_up_location_longitude?.let { it3 ->
+                            tripOj?.pick_up_location_latitude?.let { it1 ->
+                                tripOj?.pick_up_location_longitude?.let { it3 ->
                                     LatLng(
                                         it1,
                                         it3
@@ -120,8 +120,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
                                     )
                                 )
                             ).position(latLng).title("User"))
-                            calculateDirections(latLng, lc)
                         }
+                        calculateDirections(locationUser, latLngDriver)
                     }
 
                 }
@@ -130,7 +130,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
 
             if (mGeoApiContext == null) {
                 mGeoApiContext = GeoApiContext.Builder()
-                    .apiKey("AIzaSyBOD5-j2ElNi1GuIbPEZntT1iNLHKassW4")
+                    .apiKey(getString(R.string.api_key_map))
                     .build()
             }
 
@@ -145,6 +145,34 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
         )
     }
 
+    override fun setupUI() {
+        super.setupUI()
+        binding.apply {
+            activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = false
+            isShow = true
+//            Handler(Looper.getMainLooper()).postDelayed( {
+//                tvScrollTo.gone()
+//                btnAction.visible()
+//            },2000)
+        }
+
+    }
+    override fun setupListener() {
+        super.setupListener()
+        binding.apply {
+            btnAction.setOnClickListener {
+                startTrip()
+            }
+
+            imgDown.setOnClickListener{
+                isShow = false
+            }
+
+            imgUp.setOnClickListener {
+                isShow = true
+            }
+        }
+    }
 //    private fun resetSelectedMarker() {
 //        if (mSelectedMarker != null) {
 //            mSelectedMarker.setVisible(true)
@@ -172,12 +200,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
     }
 
 
-    private fun calculateDirections(mDriverPosition: LatLng,mUserPosition: LatLng) {
+    private fun calculateDirections(mDriverPosition: LatLng?,mUserPosition: LatLng?) {
+        if (mDriverPosition == null || mUserPosition == null) return
         val destination = com.google.maps.model.LatLng(
             mDriverPosition.latitude,
             mDriverPosition.longitude
         )
-        Log.e("huanhuan mgeo", mGeoApiContext.toString())
         val directions = DirectionsApiRequest(mGeoApiContext)
         directions.alternatives(true)
         directions.origin(
@@ -190,7 +218,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
         directions.destination(destination).setCallback(object : PendingResult.Callback<DirectionsResult?> {
 
             override fun onResult(result: DirectionsResult?) {
-                Log.e("huanhuan onResult",result.toString())
                 if (result != null) {
                     Timber.tag("huanhuan").d("onResult: routes: " + result.routes[0].toString())
                     Timber.tag("huanhuan")
@@ -208,8 +235,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
 
     private fun addPolylineToMap(result: DirectionsResult) {
         Handler(Looper.getMainLooper()).post(Runnable {
-            Log.d(TAG, "run: result routes: " + result.routes.size)
-
             if (mPolyLinesData.size > 0) {
                 for (polylineData in mPolyLinesData) {
                     polylineData.polyline?.remove()
@@ -218,7 +243,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
                 mPolyLinesData = ArrayList()
             }
             for (route in result.routes) {
-                Log.d(TAG, "run: leg: " + route.legs[0].toString())
                 val decodedPath = PolylineEncoding.decode(route.overviewPolyline.encodedPath)
                 val newDecodedPath: MutableList<LatLng> = ArrayList()
 
@@ -279,6 +303,28 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
                 }
             }
         }
+    }
 
+    private fun startTrip(){
+        val lngLngStart =
+            tripOj?.pick_up_location_latitude?.let { it1 ->
+                tripOj?.pick_up_location_longitude?.let { it2 ->
+                    LatLng(
+                        it1,
+                        it2
+                    )
+                }
+            }
+
+        val lngLngEnd =
+            tripOj?.drop_off_location_latitude?.let { it1 ->
+                tripOj?.drop_off_location_longitude?.let { it2 ->
+                    LatLng(
+                        it1,
+                        it2
+                    )
+                }
+            }
+        calculateDirections(lngLngStart,lngLngEnd)
     }
 }

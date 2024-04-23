@@ -3,6 +3,8 @@ package com.bkplus.android.ui.main.driver
 import android.content.Context
 import android.location.LocationManager
 import android.os.Bundle
+import android.widget.FrameLayout
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.bkplus.android.common.BaseFragment
 import com.bkplus.android.model.Driver
@@ -25,6 +27,7 @@ class DriverFragment : BaseFragment<FragmentDriverBinding>() {
     private var adapter: DriverAdapter? = null
     private var bundle: Bundle? = null
     private var location : LocationManager?= null
+    private var trip : Trip?= null
     override val layoutId: Int
         get() = R.layout.fragment_driver
 
@@ -41,6 +44,7 @@ class DriverFragment : BaseFragment<FragmentDriverBinding>() {
             bundle?.putString("trip", json)
             webSocket.acceptTrip(it)
             //findNavController().navigate(R.id.mapFragment, bundle)
+            activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = true
             websocketAcceptTrip()
         }
         binding.rcyDriver.adapter = adapter
@@ -63,7 +67,7 @@ class DriverFragment : BaseFragment<FragmentDriverBinding>() {
 
     override fun setupUI() {
         super.setupUI()
-
+        activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = false
     }
 
     override fun setupListener() {

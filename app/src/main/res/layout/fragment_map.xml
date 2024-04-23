@@ -4,6 +4,17 @@
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="isShow"
+            type="Boolean" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,12 +41,13 @@
             android:background="@drawable/bg_radius_25_top"
             android:backgroundTint="@color/white"
             android:paddingHorizontal="20dp"
+            android:visibility="@{isShow == true ? View.VISIBLE: View.GONE}"
             android:paddingBottom="10dp"
             app:layout_constraintBottom_toBottomOf="parent">
 
 
             <ImageView
-                android:id="@+id/imgAction"
+                android:id="@+id/imgDown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -48,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imgAction">
+                app:layout_constraintTop_toBottomOf="@id/imgDown">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/imgAvatar"
@@ -106,6 +118,7 @@
                     android:orientation="vertical">
 
                     <ImageView
+                        android:id="@+id/imgPhone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_phone" />
@@ -242,15 +255,28 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/tvScrollTo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:text="@string/scroll_to_the_customer_and_press_start_trip"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/lnNote"/>
+
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnAction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="50dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/bg_radius_18"
                 android:backgroundTint="@color/primary"
-                android:text="@string/moving"
+                android:text="@string/start"
                 android:textAllCaps="false"
+                android:visibility="invisible"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintTop_toBottomOf="@id/lnNote" />
@@ -263,7 +289,7 @@
             android:layout_height="35dp"
             android:layout_marginBottom="20dp"
             android:src="@drawable/ic_up_map"
-            android:visibility="gone"
+            android:visibility="@{isShow == false ? View.VISIBLE: View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

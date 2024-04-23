@@ -1,6 +1,7 @@
 package com.bkplus.android.ui.main.user.map
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
@@ -11,15 +12,20 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
+import android.widget.FrameLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.bkplus.android.common.BaseFragment
 import com.bkplus.android.common.BasePrefers
 import com.bkplus.android.model.Trip
 import com.bkplus.android.ultis.getBitmapFromVectorDrawable
+import com.bkplus.android.ultis.gone
+import com.bkplus.android.ultis.numberToVND
 import com.bkplus.android.ultis.setOnSingleClickListener
+import com.bkplus.android.ultis.visible
 import com.bkplus.android.websocket.WebSocket
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -34,6 +40,7 @@ import com.google.maps.GeoApiContext
 import com.google.maps.PendingResult
 import com.google.maps.internal.PolylineEncoding
 import com.google.maps.model.DirectionsResult
+import com.google.maps.model.TravelMode
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentTripUserBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -59,6 +66,8 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
 
     override fun setupUI() {
         super.setupUI()
+        activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = false
+        binding.isShow = true
         val locationManager = context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
         val mapFragment = childFragmentManager.findFragmentById(
@@ -125,8 +134,16 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
                             )
                             .position(it1)
                     }?.let { it2 -> it.addMarker(it2) }
-
-                    calculateDirections(pickStart, dropEnd)
+                    calculateDirections(pickStart, dropEnd, TravelMode.DRIVING)
+                    webSocket.acceptTrip.observe(viewLifecycleOwner) {
+                        binding.ctlContainer.gone()
+                        binding.imgUp.gone()
+                        binding.ctlInfoDriver.visible()
+                        binding.tvNameDriver.text = it.driver?.name
+                        binding.tvAge.text = it.driver?.age.toString()
+                        binding.tvStatusDriver.text = it.status.toString()
+                        activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = false
+                    }
                 }
 
             }
@@ -146,6 +163,20 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
             imgBack.setOnSingleClickListener {
                 findNavController().popBackStack(R.id.homeFragment, false)
             }
+            btnBook.setOnClickListener {
+                activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = true
+                requestTrip()
+            }
+
+            imgDown.setOnSingleClickListener{
+                isShow = false
+            }
+
+            imgUp.setOnSingleClickListener{
+                isShow = true
+            }
+
+
         }
     }
 
@@ -175,21 +206,26 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
     }
 
 
-    private fun calculateDirections(mDriverPosition: LatLng?, mUserPosition: LatLng?) {
-        if (mDriverPosition == null || mUserPosition == null) return
+    private fun calculateDirections(
+        startLocation: LatLng?,
+        endLocation: LatLng?,
+        travelMode: TravelMode
+    ) {
+        if (startLocation == null || endLocation == null) return
         val destination = com.google.maps.model.LatLng(
-            mDriverPosition.latitude,
-            mDriverPosition.longitude
+            startLocation.latitude,
+            startLocation.longitude
         )
         val directions = DirectionsApiRequest(mGeoApiContext)
         directions.alternatives(true)
         directions.origin(
             com.google.maps.model.LatLng(
-                mUserPosition.latitude,
-                mUserPosition.longitude
+                endLocation.latitude,
+                endLocation.longitude
             )
         )
 
+        directions.mode(travelMode)
         directions.destination(destination)
             .setCallback(object : PendingResult.Callback<DirectionsResult?> {
 
@@ -209,10 +245,11 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
             })
     }
 
+    @SuppressLint("SetTextI18n")
     private fun addPolylineToMap(result: DirectionsResult) {
         Handler(Looper.getMainLooper()).post(Runnable {
             var shortestRoute = result.routes.getOrNull(0)
-            var minDistance = 1000L
+            var minDistance = 10000000L
             for (route in result.routes) {
                 val distance = route.legs[0].distance.inMeters
                 if (distance < minDistance) {
@@ -220,8 +257,12 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
                     shortestRoute = route
                 }
             }
-            binding.tvKm.text = (minDistance / 1000.1f).toString()
-            binding.tvFee.text = (minDistance * 10).toString()
+            binding.tvNameCar.text = BasePrefers.getPrefsInstance().vehicleModelUser
+            binding.tvTypeCar.text = context?.getString(R.string.range_car) + BasePrefers.getPrefsInstance().rangeOfVehicleUser
+            binding.tvKm.text = String.format("%.2f Km", minDistance / 1000.0)
+            trip?.km =  minDistance / 1000.0
+            binding.tvFee.text = numberToVND(minDistance.toDouble() * 10)
+            trip?.fee = minDistance.toDouble() * 10
             val decodedPath = PolylineEncoding.decode(shortestRoute?.overviewPolyline?.encodedPath)
             val newDecodedPath: MutableList<LatLng> = ArrayList()
 
@@ -241,6 +282,21 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
                 polyline?.isClickable = true
             }
         })
+    }
+
+
+
+
+    private fun requestTrip(){
+        trip?.let {
+            it.car_name = BasePrefers.getPrefsInstance().vehicleModelUser
+            it.range_of_vehicle = BasePrefers.getPrefsInstance().rangeOfVehicleUser
+            it.note = binding.edtNote.text.toString()
+            it.date_of_hire = System.currentTimeMillis()
+            BasePrefers.getPrefsInstance().requestTrip = it
+            webSocket.sendRequest(it)
+
+        }
     }
 
 }

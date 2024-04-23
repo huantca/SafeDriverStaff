@@ -1,5 +1,6 @@
 package com.bkplus.android.ultis
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -9,6 +10,8 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import timber.log.Timber
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
 
 fun ImageView.loadImage(uri: Uri?) {
     if (uri == null) return
@@ -43,4 +46,11 @@ fun Context.getBitmapFromVectorDrawable(drawableId: Int): Bitmap {
     drawable.setBounds(0, 0, canvas.width, canvas.height)
     drawable.draw(canvas)
     return bitmap
+}
+
+@SuppressLint("SimpleDateFormat")
+fun convertLongToTime(time: Long): String {
+    val date = Date(time)
+    val format = SimpleDateFormat("yyyy.MM.dd HH:mm")
+    return format.format(date)
 }
