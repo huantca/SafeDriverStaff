@@ -15,6 +15,9 @@ import com.bkplus.android.common.BaseFragment
 import com.bkplus.android.model.LocationSend
 import com.bkplus.android.model.Trip
 import com.bkplus.android.ultis.getBitmapFromVectorDrawable
+import com.bkplus.android.ultis.gone
+import com.bkplus.android.ultis.numberToVND
+import com.bkplus.android.ultis.visible
 import com.bkplus.android.websocket.WebSocket
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -41,7 +44,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
+class MapFragment : BaseFragment<FragmentMapBinding>(), OnPolylineClickListener {
 
     @Inject
     lateinit var webSocket: WebSocket
@@ -52,7 +55,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
     private var mGeoApiContext: GeoApiContext? = null
     private var mPolyLinesData = ArrayList<PolylineData>()
     private val mTripMarkers = ArrayList<Marker>()
-    private var tripOj : Trip?= null
+    private var tripOj: Trip? = null
+    private var startTrip = false
 
     override fun setupData() {
         super.setupData()
@@ -62,7 +66,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
         val locationMap = context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val isGpsEnabled = locationMap.isProviderEnabled(LocationManager.GPS_PROVIDER)
         val isNetworkEnabled = locationMap.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-        context?.let {context ->
+        context?.let { context ->
             if (ActivityCompat.checkSelfPermission(
                     context,
                     Manifest.permission.ACCESS_FINE_LOCATION
@@ -98,8 +102,18 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
                         googleMap = it2
                         val zoomLevel = 15f
                         val latLngDriver = LatLng(location.latitude, location.longitude)
-                        addMarkers(it2, latLngDriver)
-                        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLngDriver, zoomLevel)
+
+                        it2.addMarker(
+                            MarkerOptions().icon(
+                                BitmapDescriptorFactory.fromBitmap(
+                                    context.getBitmapFromVectorDrawable(
+                                        R.drawable.ic_current_location
+                                    )
+                                )
+                            ).position(latLngDriver).title("Driver")
+                        )
+                        val cameraUpdate =
+                            CameraUpdateFactory.newLatLngZoom(latLngDriver, zoomLevel)
                         it2.animateCamera(cameraUpdate)
 
                         val locationUser =
@@ -113,15 +127,43 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
                             }
 
                         locationUser?.let { latLng ->
-                            it2.addMarker(MarkerOptions().icon(
-                                BitmapDescriptorFactory.fromBitmap(
-                                    context.getBitmapFromVectorDrawable(
-                                        R.drawable.user_gps
+                            it2.addMarker(
+                                MarkerOptions().icon(
+                                    BitmapDescriptorFactory.fromBitmap(
+                                        context.getBitmapFromVectorDrawable(
+                                            R.drawable.user_gps
+                                        )
                                     )
-                                )
-                            ).position(latLng).title("User"))
+                                ).position(latLng).title("User")
+                            )
                         }
-                        calculateDirections(locationUser, latLngDriver)
+
+                        val locationDrop =
+                            tripOj?.drop_off_location_latitude?.let { it1 ->
+                                tripOj?.drop_off_location_longitude?.let { it3 ->
+                                    LatLng(
+                                        it1,
+                                        it3
+                                    )
+                                }
+                            }
+
+                        locationDrop?.let { latLng ->
+                            it2.addMarker(
+                                MarkerOptions().icon(
+                                    BitmapDescriptorFactory.fromBitmap(
+                                        context.getBitmapFromVectorDrawable(
+                                            R.drawable.ic_location
+                                        )
+                                    )
+                                ).position(latLng).title("end location")
+                            )
+                        }
+                        if (!startTrip) {
+                            calculateDirections(locationUser, latLngDriver)
+                        } else {
+                            startTrip()
+                        }
                     }
 
                 }
@@ -150,13 +192,15 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
         binding.apply {
             activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = false
             isShow = true
-//            Handler(Looper.getMainLooper()).postDelayed( {
-//                tvScrollTo.gone()
-//                btnAction.visible()
-//            },2000)
+            updateInfoTrip()
+            Handler(Looper.getMainLooper()).postDelayed({
+                tvScrollTo.gone()
+                btnAction.visible()
+            }, 2000)
         }
 
     }
+
     override fun setupListener() {
         super.setupListener()
         binding.apply {
@@ -164,12 +208,16 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
                 startTrip()
             }
 
-            imgDown.setOnClickListener{
+            imgDown.setOnClickListener {
                 isShow = false
             }
 
             imgUp.setOnClickListener {
                 isShow = true
+            }
+
+            btnComplete.setOnClickListener {
+                completeTrip()
             }
         }
     }
@@ -186,6 +234,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
             marker.remove()
         }
     }
+
     private fun requestPermissions() {
         activity?.let {
             ActivityCompat.requestPermissions(
@@ -200,7 +249,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
     }
 
 
-    private fun calculateDirections(mDriverPosition: LatLng?,mUserPosition: LatLng?) {
+    private fun calculateDirections(mDriverPosition: LatLng?, mUserPosition: LatLng?) {
         if (mDriverPosition == null || mUserPosition == null) return
         val destination = com.google.maps.model.LatLng(
             mDriverPosition.latitude,
@@ -215,22 +264,23 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
             )
         )
 
-        directions.destination(destination).setCallback(object : PendingResult.Callback<DirectionsResult?> {
+        directions.destination(destination)
+            .setCallback(object : PendingResult.Callback<DirectionsResult?> {
 
-            override fun onResult(result: DirectionsResult?) {
-                if (result != null) {
-                    Timber.tag("huanhuan").d("onResult: routes: " + result.routes[0].toString())
-                    Timber.tag("huanhuan")
-                        .d("onResult: geocodedWayPoints: " + result.geocodedWaypoints[0].toString())
-                    addPolylineToMap(result)
+                override fun onResult(result: DirectionsResult?) {
+                    if (result != null) {
+                        Timber.tag("huanhuan").d("onResult: routes: " + result.routes[0].toString())
+                        Timber.tag("huanhuan")
+                            .d("onResult: geocodedWayPoints: " + result.geocodedWaypoints[0].toString())
+                        addPolylineToMap(result)
+                    }
                 }
-            }
 
-            override fun onFailure(e: Throwable?) {
-                Log.e("huanhuan onFailure",e?.message.toString())
-            }
+                override fun onFailure(e: Throwable?) {
+                    Log.e("huanhuan onFailure", e?.message.toString())
+                }
 
-        })
+            })
     }
 
     private fun addPolylineToMap(result: DirectionsResult) {
@@ -261,23 +311,24 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
                     polyline?.color = ContextCompat.getColor(it, R.color.dark3)
                     polyline?.isClickable = true
                 }
-                mPolyLinesData.add(PolylineData(polyline,route.legs[0]))
+                mPolyLinesData.add(PolylineData(polyline, route.legs[0]))
                 polyline?.let { onPolylineClick(it) }
-                
+
             }
         })
     }
 
     override fun onPolylineClick(polyline: Polyline) {
         var index = 0
-        context?.let {context ->
+        context?.let { context ->
             for (polylineData in mPolyLinesData) {
                 if (polyline.id == polylineData.polyline?.id) {
                     index++
-                    polylineData.polyline?.color = ContextCompat.getColor(context, R.color.primary100)
+                    polylineData.polyline?.color =
+                        ContextCompat.getColor(context, R.color.primary100)
                     polylineData.polyline?.zIndex = 1F
 
-                    polylineData.leg?.let {directionLeg ->
+                    polylineData.leg?.let { directionLeg ->
                         val endLocation = LatLng(
                             directionLeg.endLocation.lat,
                             directionLeg.endLocation.lng
@@ -305,7 +356,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
         }
     }
 
-    private fun startTrip(){
+    private fun startTrip() {
+        startTrip = true
+        binding.btnAction.gone()
         val lngLngStart =
             tripOj?.pick_up_location_latitude?.let { it1 ->
                 tripOj?.pick_up_location_longitude?.let { it2 ->
@@ -325,6 +378,25 @@ class MapFragment : BaseFragment<FragmentMapBinding>(),OnPolylineClickListener {
                     )
                 }
             }
-        calculateDirections(lngLngStart,lngLngEnd)
+        calculateDirections(lngLngStart, lngLngEnd)
+        Handler(Looper.getMainLooper()).postDelayed( {
+            binding.btnComplete.visible()
+        },2000)
+    }
+
+    private fun completeTrip() {
+        tripOj?.let { webSocket.completeTrip(it) }
+    }
+
+    private fun updateInfoTrip() {
+        binding.apply {
+            tvName.text = tripOj?.user?.name
+            tvFree.text = tripOj?.fee?.let { numberToVND(it) }
+            tvKm.text = String.format("%.2f Km", tripOj?.km)
+            tvStartLocation.text = tripOj?.pick_up_location
+            tvEndLocation.text = tripOj?.drop_off_location
+            tvNote.isVisible = tripOj?.note != null
+            tvNote.text = tripOj?.note
+        }
     }
 }

@@ -15,7 +15,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.bkplus.android.common.BaseActivity
 import com.bkplus.android.common.BasePrefers
 import com.bkplus.android.model.Trip
-import com.bkplus.android.ui.main.home.HomeViewModel
 import com.bkplus.android.ui.widget.NoInternetDialogFragment
 import com.bkplus.android.ui.widget.PopupExitDialogFragment
 import com.bkplus.android.ultis.NetworkState
@@ -33,7 +32,7 @@ import kotlin.system.exitProcess
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     @Inject
     lateinit var webSocket: WebSocket
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: SharedViewModel by viewModels()
     private var navController: NavController? = null
     override val layoutId: Int
         get() = R.layout.activity_main
@@ -62,6 +61,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         Places.initialize(this, getString(R.string.api_key_map));
         Places.createClient(this)
         navController = navHostFragment.navController
+        //viewModel.getListHistoryDriver(Driver(1))
         registerBackPress()
         setUpNoInternetDialog()
         setUpBottomNavigation()

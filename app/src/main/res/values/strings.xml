@@ -128,4 +128,5 @@
     <string name="range_car">Range of vehicle : </string>
     <string name="age">Age :</string>
     <string name="scroll_to_the_customer_and_press_start_trip">Scroll to the customer and press start trip</string>
+    <string name="complete">Complete</string>
 </resources>

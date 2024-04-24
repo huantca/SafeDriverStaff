@@ -1,4 +1,4 @@
-package com.bkplus.android.ui.main.user.adapter
+package com.bkplus.android.ui.main.driver.adapter
 
 import androidx.core.view.isVisible
 import com.bkplus.android.model.Trip
@@ -8,7 +8,7 @@ import com.harison.core.app.platform.BaseRecyclerViewAdapter
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.ItemRcyHistoryUserBinding
 
-class UserAdapter : BaseRecyclerViewAdapter<Trip,ItemRcyHistoryUserBinding>() {
+class HistoryAdapter : BaseRecyclerViewAdapter<Trip, ItemRcyHistoryUserBinding>() {
     override fun getLayoutId(viewType: Int): Int {
         return R.layout.item_rcy_history_user
     }
@@ -17,7 +17,7 @@ class UserAdapter : BaseRecyclerViewAdapter<Trip,ItemRcyHistoryUserBinding>() {
         holder: BaseViewHolder<ItemRcyHistoryUserBinding, Trip>,
         position: Int
     ) {
-       val item = items[position]
+        val item = items[position]
         holder.binding.apply {
             tvDate.text = item.date_of_hire?.let { convertLongToTime(it) }
             tvFee.text = item.fee?.let { numberToVND(it) }

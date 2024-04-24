@@ -20,7 +20,8 @@ class WebSocket @Inject constructor() {
 
     val mutableLiveData = MutableLiveData<Trip>()
     val acceptTrip = MutableLiveData<Trip>()
-    val mutableLiveDataLocation = MutableLiveData<LocationSend>()
+    val locationDriver = MutableLiveData<LocationSend>()
+    val completeTrip = MutableLiveData<Trip>()
     val isDriverAcceptTripSuccess = MutableLiveData<Boolean>()
     private val disposable = CompositeDisposable()
     private var disposableLocationDriver = CompositeDisposable()
@@ -67,6 +68,14 @@ class WebSocket @Inject constructor() {
             }
         )
 
+        mStompClient?.topic("/topic/completeTrip/352")?.subscribe(
+            { topicMessage: StompMessage ->
+                val json = gson.fromJson(topicMessage.payload, Trip::class.java)
+                completeTrip.postValue(json)
+            }, {
+                Timber.tag("WebSocket completeTrip ").e(it.printStackTrace().toString())
+            }
+        )
 
         disposableLocationDriver.dispose()
         disposableLocationDriver = CompositeDisposable()
@@ -74,7 +83,7 @@ class WebSocket @Inject constructor() {
             mStompClient?.topic("/topic/locationDriver/352")?.subscribe(
                 { topicMessage: StompMessage ->
                     val json = gson.fromJson(topicMessage.payload, LocationSend::class.java)
-                    mutableLiveDataLocation.postValue(json)
+                    locationDriver.postValue(json)
                     Timber.tag("huan locationDriver").d(topicMessage.payload)
                 }, {
                     Timber.tag("WebSocket").e(it.printStackTrace().toString())
@@ -127,6 +136,19 @@ class WebSocket @Inject constructor() {
         val gson = Gson()
         val json = gson.toJson(trip)
         mStompClient?.send("/app/cancel", json)?.subscribe(
+            {
+
+            }, {
+                Timber.tag("WebSocket").e(it.printStackTrace().toString())
+            }
+        )
+    }
+
+    @SuppressLint("CheckResult")
+    fun completeTrip(trip: Trip) {
+        val gson = Gson()
+        val json = gson.toJson(trip)
+        mStompClient?.send("/app/completeTrip", json)?.subscribe(
             {
 
             }, {

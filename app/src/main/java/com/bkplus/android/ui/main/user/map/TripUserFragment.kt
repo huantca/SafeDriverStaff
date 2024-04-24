@@ -20,7 +20,9 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.bkplus.android.common.BaseFragment
 import com.bkplus.android.common.BasePrefers
+import com.bkplus.android.model.StatusE
 import com.bkplus.android.model.Trip
+import com.bkplus.android.ui.widget.CompleteDialog
 import com.bkplus.android.ultis.getBitmapFromVectorDrawable
 import com.bkplus.android.ultis.gone
 import com.bkplus.android.ultis.numberToVND
@@ -135,15 +137,9 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
                             .position(it1)
                     }?.let { it2 -> it.addMarker(it2) }
                     calculateDirections(pickStart, dropEnd, TravelMode.DRIVING)
-                    webSocket.acceptTrip.observe(viewLifecycleOwner) {
-                        binding.ctlContainer.gone()
-                        binding.imgUp.gone()
-                        binding.ctlInfoDriver.visible()
-                        binding.tvNameDriver.text = it.driver?.name
-                        binding.tvAge.text = it.driver?.age.toString()
-                        binding.tvStatusDriver.text = it.status.toString()
-                        activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = false
-                    }
+                    handlerLocationDriver(it,context)
+                    handlerAcceptTrip()
+                    handlerCompleteTrip()
                 }
 
             }
@@ -168,15 +164,61 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
                 requestTrip()
             }
 
-            imgDown.setOnSingleClickListener{
+            imgDown.setOnSingleClickListener {
                 isShow = false
             }
 
-            imgUp.setOnSingleClickListener{
+            imgUp.setOnSingleClickListener {
                 isShow = true
             }
 
 
+        }
+    }
+
+    private fun handlerLocationDriver(googleMap: GoogleMap, context: Context) {
+        webSocket.locationDriver.observe(viewLifecycleOwner) {
+            val latLng = it.latitude?.let { it1 -> it.longitude?.let { it2 -> LatLng(it1, it2) } }
+            latLng?.let { ln ->
+                googleMap.addMarker(
+                    MarkerOptions()
+                        .icon(
+                            BitmapDescriptorFactory.fromBitmap(
+                                context.getBitmapFromVectorDrawable(
+                                    R.drawable.user_gps
+                                )
+                            )
+                        )
+                        .position(ln)
+                )
+            }
+
+
+        }
+    }
+
+    private fun handlerAcceptTrip() {
+        webSocket.acceptTrip.observe(viewLifecycleOwner) {
+            binding.ctlContainer.gone()
+            binding.imgUp.gone()
+            binding.ctlInfoDriver.visible()
+            binding.tvNameDriver.text = it.driver?.name
+            binding.tvAge.text = it.driver?.age.toString()
+            binding.tvStatusDriver.text = it.status.toString()
+            activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = false
+        }
+
+    }
+
+    private fun handlerCompleteTrip() {
+        webSocket.completeTrip.observe(viewLifecycleOwner) {
+            if (it.id == trip?.id && it.status == StatusE.COMPLETE) {
+                CompleteDialog().apply {
+                    action = {
+                        findNavController().popBackStack(R.id.homeFragment, false)
+                    }
+                }.show(childFragmentManager)
+            }
         }
     }
 
@@ -258,9 +300,10 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
                 }
             }
             binding.tvNameCar.text = BasePrefers.getPrefsInstance().vehicleModelUser
-            binding.tvTypeCar.text = context?.getString(R.string.range_car) + BasePrefers.getPrefsInstance().rangeOfVehicleUser
+            binding.tvTypeCar.text =
+                context?.getString(R.string.range_car) + BasePrefers.getPrefsInstance().rangeOfVehicleUser
             binding.tvKm.text = String.format("%.2f Km", minDistance / 1000.0)
-            trip?.km =  minDistance / 1000.0
+            trip?.km = minDistance / 1000.0
             binding.tvFee.text = numberToVND(minDistance.toDouble() * 10)
             trip?.fee = minDistance.toDouble() * 10
             val decodedPath = PolylineEncoding.decode(shortestRoute?.overviewPolyline?.encodedPath)
@@ -285,9 +328,7 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
     }
 
 
-
-
-    private fun requestTrip(){
+    private fun requestTrip() {
         trip?.let {
             it.car_name = BasePrefers.getPrefsInstance().vehicleModelUser
             it.range_of_vehicle = BasePrefers.getPrefsInstance().rangeOfVehicleUser

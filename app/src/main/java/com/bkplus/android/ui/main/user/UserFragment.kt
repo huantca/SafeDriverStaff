@@ -45,7 +45,7 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
         sharedViewModel.getListHistory(trip?.user!!)
         userAdapter = UserAdapter()
         binding.rcyHistory.adapter = userAdapter
-        sharedViewModel.historyLiveData.observe(viewLifecycleOwner){
+        sharedViewModel.historyUserLiveData.observe(viewLifecycleOwner){
             userAdapter?.updateItems(it)
         }
     }
@@ -98,13 +98,13 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
             override fun onPlaceSelected(place: Place) {
                 // TODO: Get info about the selected place.
                 if (selectedPosition == 0) {
-                    binding.tvStart.text = place.name
-                    trip?.pick_up_location = place.name
+                    binding.tvStart.text = place.address
+                    trip?.pick_up_location = place.address
                     trip?.pick_up_location_latitude = place.latLng?.latitude
                     trip?.pick_up_location_longitude = place.latLng?.longitude
                 } else {
-                    binding.tvEnd.text = place.name
-                    trip?.drop_off_location = place.name
+                    binding.tvEnd.text = place.address
+                    trip?.drop_off_location = place.address
                     trip?.drop_off_location_latitude = place.latLng?.latitude
                     trip?.drop_off_location_longitude = place.latLng?.longitude
                 }

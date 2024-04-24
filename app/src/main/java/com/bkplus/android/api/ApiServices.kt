@@ -1,6 +1,7 @@
 package com.bkplus.android.api
 
 import com.bkplus.android.api.entity.HomeSectionEntity
+import com.bkplus.android.model.Driver
 import com.bkplus.android.model.TripBody
 import com.bkplus.android.model.User
 import okhttp3.ResponseBody
@@ -20,6 +21,11 @@ interface ApiService {
     @POST("trip/userHistory")
     suspend fun getHistoryUser(
         @Body user: User
+    ): BaseResponse<TripBody>
+
+    @POST("trip/driverHistory")
+    suspend fun getHistoryDriver(
+        @Body driver: Driver
     ): BaseResponse<TripBody>
 
 }

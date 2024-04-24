@@ -38,7 +38,7 @@ class DriverFragment : BaseFragment<FragmentDriverBinding>() {
         location = context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val gson = Gson()
         adapter?.action = {
-            it.driver = Driver(2, name = "adam")
+            it.driver = Driver(2, name = "adam", age = 32)
             it.status = StatusE.CONFIRM
             val json = gson.toJson(it)
             bundle?.putString("trip", json)

@@ -25,10 +25,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
                 android:fontFamily="@font/roboto_bold"
                 android:text="1 May, 2022"
                 android:textColor="#5256E8"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvDate"
+                android:fontFamily="@font/roboto_bold"
+                android:layout_marginTop="3dp"
+                android:text="Hoàn thành"
+                android:textColor="#5E5F9E"
                 android:textSize="16sp" />
 
             <TextView
@@ -38,6 +48,7 @@
                 android:layout_alignParentEnd="true"
                 android:fontFamily="@font/roboto_regular"
                 android:text="$2400"
+                android:layout_centerVertical="true"
                 android:textColor="#266352"
                 android:textSize="24sp" />
 

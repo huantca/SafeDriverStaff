@@ -81,6 +81,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tvName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
@@ -89,6 +90,7 @@
                         android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/tvFree"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
@@ -98,6 +100,7 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/tvKm"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
@@ -184,6 +187,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tvStartLocation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
@@ -214,6 +218,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tvEndLocation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
@@ -245,6 +250,7 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/tvNote"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -275,6 +281,21 @@
                 android:background="@drawable/bg_radius_18"
                 android:backgroundTint="@color/primary"
                 android:text="@string/start"
+                android:textAllCaps="false"
+                android:visibility="invisible"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/lnNote" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnComplete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_radius_18"
+                android:backgroundTint="@color/primary"
+                android:text="@string/complete"
                 android:textAllCaps="false"
                 android:visibility="invisible"
                 android:textColor="@color/white"
