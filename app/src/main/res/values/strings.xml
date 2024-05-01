@@ -96,8 +96,6 @@
     <string name="you_can_view_and_set">You can view and set this wallpaper by watching an ad! Ready?</string>
     <string name="hello_friend">Hello friend</string>
     <string name="sign_in_to_your_account">Sign in to your account</string>
-    <string name="your_email">Your Email</string>
-    <string name="password">Password</string>
     <string name="remember_me">Remember me</string>
     <string name="forget_password">Forget password ?</string>
     <string name="total_income">Total income</string>
@@ -129,4 +127,21 @@
     <string name="age">Age :</string>
     <string name="scroll_to_the_customer_and_press_start_trip">Scroll to the customer and press start trip</string>
     <string name="complete">Complete</string>
+    <string name="your_email">Your Email</string>
+    <string name="your_password">Your Password</string>
+    <string name="newbie">Newbie ? </string>
+    <string name="register_here">Register here</string>
+    <string name="login">Login</string>
+    <string name="create_free">Create a free account</string>
+    <string name="full_name">Full Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="register">Register</string>
+    <string name="already_a_member">Already a member ?</string>
+    <string name="account_authentication">Account authentication</string>
+    <string name="please_enter_the_6_digit_code_sent">Please enter the 6-digit code sent Email %s for verification.</string>
+    <string name="haven_received_any_codes_yet">Haven\'t received any codes yet?</string>
+    <string name="resend_the_code">Resend the code</string>
+    <string name="verification">Verification</string>
+    <string name="otp_does_not_match">Otp does not match</string>
+    <string name="register_sccess">Register success</string>
 </resources>

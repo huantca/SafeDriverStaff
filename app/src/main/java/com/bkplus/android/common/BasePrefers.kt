@@ -5,6 +5,7 @@ import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import com.bkplus.android.model.Item
 import com.bkplus.android.model.Trip
+import com.bkplus.android.model.User
 import com.bkplus.android.ultis.Constants
 import com.bkplus.android.ultis.GsonUtils
 import com.google.gson.Gson
@@ -14,20 +15,14 @@ import com.harrison.myapplication.BuildConfig
 class BasePrefers(private val context: Context) {
 
     private val prefsNewUser = "prefsNewUser${BuildConfig.VERSION_NAME}"
+    private val prefsNewLogin = "prefsNewLogin"
     private val prefsOnBoard = "prefsOnBoard${BuildConfig.VERSION_NAME}"
     private val prefsWelcome = "prefsWelcome${BuildConfig.VERSION_NAME}"
     private val prefsLocale = "prefsLocale"
-    private val prefsInfoUser = "prefsInfoUser"
+    private val prefsInfoTrip = "prefsInfoTrip"
     private val prefsTimer = "prefsTimer"
-
-    private val prefsBanner = "prefsBanner"
-    private val prefsInterSplash = "prefsInterSplash"
-    private val prefsNativeLanguage = "prefsNativeLanguage"
-    private val prefsNativeWelcome = "prefsNativeWelcome"
-    private val prefsNativeHome = "prefsNativeHome"
-    private val prefsNativeOnboard = "prefsNativeOnboard"
-    private val prefsInterOnboard = "prefsInterOnboard"
-    private val prefsOpenResume = "prefsOpenResume"
+    private val prefsInfoUserLogin = "prefsInfoUserLogin"
+    private val prefsInfoDriverLogin = "prefsInfoDriverLogin"
     private val prefsListThemeFreeHome = "prefsListThemeFreeHome"
     private val prefsModelVehicleUser = "prefsModelVehicleUser"
     private val prefsRangeOfVehicleUser = "prefsRangeOfVehicleUser"
@@ -56,6 +51,10 @@ class BasePrefers(private val context: Context) {
         get() = mPrefs.getBoolean(prefsNewUser, true)
         set(value) = mPrefs.edit { putBoolean(prefsNewUser, value) }
 
+    var newLogin
+        get() = mPrefs.getBoolean(prefsNewLogin, false)
+        set(value) = mPrefs.edit { putBoolean(prefsNewLogin, value) }
+
     var doneOnboard
         get() = mPrefs.getBoolean(prefsOnBoard, false)
         set(value) = mPrefs.edit { putBoolean(prefsOnBoard, value) }
@@ -66,8 +65,8 @@ class BasePrefers(private val context: Context) {
 
 
     var requestTrip: Trip?
-        set(value) = mPrefs.edit { putString(prefsInfoUser, GsonUtils.saveObject(value)).apply() }
-        get() = GsonUtils.fromJsonSafe<Trip>(mPrefs.getString(prefsInfoUser, ""))
+        set(value) = mPrefs.edit { putString(prefsInfoTrip, GsonUtils.saveObject(value)).apply() }
+        get() = GsonUtils.fromJsonSafe<Trip>(mPrefs.getString(prefsInfoTrip, ""))
 
     var vehicleModelUser
         get() = mPrefs.getString(prefsModelVehicleUser, "Vios")
@@ -90,6 +89,15 @@ class BasePrefers(private val context: Context) {
             ), object : TypeToken<ArrayList<Item>>() {}.type
         )
         set(value) = mPrefs.edit { putString(prefsListThemeFreeHome, Gson().toJson(value)).apply() }
+
+    var infoUser: User?
+        set(value) = mPrefs.edit { putString(prefsInfoUserLogin, GsonUtils.saveObject(value)).apply() }
+        get() = GsonUtils.fromJsonSafe<User>(mPrefs.getString(prefsInfoUserLogin, null))
+
+    var infoDriver
+        set(value) = mPrefs.edit { putString(prefsInfoDriverLogin, GsonUtils.saveObject(value)).apply() }
+        get() = GsonUtils.fromJsonSafe<Trip>(mPrefs.getString(prefsInfoDriverLogin, null))
+
 
     companion object {
         @Volatile

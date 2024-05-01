@@ -2,6 +2,7 @@ package com.bkplus.android.websocket
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
+import com.bkplus.android.common.BasePrefers
 import com.bkplus.android.model.LocationSend
 import com.bkplus.android.model.Trip
 import com.google.gson.Gson
@@ -58,7 +59,7 @@ class WebSocket @Inject constructor() {
         )
 
 
-        mStompClient?.topic("/topic/driver/352")?.subscribe(
+        mStompClient?.topic("/topic/driver/" + BasePrefers.getPrefsInstance().infoUser?.id)?.subscribe(
             { topicMessage: StompMessage ->
                 val json = gson.fromJson(topicMessage.payload, Trip::class.java)
                 acceptTrip.postValue(json)
@@ -68,7 +69,7 @@ class WebSocket @Inject constructor() {
             }
         )
 
-        mStompClient?.topic("/topic/completeTrip/352")?.subscribe(
+        mStompClient?.topic("/topic/completeTrip/" + BasePrefers.getPrefsInstance().infoUser?.id)?.subscribe(
             { topicMessage: StompMessage ->
                 val json = gson.fromJson(topicMessage.payload, Trip::class.java)
                 completeTrip.postValue(json)
@@ -80,7 +81,7 @@ class WebSocket @Inject constructor() {
         disposableLocationDriver.dispose()
         disposableLocationDriver = CompositeDisposable()
         disposableLocationDriver.addAll(
-            mStompClient?.topic("/topic/locationDriver/352")?.subscribe(
+            mStompClient?.topic("/topic/locationDriver/" + BasePrefers.getPrefsInstance().infoUser?.id)?.subscribe(
                 { topicMessage: StompMessage ->
                     val json = gson.fromJson(topicMessage.payload, LocationSend::class.java)
                     locationDriver.postValue(json)
@@ -172,6 +173,10 @@ class WebSocket @Inject constructor() {
 
     fun disposableLocation() {
         disposableLocationDriver.dispose()
+    }
+
+    fun checkConnected(): Boolean{
+        return mStompClient?.isConnected ?: false
     }
 
     @SuppressLint("CheckResult")

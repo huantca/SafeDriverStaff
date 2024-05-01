@@ -34,6 +34,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
@@ -137,7 +138,7 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
                             .position(it1)
                     }?.let { it2 -> it.addMarker(it2) }
                     calculateDirections(pickStart, dropEnd, TravelMode.DRIVING)
-                    handlerLocationDriver(it,context)
+                    handlerLocationDriver(it, context)
                     handlerAcceptTrip()
                     handlerCompleteTrip()
                 }
@@ -177,9 +178,11 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
     }
 
     private fun handlerLocationDriver(googleMap: GoogleMap, context: Context) {
+        var marker: Marker? = null
         webSocket.locationDriver.observe(viewLifecycleOwner) {
+            marker?.remove()
             val latLng = it.latitude?.let { it1 -> it.longitude?.let { it2 -> LatLng(it1, it2) } }
-            latLng?.let { ln ->
+            marker = latLng?.let { ln ->
                 googleMap.addMarker(
                     MarkerOptions()
                         .icon(
@@ -192,7 +195,6 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
                         .position(ln)
                 )
             }
-
 
         }
     }
@@ -212,7 +214,7 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
 
     private fun handlerCompleteTrip() {
         webSocket.completeTrip.observe(viewLifecycleOwner) {
-            if (it.id == trip?.id && it.status == StatusE.COMPLETE) {
+            if (it.user?.id == BasePrefers.getPrefsInstance().infoUser?.id && it.status == StatusE.COMPLETE) {
                 CompleteDialog().apply {
                     action = {
                         findNavController().popBackStack(R.id.homeFragment, false)

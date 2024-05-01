@@ -71,7 +71,6 @@
             android:background="@drawable/bg_radius_16"
             android:backgroundTint="#33C4C4C4"
             android:drawableEnd="@drawable/ic_reward"
-            android:hint="@string/password"
             android:paddingHorizontal="20dp"
             android:paddingVertical="10dp"
             android:textColor="@color/black"

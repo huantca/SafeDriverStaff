@@ -66,6 +66,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         setUpNoInternetDialog()
         setUpBottomNavigation()
         requestNotificationPermissionAndroid13()
+        if (BasePrefers.getPrefsInstance().infoUser != null || BasePrefers.getPrefsInstance().infoDriver != null) webSocket.connectWebSocket()
     }
 
     private fun setUpBottomNavigation() {

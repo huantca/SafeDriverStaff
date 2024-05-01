@@ -6,10 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bkplus.android.api.ApiService
 import com.bkplus.android.api.onException
+import com.bkplus.android.api.onFailure
 import com.bkplus.android.api.onSuccess
 import com.bkplus.android.model.Driver
+import com.bkplus.android.model.RequestOtp
 import com.bkplus.android.model.Trip
 import com.bkplus.android.model.User
+import com.harison.core.app.utils.SingleLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,6 +24,12 @@ class SharedViewModel @Inject constructor(
 ) : ViewModel() {
     val historyUserLiveData = MutableLiveData<ArrayList<Trip>>()
     val historyDriverLiveData = MutableLiveData<ArrayList<Trip>>()
+    val loginUserSuccessLiveData = SingleLiveData<User>()
+    val loginUserFailLiveData = SingleLiveData<String>()
+    val registerUserSuccessLiveData = SingleLiveData<User>()
+    val registerUserFailLiveData = SingleLiveData<String>()
+    val sendOtpUserSuccessLiveData = SingleLiveData<String>()
+    val sendOtpUserFailLiveData = SingleLiveData<String>()
 
     fun getListHistory(user: User) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -51,6 +60,44 @@ class SharedViewModel @Inject constructor(
 
     }
 
+    fun login(user: User) {
+        viewModelScope.launch(Dispatchers.IO) {
+            apiService.loginUser(user).onSuccess {
+                if (it.data == null) loginUserFailLiveData.postValue(it.error.toString())
+                it.data?.let { users ->
+                    loginUserSuccessLiveData.postValue(users)
+                }
+            }.onFailure { code, message ->
+                loginUserFailLiveData.postValue(message)
+            }
+        }
+    }
+
+    fun register(user: User) {
+        viewModelScope.launch(Dispatchers.IO) {
+            apiService.registerUser(user).onSuccess {
+                if (it.data == null) registerUserFailLiveData.postValue(it.error.toString())
+                it.data?.let { users ->
+                    registerUserSuccessLiveData.postValue(users)
+                }
+            }.onFailure { code, message ->
+                registerUserFailLiveData.postValue(message)
+            }
+        }
+    }
+
+    fun sendOtp(requestOtp: RequestOtp){
+        viewModelScope.launch(Dispatchers.IO) {
+            apiService.sendOtp(requestOtp).onSuccess {
+                if (it.data == null) sendOtpUserFailLiveData.postValue(it.message.toString())
+                it.data?.let { otp ->
+                    sendOtpUserSuccessLiveData.postValue(otp)
+                }
+            }.onFailure { code, message ->
+                sendOtpUserFailLiveData.postValue(message)
+            }
+        }
+    }
 
 
 }

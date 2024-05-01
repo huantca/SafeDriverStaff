@@ -53,13 +53,13 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
 
     private fun navigateNextScreen() {
         val newUser = BasePrefers.getPrefsInstance().newUser
-        val doneOnboard = BasePrefers.getPrefsInstance().doneOnboard
-        val doneWelcome = BasePrefers.getPrefsInstance().doneWelcome
+        val doneLogin = BasePrefers.getPrefsInstance().newLogin
+        val isDriver = BasePrefers.getPrefsInstance().infoDriver != null
         findNavController().navigate(
             if (newUser) R.id.firstLanguageFragment
-            else if (!doneOnboard) R.id.onboardFragment
-            else if (!doneWelcome) R.id.welcomeFragment
-            else R.id.homeFragment
+            else if (!doneLogin) R.id.loginUserFragment
+            else if (isDriver) R.id.driverFragment
+            else R.id.userFragment
         )
     }
 }

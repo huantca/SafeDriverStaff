@@ -102,7 +102,7 @@ class FirstLanguageFragment : BaseFragment<FragmentFirstLanguageBinding>(), Lang
 
     private fun goToOnboarding() {
         BasePrefers.getPrefsInstance().newUser = false
-        findNavController().navigate(R.id.onboardFragment)
+        findNavController().navigate(R.id.loginUserFragment)
     }
 
 

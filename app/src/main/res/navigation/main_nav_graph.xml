@@ -72,4 +72,30 @@
         android:label="UserFragment"
         tools:layout="@layout/fragment_user" />
 
+
+    <fragment
+        android:id="@+id/loginUserFragment"
+        android:name="com.bkplus.android.ui.main.login.loginuser.LoginUserFragment"
+        android:label="LoginUserFragment"
+        tools:layout="@layout/fragment_login_user" />
+
+
+    <fragment
+        android:id="@+id/registerUserFragment"
+        android:name="com.bkplus.android.ui.main.login.loginuser.RegisterUserFragment"
+        android:label="RegisterUserFragment"
+        tools:layout="@layout/fragment_register_user" />
+
+    <fragment
+        android:id="@+id/otpFragment"
+        android:name="com.bkplus.android.ui.main.login.loginuser.OtpFragment"
+        android:label="OtpFragment"
+        tools:layout="@layout/fragment_verification_login" >
+        <action
+            android:id="@+id/action_otpFragment_to_userFragment"
+            app:popUpTo="@layout/fragment_login_user"
+            app:destination="@id/userFragment" />
+    </fragment>
+
+
 </navigation>

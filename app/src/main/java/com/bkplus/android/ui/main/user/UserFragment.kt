@@ -9,7 +9,6 @@ import com.bkplus.android.SharedViewModel
 import com.bkplus.android.common.BaseFragment
 import com.bkplus.android.common.BasePrefers
 import com.bkplus.android.model.Trip
-import com.bkplus.android.model.User
 import com.bkplus.android.ui.main.user.adapter.UserAdapter
 import com.bkplus.android.ultis.setOnSingleClickListener
 import com.bkplus.android.websocket.WebSocket
@@ -39,10 +38,15 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
 
     override fun setupData() {
         super.setupData()
+        if (!webSocket.checkConnected()){
+            webSocket.connectWebSocket()
+        }
         trip = Trip()
-        trip?.user = User(id = 352, name = "Bùi Xuân Huấn")
+        trip?.user = BasePrefers.getPrefsInstance().infoUser
         autocompleteForPlaces()
-        sharedViewModel.getListHistory(trip?.user!!)
+        trip?.user?.let {
+            sharedViewModel.getListHistory(it)
+        }
         userAdapter = UserAdapter()
         binding.rcyHistory.adapter = userAdapter
         sharedViewModel.historyUserLiveData.observe(viewLifecycleOwner){
@@ -56,6 +60,7 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
         binding.apply {
             isHourly = false
             isShowMap = false
+            tvName.text = trip?.user?.name
         }
     }
     override fun setupListener() {
