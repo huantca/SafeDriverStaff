@@ -36,18 +36,8 @@ class WebSocket @Inject constructor() {
         )
         mStompClient?.connect()
 
-        disposable.addAll(
-            mStompClient?.topic("/topic/trip/" + 2)?.subscribe(
-                { topicMessage: StompMessage ->
-                    val json = gson.fromJson(topicMessage.payload, Trip::class.java)
-                    mutableLiveData.postValue(json)
-                    Timber.tag("mutableLiveData").d(topicMessage.payload)
-                }, {
-                    Timber.tag("WebSocket").e(it.printStackTrace().toString())
-                }
-            ),
 
-            mStompClient?.topic("/topic/cancel/" + 2)?.subscribe(
+            mStompClient?.topic("/topic/trip/" + BasePrefers.getPrefsInstance().infoDriver?.id)?.subscribe(
                 { topicMessage: StompMessage ->
                     val json = gson.fromJson(topicMessage.payload, Trip::class.java)
                     mutableLiveData.postValue(json)
@@ -56,7 +46,17 @@ class WebSocket @Inject constructor() {
                     Timber.tag("WebSocket").e(it.printStackTrace().toString())
                 }
             )
-        )
+
+            mStompClient?.topic("/topic/cancel/" +  BasePrefers.getPrefsInstance().infoDriver?.id)?.subscribe(
+                { topicMessage: StompMessage ->
+                    val json = gson.fromJson(topicMessage.payload, Trip::class.java)
+                    mutableLiveData.postValue(json)
+                    Timber.tag("mutableLiveData").d(topicMessage.payload)
+                }, {
+                    Timber.tag("WebSocket").e(it.printStackTrace().toString())
+                }
+            )
+
 
 
         mStompClient?.topic("/topic/driver/" + BasePrefers.getPrefsInstance().infoUser?.id)?.subscribe(
@@ -90,7 +90,7 @@ class WebSocket @Inject constructor() {
                     Timber.tag("WebSocket").e(it.printStackTrace().toString())
                 }
             ),
-            mStompClient?.topic("/topic/driver/request/" + 2)?.subscribe(
+            mStompClient?.topic("/topic/driver/request/" + BasePrefers.getPrefsInstance().infoDriver?.id)?.subscribe(
                 { topicMessage: StompMessage ->
                     if (topicMessage.payload.toInt() == 0){
                         isDriverAcceptTripSuccess.postValue(false)
@@ -181,7 +181,7 @@ class WebSocket @Inject constructor() {
 
     @SuppressLint("CheckResult")
     fun disconnect() {
-        disposable.dispose()
+       // disposable.dispose()
         mStompClient?.disconnect()
     }
 

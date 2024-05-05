@@ -13,8 +13,8 @@
             android:id="@+id/rltHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -67,9 +67,19 @@
                 android:id="@+id/imgPerson"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="11dp"
+                android:layout_toStartOf="@id/icLogout"
+                android:src="@drawable/ic_person" />
+
+
+            <ImageView
+                android:id="@+id/icLogout"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_person" />
+                android:src="@drawable/ic_logout" />
 
         </RelativeLayout>
 
@@ -99,12 +109,14 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tvMoney"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="5.000.000"
+                        android:text="0"
+                        android:gravity="center"
                         android:textColor="#353535"
-                        android:textSize="24sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -112,6 +124,7 @@
                         android:layout_marginTop="5dp"
                         android:fontFamily="@font/roboto_regular"
                         android:text="Tổng thu nhập"
+                        android:gravity="center"
                         android:textColor="#717171"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -125,8 +138,8 @@
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginVertical="5dp"
                 android:layout_weight="0.5"
-                app:cardBackgroundColor="@color/white"
                 android:elevation="10dp"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="10dp">
 
@@ -138,12 +151,14 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tvCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="10"
+                        android:text="0"
+                        android:gravity="center"
                         android:textColor="#353535"
-                        android:textSize="24sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -188,10 +203,11 @@
             android:id="@+id/rcyDriver"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_rcy_home_driver"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rltLatestRequest"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            tools:listitem="@layout/item_rcy_home_driver" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

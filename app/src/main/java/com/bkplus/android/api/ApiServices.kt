@@ -2,6 +2,7 @@ package com.bkplus.android.api
 
 import com.bkplus.android.api.entity.HomeSectionEntity
 import com.bkplus.android.model.Driver
+import com.bkplus.android.model.DriverBody
 import com.bkplus.android.model.OtpBody
 import com.bkplus.android.model.RequestOtp
 import com.bkplus.android.model.TripBody
@@ -35,6 +36,11 @@ interface ApiService {
     suspend fun loginUser(
         @Body user: User
     ): BaseResponse<UserBody>
+
+    @POST("driver/login")
+    suspend fun loginDriver(
+        @Body driver: Driver
+    ): BaseResponse<DriverBody>
 
 
     @POST("auth/register")

@@ -124,7 +124,7 @@
     <string name="profile">Profile</string>
     <string name="car_model">Car model : </string>
     <string name="range_car">Range of vehicle : </string>
-    <string name="age">Age :</string>
+    <string name="age">Age: </string>
     <string name="scroll_to_the_customer_and_press_start_trip">Scroll to the customer and press start trip</string>
     <string name="complete">Complete</string>
     <string name="your_email">Your Email</string>
@@ -144,4 +144,46 @@
     <string name="verification">Verification</string>
     <string name="otp_does_not_match">Otp does not match</string>
     <string name="register_sccess">Register success</string>
+    <string name="select_your_vehicle_type_to_continue">Select your vehicle type to continue</string>
+    <string name="ok">Ok</string>
+    <string name="rent_for">Rent for</string>
+    <string name="allow_app_to_access_device_location">Allow  to access this device’s location?</string>
+
+    <string-array name="typeCar">
+        <item>Automatic transmission</item>
+        <item>Manual transmission</item>
+    </string-array>
+
+
+
+    <string-array name="car">
+        <item>Hyundai Grand i10</item>
+        <item>Kia Morning</item>
+        <item>VinFast Fadil</item>
+        <item>Suzuki Celerio</item>
+        <item>Honda Brio</item>
+        <item>Toyota Vios</item>
+        <item>Hyundai Accent </item>
+        <item>Mitsubishi Xpander</item>
+        <item>Ford Ranger</item>
+        <item>Honda City</item>
+        <item>Toyota Corolla Altis</item>
+        <item>Mazda3</item>
+        <item>Kia Cerato</item>
+        <item>Hyundai Elantra</item>
+        <item>Toyota Camry</item>
+        <item>Honda Accord</item>
+        <item>Mazda6</item>
+        <item>Kia Optima</item>
+        <item>Hyundai Sonata</item>
+        <item>Honda Civic</item>
+    </string-array>
+
+    <string-array name="hour">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
 </resources>

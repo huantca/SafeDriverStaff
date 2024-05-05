@@ -25,7 +25,9 @@ class SharedViewModel @Inject constructor(
     val historyUserLiveData = MutableLiveData<ArrayList<Trip>>()
     val historyDriverLiveData = MutableLiveData<ArrayList<Trip>>()
     val loginUserSuccessLiveData = SingleLiveData<User>()
-    val loginUserFailLiveData = SingleLiveData<String>()
+    val loginFailLiveData = SingleLiveData<String>()
+    val loginDriverSuccessLiveData = SingleLiveData<Driver>()
+
     val registerUserSuccessLiveData = SingleLiveData<User>()
     val registerUserFailLiveData = SingleLiveData<String>()
     val sendOtpUserSuccessLiveData = SingleLiveData<String>()
@@ -63,12 +65,25 @@ class SharedViewModel @Inject constructor(
     fun login(user: User) {
         viewModelScope.launch(Dispatchers.IO) {
             apiService.loginUser(user).onSuccess {
-                if (it.data == null) loginUserFailLiveData.postValue(it.error.toString())
+                if (it.data == null) loginFailLiveData.postValue(it.error.toString())
                 it.data?.let { users ->
                     loginUserSuccessLiveData.postValue(users)
                 }
             }.onFailure { code, message ->
-                loginUserFailLiveData.postValue(message)
+                loginFailLiveData.postValue(message)
+            }
+        }
+    }
+
+    fun login(driver: Driver) {
+        viewModelScope.launch(Dispatchers.IO) {
+            apiService.loginDriver(driver).onSuccess {
+                if (it.data == null) loginFailLiveData.postValue(it.error.toString())
+                it.data?.let { driver ->
+                    loginDriverSuccessLiveData.postValue(driver)
+                }
+            }.onFailure { code, message ->
+                loginFailLiveData.postValue(message)
             }
         }
     }

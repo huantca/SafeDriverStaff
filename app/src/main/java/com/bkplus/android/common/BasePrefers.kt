@@ -3,6 +3,7 @@ package com.bkplus.android.common
 import android.content.Context
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
+import com.bkplus.android.model.Driver
 import com.bkplus.android.model.Item
 import com.bkplus.android.model.Trip
 import com.bkplus.android.model.User
@@ -69,11 +70,11 @@ class BasePrefers(private val context: Context) {
         get() = GsonUtils.fromJsonSafe<Trip>(mPrefs.getString(prefsInfoTrip, ""))
 
     var vehicleModelUser
-        get() = mPrefs.getString(prefsModelVehicleUser, "Vios")
+        get() = mPrefs.getString(prefsModelVehicleUser, null)
         set(value) = mPrefs.edit { putString(prefsModelVehicleUser, value) }
 
     var rangeOfVehicleUser
-        get() = mPrefs.getString(prefsRangeOfVehicleUser, " Automatic transmission")
+        get() = mPrefs.getString(prefsRangeOfVehicleUser, null)
         set(value) = mPrefs.edit { putString(prefsRangeOfVehicleUser, value) }
 
     var locale
@@ -94,9 +95,9 @@ class BasePrefers(private val context: Context) {
         set(value) = mPrefs.edit { putString(prefsInfoUserLogin, GsonUtils.saveObject(value)).apply() }
         get() = GsonUtils.fromJsonSafe<User>(mPrefs.getString(prefsInfoUserLogin, null))
 
-    var infoDriver
+    var infoDriver : Driver?
         set(value) = mPrefs.edit { putString(prefsInfoDriverLogin, GsonUtils.saveObject(value)).apply() }
-        get() = GsonUtils.fromJsonSafe<Trip>(mPrefs.getString(prefsInfoDriverLogin, null))
+        get() = GsonUtils.fromJsonSafe<Driver>(mPrefs.getString(prefsInfoDriverLogin, null))
 
 
     companion object {

@@ -36,5 +36,6 @@ data class Trip (
     var user: User? = null,
     var driver: Driver? = null,
     var evaluates: List<Evaluate>? = null,
-    var km : Double?= null
+    var km : Double?= null,
+    var hourly_rental: Int?= 0
 )

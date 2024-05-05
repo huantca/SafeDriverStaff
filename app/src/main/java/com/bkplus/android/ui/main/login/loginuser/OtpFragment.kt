@@ -3,6 +3,7 @@ package com.bkplus.android.ui.main.login.loginuser
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.os.CountDownTimer
+import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -46,6 +47,7 @@ class OtpFragment : BaseFragment<FragmentVerificationLoginBinding>() {
             }
             btnVerification.setOnClickListener {
                 if (edtOtp.text.toString() == user.otp){
+                    activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = true
                     viewModel.register(user)
                 }else{
                     toast(getString(R.string.otp_does_not_match))
@@ -59,8 +61,10 @@ class OtpFragment : BaseFragment<FragmentVerificationLoginBinding>() {
 
     private fun handlerRegister(){
         viewModel.registerUserSuccessLiveData.observe(viewLifecycleOwner){
+            activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = false
             toast(getString(R.string.register_sccess))
             BasePrefers.getPrefsInstance().newLogin = true
+            BasePrefers.getPrefsInstance().infoDriver = null
             BasePrefers.getPrefsInstance().infoUser = it
             findNavController().navigate(OtpFragmentDirections.actionOtpFragmentToUserFragment())
         }
@@ -82,7 +86,7 @@ class OtpFragment : BaseFragment<FragmentVerificationLoginBinding>() {
                 binding.tvResendCode.isEnabled = false
                 binding.tvResendCode.setTextColor(context?.let { ColorStateList.valueOf(it.getColor(R.color.naviColor1)) })
                 binding.tvTime.isVisible = true
-                binding.tvTime.text = millisUntilFinished.toString() + "s"
+                binding.tvTime.text = (millisUntilFinished / 1000).toInt().toString() + "s"
             }
 
             // Callback function, fired

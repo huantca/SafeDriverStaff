@@ -108,7 +108,7 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
                                 .icon(
                                     BitmapDescriptorFactory.fromBitmap(
                                         context.getBitmapFromVectorDrawable(
-                                            R.drawable.user_gps
+                                            R.drawable.ic_current_location
                                         )
                                     )
                                 )
@@ -161,8 +161,14 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
                 findNavController().popBackStack(R.id.homeFragment, false)
             }
             btnBook.setOnClickListener {
-                activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = true
                 requestTrip()
+                btnBook.gone()
+                binding.btnCancel.visible()
+            }
+
+            btnCancel.setOnClickListener {
+                trip?.let { it1 -> webSocket.cancelTrip(it1) }
+                findNavController().popBackStack()
             }
 
             imgDown.setOnSingleClickListener {
@@ -172,7 +178,6 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
             imgUp.setOnSingleClickListener {
                 isShow = true
             }
-
 
         }
     }
@@ -199,14 +204,16 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun handlerAcceptTrip() {
         webSocket.acceptTrip.observe(viewLifecycleOwner) {
             binding.ctlContainer.gone()
             binding.imgUp.gone()
             binding.ctlInfoDriver.visible()
             binding.tvNameDriver.text = it.driver?.name
-            binding.tvAge.text = it.driver?.age.toString()
+            binding.tvAge.text = context?.getString(R.string.age) + it.driver?.age.toString()
             binding.tvStatusDriver.text = it.status.toString()
+            binding.phone.text = context?.getString(R.string.phone_number) + ": " + it.driver?.phone
             activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = false
         }
 
@@ -217,7 +224,7 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
             if (it.user?.id == BasePrefers.getPrefsInstance().infoUser?.id && it.status == StatusE.COMPLETE) {
                 CompleteDialog().apply {
                     action = {
-                        findNavController().popBackStack(R.id.homeFragment, false)
+                        findNavController().popBackStack(R.id.userFragment, false)
                     }
                 }.show(childFragmentManager)
             }
@@ -302,11 +309,21 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
                 }
             }
             binding.tvNameCar.text = BasePrefers.getPrefsInstance().vehicleModelUser
+            if (trip?.hourly_rental != 0) {
+                binding.tvRentFor.visible()
+                binding.tvRentFor.text =
+                    context?.getString(R.string.rent_for) + trip?.hourly_rental + "h"
+            } else {
+                binding.tvRentFor.gone()
+            }
             binding.tvTypeCar.text =
                 context?.getString(R.string.range_car) + BasePrefers.getPrefsInstance().rangeOfVehicleUser
             binding.tvKm.text = String.format("%.2f Km", minDistance / 1000.0)
             trip?.km = minDistance / 1000.0
-            binding.tvFee.text = numberToVND(minDistance.toDouble() * 10)
+            binding.tvFee.text = numberToVND(
+                minDistance.toDouble() * 10 * ((trip?.hourly_rental ?: 0) + 1)
+            )
+            
             trip?.fee = minDistance.toDouble() * 10
             val decodedPath = PolylineEncoding.decode(shortestRoute?.overviewPolyline?.encodedPath)
             val newDecodedPath: MutableList<LatLng> = ArrayList()
@@ -338,7 +355,6 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
             it.date_of_hire = System.currentTimeMillis()
             BasePrefers.getPrefsInstance().requestTrip = it
             webSocket.sendRequest(it)
-
         }
     }
 

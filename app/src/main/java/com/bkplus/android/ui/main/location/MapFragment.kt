@@ -2,8 +2,10 @@ package com.bkplus.android.ui.main.location
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -11,6 +13,7 @@ import android.widget.FrameLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import com.bkplus.android.common.BaseFragment
 import com.bkplus.android.model.LocationSend
 import com.bkplus.android.model.Trip
@@ -219,6 +222,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnPolylineClickListener 
             btnComplete.setOnClickListener {
                 completeTrip()
             }
+            imgPhone.setOnClickListener {
+                val phoneIntent = Intent(Intent.ACTION_CALL)
+                phoneIntent.data = Uri.parse("tel:${tripOj?.user?.phone}")
+                context?.startActivity(phoneIntent)
+            }
         }
     }
 //    private fun resetSelectedMarker() {
@@ -386,6 +394,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnPolylineClickListener 
 
     private fun completeTrip() {
         tripOj?.let { webSocket.completeTrip(it) }
+        findNavController().popBackStack()
     }
 
     private fun updateInfoTrip() {

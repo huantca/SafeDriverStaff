@@ -97,5 +97,9 @@
             app:destination="@id/userFragment" />
     </fragment>
 
+    <fragment
+        android:id="@+id/infoUserFragment"
+        android:name="com.bkplus.android.ui.main.user.info.InfoUserFragment"
+        tools:layout="@layout/fragment_info_user"/>
 
 </navigation>

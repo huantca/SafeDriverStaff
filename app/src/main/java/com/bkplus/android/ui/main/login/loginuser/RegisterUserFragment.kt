@@ -1,6 +1,8 @@
 package com.bkplus.android.ui.main.login.loginuser
 
 import android.os.Bundle
+import android.widget.FrameLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bkplus.android.SharedViewModel
@@ -35,6 +37,7 @@ class RegisterUserFragment : BaseFragment<FragmentRegisterUserBinding>() {
                 findNavController().popBackStack()
             }
             btnRegister.setOnClickListener {
+                activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = true
                 viewModel.sendOtp(RequestOtp(email = edtEmail.text.trim().toString()))
             }
         }
@@ -49,7 +52,7 @@ class RegisterUserFragment : BaseFragment<FragmentRegisterUserBinding>() {
             user?.otp = it
             val json = gson?.toJson(user)
             bundle?.putString("userRegister", json)
-
+            activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = false
             findNavController().navigate(
                 R.id.otpFragment, bundle
             )

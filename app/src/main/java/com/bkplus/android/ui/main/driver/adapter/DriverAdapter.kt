@@ -2,8 +2,10 @@ package com.bkplus.android.ui.main.driver.adapter
 
 import android.annotation.SuppressLint
 import com.bkplus.android.model.Trip
+import com.bkplus.android.ultis.gone
 import com.bkplus.android.ultis.numberToVND
 import com.bkplus.android.ultis.setOnSingleClickListener
+import com.bkplus.android.ultis.visible
 import com.harison.core.app.platform.BaseRecyclerViewAdapter
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.ItemRcyHomeDriverBinding
@@ -30,6 +32,13 @@ class DriverAdapter : BaseRecyclerViewAdapter<Trip, ItemRcyHomeDriverBinding>() 
             tvStartLocation.text = item.pick_up_location
             tvEndLocation.text = item.drop_off_location
             tvNote.text = item.note
+            if (item.hourly_rental != 0){
+                tvRentFor.visible()
+                tvRentFor.text = root.context.getString(R.string.rent_for) + item.hourly_rental + "h"
+            }else{
+                tvRentFor.gone()
+            }
+
             btnAccept.setOnSingleClickListener {
                 action?.invoke(item)
             }

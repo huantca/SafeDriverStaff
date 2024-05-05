@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:tools="http://schemas.android.com/tools">
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="@drawable/bg_radius_16"
+        android:backgroundTint="@color/navy_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/btn_close"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:padding="12dp"
+            android:src="@drawable/ic_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/marker"
+            android:layout_marginTop="12dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_location"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_below="@id/marker"
+            android:text="@string/allow_app_to_access_device_location"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="36dp"
+            android:textAlignment="center"
+            android:fontFamily="@font/roboto_medium"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content"/>
+
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_open_setting"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="28dp"
+            android:text="@string/setting"
+            android:layout_below="@id/title"
+            android:fontFamily="@font/roboto_medium"
+            android:background="@drawable/bg_radius_12"
+            android:backgroundTint="@color/primary"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_width="192dp"
+            android:layout_height="38dp"
+            tools:ignore="SpUsage"/>
+
+    </RelativeLayout>
+</layout>

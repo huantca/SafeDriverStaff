@@ -1,15 +1,26 @@
 package com.bkplus.android.ui.main.user
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.FrameLayout
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.bkplus.android.MainActivity
 import com.bkplus.android.SharedViewModel
 import com.bkplus.android.common.BaseFragment
 import com.bkplus.android.common.BasePrefers
 import com.bkplus.android.model.Trip
 import com.bkplus.android.ui.main.user.adapter.UserAdapter
+import com.bkplus.android.ui.widget.PermissionLocationDialog
+import com.bkplus.android.ui.widget.SelectCarDialog
 import com.bkplus.android.ultis.setOnSingleClickListener
 import com.bkplus.android.websocket.WebSocket
 import com.google.android.gms.common.api.Status
@@ -21,6 +32,7 @@ import com.harrison.myapplication.databinding.FragmentUserBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+
 @AndroidEntryPoint
 class UserFragment : BaseFragment<FragmentUserBinding>() {
 
@@ -30,15 +42,34 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private var trip: Trip? = null
     private var selectedPosition = 0
-    private var userAdapter : UserAdapter?= null
+    private var userAdapter: UserAdapter? = null
 
     override val layoutId: Int
         get() = R.layout.fragment_user
 
+    private val locationPermissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        when {
+            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
+                // Precise location access granted.
+            }
+
+            permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
+                // Only approximate location access granted.
+            }
+
+            else -> {
+                PermissionLocationDialog().show(childFragmentManager)
+            }
+        }
+    }
+
 
     override fun setupData() {
         super.setupData()
-        if (!webSocket.checkConnected()){
+        requestLocation()
+        if (!webSocket.checkConnected()) {
             webSocket.connectWebSocket()
         }
         trip = Trip()
@@ -49,7 +80,32 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
         }
         userAdapter = UserAdapter()
         binding.rcyHistory.adapter = userAdapter
-        sharedViewModel.historyUserLiveData.observe(viewLifecycleOwner){
+
+        val hour = resources.getStringArray(R.array.hour)
+        val adapterHour = context?.let {
+            ArrayAdapter(
+                it,
+                android.R.layout.simple_spinner_dropdown_item, hour
+            )
+        }
+
+        val itemsHour = arrayListOf(1,2,3,4,5)
+        binding.spinnerHour.adapter = adapterHour
+        binding.spinnerHour.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View, position: Int, id: Long
+            ) {
+                trip?.hourly_rental = itemsHour[position]
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
+
+        sharedViewModel.historyUserLiveData.observe(viewLifecycleOwner) {
             userAdapter?.updateItems(it)
         }
     }
@@ -63,13 +119,14 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
             tvName.text = trip?.user?.name
         }
     }
+
     override fun setupListener() {
         super.setupListener()
         binding.apply {
-            btnHourly.setOnSingleClickListener{
+            btnHourly.setOnSingleClickListener {
                 isHourly = true
             }
-            btnByKm.setOnSingleClickListener{
+            btnByKm.setOnSingleClickListener {
                 isHourly = false
             }
             rltStart.setOnSingleClickListener {
@@ -83,8 +140,29 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
             }
             tvNext.setOnSingleClickListener {
                 activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = true
-                BasePrefers.getPrefsInstance().requestTrip = trip
-                findNavController().navigate(R.id.tripUserFragment)
+                if (BasePrefers.getPrefsInstance().vehicleModelUser == null || BasePrefers.getPrefsInstance().rangeOfVehicleUser == null) {
+                    activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = false
+                    SelectCarDialog().apply {
+                        action = {
+                            findNavController().navigate(R.id.infoUserFragment)
+                        }
+                    }.show(childFragmentManager)
+                } else {
+                    if (!binding.isHourly) trip?.hourly_rental = 0
+                    BasePrefers.getPrefsInstance().requestTrip = trip
+                    findNavController().navigate(R.id.tripUserFragment)
+                }
+
+            }
+
+            icLogout.setOnClickListener {
+                BasePrefers.getPrefsInstance().newLogin = false
+                activity?.finish()
+                activity?.startActivity(Intent(context, MainActivity::class.java))
+            }
+
+            imgAvatar.setOnClickListener {
+                findNavController().navigate(R.id.infoUserFragment)
             }
         }
     }
@@ -95,7 +173,14 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
                     as AutocompleteSupportFragment
 
         // Specify the types of place data to return.
-        autocompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME,Place.Field.ADDRESS,Place.Field.LAT_LNG))
+        autocompleteFragment.setPlaceFields(
+            listOf(
+                Place.Field.ID,
+                Place.Field.NAME,
+                Place.Field.ADDRESS,
+                Place.Field.LAT_LNG
+            )
+        )
         autocompleteFragment.setCountries("VN")
 
         // Set up a PlaceSelectionListener to handle the response.
@@ -126,13 +211,31 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
             }
         })
     }
-    private fun checkNextAction(){
-        if (trip?.pick_up_location_latitude != null && trip?.drop_off_location_latitude != null){
+
+    private fun checkNextAction() {
+        if (trip?.pick_up_location_latitude != null && trip?.drop_off_location_latitude != null) {
             binding.tvNext.isEnabled = true
             binding.tvNext.backgroundTintList = context?.getColorStateList(R.color.primary)
-        }else{
+        } else {
             binding.tvNext.isEnabled = false
             binding.tvNext.backgroundTintList = context?.getColorStateList(R.color.neutral50)
         }
+    }
+
+    private fun requestLocation() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+            && ContextCompat.checkSelfPermission(
+                requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) return
+        locationPermissionRequest.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        )
     }
 }

@@ -61,12 +61,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         Places.initialize(this, getString(R.string.api_key_map));
         Places.createClient(this)
         navController = navHostFragment.navController
-        //viewModel.getListHistoryDriver(Driver(1))
         registerBackPress()
         setUpNoInternetDialog()
         setUpBottomNavigation()
         requestNotificationPermissionAndroid13()
         if (BasePrefers.getPrefsInstance().infoUser != null || BasePrefers.getPrefsInstance().infoDriver != null) webSocket.connectWebSocket()
+       BasePrefers.getPrefsInstance().infoDriver?.let {
+           viewModel.getListHistoryDriver(it)
+       }
     }
 
     private fun setUpBottomNavigation() {

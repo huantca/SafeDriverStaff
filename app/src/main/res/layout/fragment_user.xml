@@ -71,9 +71,19 @@
                 android:id="@+id/imgPerson"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@id/icLogout"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_notification" />
+
+
+            <ImageView
+                android:id="@+id/icLogout"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_notification" />
+                android:src="@drawable/ic_logout" />
 
         </RelativeLayout>
 
@@ -193,15 +203,13 @@
                     android:layout_alignParentStart="true"
                     android:src="@drawable/ic_clock" />
 
-                <TextView
+                <Spinner
+                    android:id="@+id/spinnerHour"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:layout_toEndOf="@id/imgTime"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="@string/time"
-                    android:textColor="#5A5A5A"
-                    android:textSize="16sp" />
+                    android:layout_toEndOf="@id/imgTime"/>
+
 
             </RelativeLayout>
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -261,7 +269,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#F8F8FF"
-            android:visibility="@{isShowMap == true ? View.VISIBLE: View.GONE}">
+            android:visibility="gone">
 
             <fragment
                 android:id="@+id/autocomplete_fragment"

@@ -90,6 +90,16 @@
                     android:text="30km"
                     android:textColor="#254686"
                     android:textSize="14sp" />
+
+
+                <TextView
+                    android:id="@+id/tvRentFor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="@string/rent_for"
+                    android:textColor="#254686"
+                    android:textSize="14sp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </RelativeLayout>

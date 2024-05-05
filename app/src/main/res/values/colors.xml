@@ -65,4 +65,16 @@
     <color name="naviColor2">#34384B</color>
     <color name="naviColor4">#B9B9BF</color>
     <color name="primary100">#F11A7B</color>
+
+    <color name="neutral_60">#FF6E6E86</color>
+    <color name="neutral_100">#0E0D35</color>
+    <color name="navy_1">#141526</color>
+    <color name="navy_2">#26273B</color>
+    <color name="navy_3">#3B3C51</color>
+    <color name="navy_4">#5E5F77</color>
+    <color name="navy_5">#8384A0</color>
+    <color name="navy_6">#B3B4CD</color>
+    <color name="navy_8">#F2F3FA</color>
+    <color name="turquoise">#7BF6FF</color>
+    <color name="data_visual_blue">#3792FF</color>
 </resources>

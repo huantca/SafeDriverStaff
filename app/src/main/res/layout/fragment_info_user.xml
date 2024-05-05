@@ -31,6 +31,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                android:id="@+id/icBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -162,6 +163,13 @@
                     android:textColor="#5A5A5A"
                     android:textSize="16sp" />
 
+                <Spinner
+                    android:id="@+id/spinnerCar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@id/tvNameCar" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -192,6 +200,13 @@
                     android:textColor="#5A5A5A"
                     android:textSize="16sp" />
 
+                <Spinner
+                    android:id="@+id/spinnerType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="9dp"
+                    android:layout_toEndOf="@id/tvTypeVehicle" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -201,6 +216,8 @@
                     android:src="@drawable/ic_arrow_forward" />
 
             </RelativeLayout>
+
+
         </LinearLayout>
 
 

@@ -1,22 +1,33 @@
 package com.bkplus.android.ui.main.driver
 
+import android.Manifest
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
 import android.widget.FrameLayout
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.bkplus.android.MainActivity
+import com.bkplus.android.SharedViewModel
 import com.bkplus.android.common.BaseFragment
-import com.bkplus.android.model.Driver
+import com.bkplus.android.common.BasePrefers
 import com.bkplus.android.model.StatusE
 import com.bkplus.android.model.Trip
 import com.bkplus.android.ui.main.driver.adapter.DriverAdapter
+import com.bkplus.android.ui.widget.PermissionLocationDialog
+import com.bkplus.android.ultis.numberToVND
 import com.bkplus.android.ultis.observeOnce
 import com.bkplus.android.websocket.WebSocket
 import com.google.gson.Gson
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentDriverBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Date
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -26,10 +37,29 @@ class DriverFragment : BaseFragment<FragmentDriverBinding>() {
     lateinit var webSocket: WebSocket
     private var adapter: DriverAdapter? = null
     private var bundle: Bundle? = null
-    private var location : LocationManager?= null
-    private var trip : Trip?= null
+    private var location: LocationManager? = null
+    private val viewModel: SharedViewModel by activityViewModels()
+    private var trip: Trip? = null
     override val layoutId: Int
         get() = R.layout.fragment_driver
+
+    private val locationPermissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        when {
+            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
+                // Precise location access granted.
+            }
+
+            permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
+                // Only approximate location access granted.
+            }
+
+            else -> {
+                PermissionLocationDialog().show(childFragmentManager)
+            }
+        }
+    }
 
     override fun setupData() {
         super.setupData()
@@ -38,12 +68,11 @@ class DriverFragment : BaseFragment<FragmentDriverBinding>() {
         location = context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val gson = Gson()
         adapter?.action = {
-            it.driver = Driver(2, name = "adam", age = 32)
+            it.driver = BasePrefers.getPrefsInstance().infoDriver
             it.status = StatusE.CONFIRM
             val json = gson.toJson(it)
             bundle?.putString("trip", json)
             webSocket.acceptTrip(it)
-            //findNavController().navigate(R.id.mapFragment, bundle)
             activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = true
             websocketAcceptTrip()
         }
@@ -63,6 +92,8 @@ class DriverFragment : BaseFragment<FragmentDriverBinding>() {
             adapter?.updateItems(arrTrip)
         }
 
+        handlerHistoryDriver()
+        requestLocation()
     }
 
     override fun setupUI() {
@@ -72,21 +103,66 @@ class DriverFragment : BaseFragment<FragmentDriverBinding>() {
 
     override fun setupListener() {
         super.setupListener()
-
+        binding.apply {
+            icLogout.setOnClickListener {
+                BasePrefers.getPrefsInstance().newLogin = false
+                activity?.finish()
+                activity?.startActivity(Intent(context, MainActivity::class.java))
+            }
+        }
     }
 
-    private fun websocketAcceptTrip(){
-        webSocket.isDriverAcceptTripSuccess.observeOnce(viewLifecycleOwner){it2 ->
-            it2?.let {boolean ->
-                if (boolean){
+    private fun websocketAcceptTrip() {
+        webSocket.isDriverAcceptTripSuccess.observeOnce(viewLifecycleOwner) { it2 ->
+            it2?.let { boolean ->
+                if (boolean) {
                     findNavController().navigate(R.id.mapFragment, bundle)
-                }else{
+                } else {
                     context?.let {
                         toast("Trip is not ready")
                     }
                 }
             }
         }
+    }
+
+    private fun handlerHistoryDriver() {
+        viewModel.historyDriverLiveData.observe(viewLifecycleOwner) {
+            var count: Int = 0;
+            var money: Double = 0.0;
+            it.forEach { trip ->
+                trip.date_of_hire?.let { time ->
+                    if (Date(System.currentTimeMillis()).day - Date(time).day == 0
+                        && Date(System.currentTimeMillis()).month - Date(time).month == 0
+                        && Date(System.currentTimeMillis()).year - Date(time).year == 0
+                    ) {
+                        count++
+                        trip.fee?.let { fee ->
+                            money += (fee * 70) / 100
+                        }
+                    }
+                }
+            }
+            binding.tvCount.text = count.toString()
+            binding.tvMoney.text = numberToVND(money)
+        }
+    }
+
+    private fun requestLocation() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+            && ContextCompat.checkSelfPermission(
+                requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) return
+        locationPermissionRequest.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        )
     }
 
 }

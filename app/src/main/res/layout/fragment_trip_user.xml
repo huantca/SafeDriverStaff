@@ -125,6 +125,14 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <TextView
+                    android:id="@+id/tvRentFor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rent_for"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/roboto_bold"/>
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -232,6 +240,22 @@
                 android:textSize="16sp"
                 app:layout_constraintTop_toBottomOf="@id/lnNote" />
 
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnCancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_radius_18"
+                android:backgroundTint="@color/primary"
+                android:text="@string/cancel"
+                android:visibility="gone"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/lnNote" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
@@ -253,7 +277,7 @@
         android:background="@drawable/bg_radius_25_top"
         android:backgroundTint="@color/white"
         android:paddingHorizontal="20dp"
-        android:visibility="gone"
+       android:visibility="gone"
         android:paddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent">
         <RelativeLayout
@@ -297,6 +321,17 @@
                     android:layout_marginTop="3dp"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/age"
+                    android:textColor="#353535"
+                    android:textSize="16sp" />
+
+
+                <TextView
+                    android:id="@+id/phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/phone_number"
                     android:textColor="#353535"
                     android:textSize="16sp" />
 
