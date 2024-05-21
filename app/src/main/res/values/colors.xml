@@ -77,4 +77,7 @@
     <color name="navy_8">#F2F3FA</color>
     <color name="turquoise">#7BF6FF</color>
     <color name="data_visual_blue">#3792FF</color>
+
+    <color name="c100D40">#100D40</color>
+    <color name="c686767">#686767</color>
 </resources>

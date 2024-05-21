@@ -66,9 +66,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         setUpBottomNavigation()
         requestNotificationPermissionAndroid13()
         if (BasePrefers.getPrefsInstance().infoUser != null || BasePrefers.getPrefsInstance().infoDriver != null) webSocket.connectWebSocket()
-       BasePrefers.getPrefsInstance().infoDriver?.let {
-           viewModel.getListHistoryDriver(it)
-       }
     }
 
     private fun setUpBottomNavigation() {

@@ -1,5 +1,8 @@
 package com.bkplus.android.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 enum class StatusE{
     WAIT,
     CONFIRM,
@@ -15,10 +18,12 @@ enum class RangeVehicle{
 enum class TypeVehicle{
   AUTO,CONTROL
 }
+
+@Parcelize
 data class Trip (
     val id: Long? = null,
     var date_of_hire: Long? = null,
-    val time_start: Long? = null,
+    var time_start: Long? = null,
     val time_end: Long? = null,
     var pick_up_location: String? = null,
     var pick_up_location_latitude: Double?= null,
@@ -38,4 +43,4 @@ data class Trip (
     var evaluates: List<Evaluate>? = null,
     var km : Double?= null,
     var hourly_rental: Int?= 0
-)
+): Parcelable

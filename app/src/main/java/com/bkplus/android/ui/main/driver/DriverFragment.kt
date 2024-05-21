@@ -63,6 +63,10 @@ class DriverFragment : BaseFragment<FragmentDriverBinding>() {
 
     override fun setupData() {
         super.setupData()
+        var arrClone = ArrayList<Trip>()
+        if (!webSocket.checkConnected()) {
+            webSocket.connectWebSocket()
+        }
         adapter = DriverAdapter()
         bundle = Bundle()
         location = context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -72,33 +76,42 @@ class DriverFragment : BaseFragment<FragmentDriverBinding>() {
             it.status = StatusE.CONFIRM
             val json = gson.toJson(it)
             bundle?.putString("trip", json)
+
+            //webSocket.mutableLiveData.postValue(arrClone.removeAt(it.id))
             webSocket.acceptTrip(it)
             activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = true
             websocketAcceptTrip()
         }
         binding.rcyDriver.adapter = adapter
-        val arrTrip = ArrayList<Trip>()
         webSocket.mutableLiveData.observe(viewLifecycleOwner) {
-            it?.let { trip ->
-                if (trip.status == StatusE.CANCEL) {
-                    val item = arrTrip.find { tripCancel ->
-                        tripCancel.id == trip.id
-                    }
-                    arrTrip.remove(item)
-                } else {
-                    arrTrip.add(trip)
-                }
-            }
-            adapter?.updateItems(arrTrip)
+//            it?.let { trip ->
+//                if (trip.status == StatusE.CANCEL) {
+//                    val item = arrTrip.find { tripCancel ->
+//                        tripCancel.id == trip.id
+//                    }
+//                    arrTrip.remove(item)
+//                } else {
+//                    arrTrip.add(trip)
+//                }
+//            }
+            arrClone = ArrayList(it.map { it.copy() })
+            adapter?.updateItems(arrClone)
         }
 
         handlerHistoryDriver()
         requestLocation()
+        BasePrefers.getPrefsInstance().infoDriver?.let {
+            viewModel.getListHistoryDriver(it)
+        }
     }
 
     override fun setupUI() {
         super.setupUI()
         activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = false
+        binding.tvName.text = BasePrefers.getPrefsInstance().infoDriver?.name
+        BasePrefers.getPrefsInstance().infoDriver?.star_number?.let {
+            binding.tvStar.text = it.toString()
+        }
     }
 
     override fun setupListener() {
@@ -108,6 +121,9 @@ class DriverFragment : BaseFragment<FragmentDriverBinding>() {
                 BasePrefers.getPrefsInstance().newLogin = false
                 activity?.finish()
                 activity?.startActivity(Intent(context, MainActivity::class.java))
+            }
+            imgHistory.setOnClickListener {
+                findNavController().navigate(R.id.historyDriver)
             }
         }
     }

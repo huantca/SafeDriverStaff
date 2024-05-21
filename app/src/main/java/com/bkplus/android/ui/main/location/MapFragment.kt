@@ -10,6 +10,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.FrameLayout
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -61,14 +62,27 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnPolylineClickListener 
     private var tripOj: Trip? = null
     private var startTrip = false
 
+    private val callPhonePermissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        when {
+            permissions.getOrDefault(Manifest.permission.CALL_PHONE, false) -> {
+                // Precise location access granted.
+            }
+
+            else -> {
+
+            }
+        }
+    }
+
     override fun setupData() {
         super.setupData()
         val trip = arguments?.getString("trip")
         val gson = Gson()
         tripOj = gson.fromJson(trip, Trip::class.java)
         val locationMap = context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val isGpsEnabled = locationMap.isProviderEnabled(LocationManager.GPS_PROVIDER)
-        val isNetworkEnabled = locationMap.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+        val locationCurrent = locationMap.getLastKnownLocation(LocationManager.GPS_PROVIDER)
         context?.let { context ->
             if (ActivityCompat.checkSelfPermission(
                     context,
@@ -80,31 +94,27 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnPolylineClickListener 
             ) {
                 requestPermissions()
             } else {
+
                 val mapFragment = childFragmentManager.findFragmentById(
                     R.id.map_fragment
                 ) as? SupportMapFragment
                 mapFragment?.getMapAsync { it2 ->
                     it2.setOnPolylineClickListener(this)
-                    locationMap.requestLocationUpdates(
-                        LocationManager.GPS_PROVIDER,
-                        1000L, // Minimum time between updates
-                        10.0F
-                    ) // Minimum distance change
-                    { location ->
+
+                    locationCurrent?.let { curr ->
                         locationSend = LocationSend(
-                            location.latitude,
-                            location.longitude,
+                            curr.latitude,
+                            curr.longitude,
                             tripOj?.user?.id
                         )
                         locationSend?.let { it3 ->
                             webSocket.sendLocation(it3)
                         }
 
-
                         it2.clear()
                         googleMap = it2
                         val zoomLevel = 15f
-                        val latLngDriver = LatLng(location.latitude, location.longitude)
+                        val latLngDriver = LatLng(curr.latitude, curr.longitude)
 
                         it2.addMarker(
                             MarkerOptions().icon(
@@ -169,6 +179,24 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnPolylineClickListener 
                         }
                     }
 
+
+                    locationMap.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER,
+                        1000L, // Minimum time between updates
+                        10.0F
+                    ) // Minimum distance change
+                    { location ->
+                        locationSend = LocationSend(
+                            location.latitude,
+                            location.longitude,
+                            tripOj?.user?.id
+                        )
+                        locationSend?.let { it3 ->
+                            webSocket.sendLocation(it3)
+                        }
+
+                    }
+
                 }
 
             }
@@ -223,9 +251,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnPolylineClickListener 
                 completeTrip()
             }
             imgPhone.setOnClickListener {
-                val phoneIntent = Intent(Intent.ACTION_CALL)
-                phoneIntent.data = Uri.parse("tel:${tripOj?.user?.phone}")
-                context?.startActivity(phoneIntent)
+                requestCallPhone {
+                    val phoneIntent = Intent(Intent.ACTION_CALL)
+                    phoneIntent.data = Uri.parse("tel:${tripOj?.user?.phone}")
+                    context?.startActivity(phoneIntent)
+                }
             }
         }
     }
@@ -387,9 +417,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnPolylineClickListener 
                 }
             }
         calculateDirections(lngLngStart, lngLngEnd)
-        Handler(Looper.getMainLooper()).postDelayed( {
+        Handler(Looper.getMainLooper()).postDelayed({
             binding.btnComplete.visible()
-        },2000)
+        }, 2000)
     }
 
     private fun completeTrip() {
@@ -407,5 +437,22 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnPolylineClickListener 
             tvNote.isVisible = tripOj?.note != null
             tvNote.text = tripOj?.note
         }
+    }
+
+    private fun requestCallPhone(action: () -> Unit) {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.CALL_PHONE
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            action.invoke()
+        } else {
+            callPhonePermissionRequest.launch(
+                arrayOf(
+                    Manifest.permission.CALL_PHONE
+                )
+            )
+        }
+
     }
 }

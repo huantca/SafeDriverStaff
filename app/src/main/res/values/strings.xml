@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Base App BkPlus</string>
+    <string name="app_name" translatable="false">S a f e D r i v er</string>
     <string name="back_pressed_finish">Please press back again to quit</string>
     <string name="api_key_map" translatable="false">AIzaSyBOD5-j2ElNi1GuIbPEZntT1iNLHKassW4</string>
 
@@ -148,6 +148,9 @@
     <string name="ok">Ok</string>
     <string name="rent_for">Rent for</string>
     <string name="allow_app_to_access_device_location">Allow  to access this device’s location?</string>
+    <string name="driver_reviews">Driver reviews</string>
+    <string name="vote">Vote</string>
+    <string name="waiting_for_the_driver">waiting for the driver</string>
 
     <string-array name="typeCar">
         <item>Automatic transmission</item>

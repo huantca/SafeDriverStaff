@@ -15,7 +15,8 @@ fun View.invisible() {
     if (visibility != View.INVISIBLE) visibility = View.INVISIBLE
 }
 
-fun numberToVND(number: Double): String {
+fun numberToVND(number: Double?): String {
+    if (number == null) return ""
     val formatter = DecimalFormat("##,###,###.## VND")
     return formatter.format(number)
 }

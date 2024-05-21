@@ -1,15 +1,18 @@
 package com.bkplus.android.websocket
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.bkplus.android.common.BasePrefers
 import com.bkplus.android.model.LocationSend
 import com.bkplus.android.model.Trip
 import com.google.gson.Gson
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import ua.naiksoftware.stomp.Stomp
 import ua.naiksoftware.stomp.StompClient
+import ua.naiksoftware.stomp.dto.LifecycleEvent
 import ua.naiksoftware.stomp.dto.StompMessage
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,90 +22,127 @@ class WebSocket @Inject constructor() {
 
     private var mStompClient: StompClient? = null
 
-    val mutableLiveData = MutableLiveData<Trip>()
+    val mutableLiveData = MutableLiveData<ArrayList<Trip>>()
     val acceptTrip = MutableLiveData<Trip>()
     val locationDriver = MutableLiveData<LocationSend>()
     val completeTrip = MutableLiveData<Trip>()
     val isDriverAcceptTripSuccess = MutableLiveData<Boolean>()
-    private val disposable = CompositeDisposable()
-    private var disposableLocationDriver = CompositeDisposable()
+    private var disposable = CompositeDisposable()
 
     @SuppressLint("CheckResult")
     fun connectWebSocket() {
-        val gson = Gson()
+
         mStompClient = Stomp.over(
             Stomp.ConnectionProvider.OKHTTP,
             "wss://humble-topical-krill.ngrok-free.app/websocket"
         )
-        mStompClient?.connect()
+        mStompClient?.lifecycle()
+            ?.subscribeOn(Schedulers.io())
+            ?.observeOn(Schedulers.io())
+            ?.subscribe(
+                { lifeCycleEvent ->
+                    when (lifeCycleEvent.type) {
+                        LifecycleEvent.Type.OPENED ->{
+                            subAll(mStompClient)
+                        }
 
+                        LifecycleEvent.Type.CLOSED -> {
+                            mStompClient?.connect()
+                        }
 
-            mStompClient?.topic("/topic/trip/" + BasePrefers.getPrefsInstance().infoDriver?.id)?.subscribe(
-                { topicMessage: StompMessage ->
-                    val json = gson.fromJson(topicMessage.payload, Trip::class.java)
-                    mutableLiveData.postValue(json)
-                    Timber.tag("mutableLiveData").d(topicMessage.payload)
-                }, {
-                    Timber.tag("WebSocket").e(it.printStackTrace().toString())
-                }
-            )
+                        LifecycleEvent.Type.ERROR -> Log.e(
+                            this.javaClass.simpleName,
+                            "error: ${lifeCycleEvent.exception.message}"
+                        )
 
-            mStompClient?.topic("/topic/cancel/" +  BasePrefers.getPrefsInstance().infoDriver?.id)?.subscribe(
-                { topicMessage: StompMessage ->
-                    val json = gson.fromJson(topicMessage.payload, Trip::class.java)
-                    mutableLiveData.postValue(json)
-                    Timber.tag("mutableLiveData").d(topicMessage.payload)
-                }, {
-                    Timber.tag("WebSocket").e(it.printStackTrace().toString())
-                }
-            )
+                        LifecycleEvent.Type.FAILED_SERVER_HEARTBEAT -> Log.e(
+                            this.javaClass.simpleName,
+                            "failed server heartbeat"
+                        )
 
-
-
-        mStompClient?.topic("/topic/driver/" + BasePrefers.getPrefsInstance().infoUser?.id)?.subscribe(
-            { topicMessage: StompMessage ->
-                val json = gson.fromJson(topicMessage.payload, Trip::class.java)
-                acceptTrip.postValue(json)
-                Timber.tag("huan driver accepted").d(topicMessage.payload)
-            }, {
-                Timber.tag("WebSocket").e(it.printStackTrace().toString())
-            }
-        )
-
-        mStompClient?.topic("/topic/completeTrip/" + BasePrefers.getPrefsInstance().infoUser?.id)?.subscribe(
-            { topicMessage: StompMessage ->
-                val json = gson.fromJson(topicMessage.payload, Trip::class.java)
-                completeTrip.postValue(json)
-            }, {
-                Timber.tag("WebSocket completeTrip ").e(it.printStackTrace().toString())
-            }
-        )
-
-        disposableLocationDriver.dispose()
-        disposableLocationDriver = CompositeDisposable()
-        disposableLocationDriver.addAll(
-            mStompClient?.topic("/topic/locationDriver/" + BasePrefers.getPrefsInstance().infoUser?.id)?.subscribe(
-                { topicMessage: StompMessage ->
-                    val json = gson.fromJson(topicMessage.payload, LocationSend::class.java)
-                    locationDriver.postValue(json)
-                    Timber.tag("huan locationDriver").d(topicMessage.payload)
-                }, {
-                    Timber.tag("WebSocket").e(it.printStackTrace().toString())
-                }
-            ),
-            mStompClient?.topic("/topic/driver/request/" + BasePrefers.getPrefsInstance().infoDriver?.id)?.subscribe(
-                { topicMessage: StompMessage ->
-                    if (topicMessage.payload.toInt() == 0){
-                        isDriverAcceptTripSuccess.postValue(false)
-                    }else{
-                        isDriverAcceptTripSuccess.postValue(true)
+                        null -> Unit
                     }
-                }, {
-                    Timber.tag("WebSocket").e(it.printStackTrace().toString())
+                },
+                {
+                    Log.e(this.javaClass.simpleName, "error: ${it.message}")
                 }
             )
-        )
+        mStompClient?.connect()
+    }
 
+    private fun subAll(mStompClient: StompClient?) {
+        val arrTrip = ArrayList<Trip>()
+        val gson = Gson()
+        disposable.dispose()
+        disposable = CompositeDisposable()
+        disposable.addAll(
+            mStompClient?.topic("/topic/trip/" + BasePrefers.getPrefsInstance().infoDriver?.id)
+                ?.subscribe(
+                    { topicMessage: StompMessage ->
+                        val json = gson.fromJson(topicMessage.payload, Trip::class.java)
+                        arrTrip.add(json)
+                        mutableLiveData.postValue(arrTrip)
+                        Log.e("huan123", json.toString())
+                    }, {
+                        Log.e("huanhuan123 error", it.message.toString())
+                        Timber.tag("WebSocket").e(it.printStackTrace().toString())
+                    }
+                ),
+            mStompClient?.topic("/topic/cancel/" + BasePrefers.getPrefsInstance().infoDriver?.id)
+                ?.subscribe(
+                    { topicMessage: StompMessage ->
+                        val json = gson.fromJson(topicMessage.payload, Trip::class.java)
+                        arrTrip.remove(json)
+                        mutableLiveData.postValue(arrTrip)
+                        Timber.tag("mutableLiveData").d(topicMessage.payload)
+                    }, {
+                        Timber.tag("WebSocket").e(it.printStackTrace().toString())
+                    }
+                ),
+            mStompClient?.topic("/topic/driver/" + BasePrefers.getPrefsInstance().infoUser?.id)
+                ?.subscribe(
+                    { topicMessage: StompMessage ->
+                        val json = gson.fromJson(topicMessage.payload, Trip::class.java)
+                        acceptTrip.postValue(json)
+                        Timber.tag("huan driver accepted").d(topicMessage.payload)
+                    }, {
+                        Timber.tag("WebSocket").e(it.printStackTrace().toString())
+                    }
+                ),
+            mStompClient?.topic("/topic/completeTrip/" + BasePrefers.getPrefsInstance().infoUser?.id)
+                ?.subscribe(
+                    { topicMessage: StompMessage ->
+                        val json = gson.fromJson(topicMessage.payload, Trip::class.java)
+                        completeTrip.postValue(json)
+                        Timber.tag("huan completeTrip").d(json.toString())
+                    }, {
+                        Timber.tag("WebSocket completeTrip ").e(it.printStackTrace().toString())
+                    }
+                ),
+
+            mStompClient?.topic("/topic/locationDriver/" + BasePrefers.getPrefsInstance().infoUser?.id)
+                ?.subscribe(
+                    { topicMessage: StompMessage ->
+                        val json = gson.fromJson(topicMessage.payload, LocationSend::class.java)
+                        locationDriver.postValue(json)
+                        Timber.tag("huan locationDriver").d(topicMessage.payload)
+                    }, {
+                        Timber.tag("WebSocket").e(it.printStackTrace().toString())
+                    }
+                ),
+            mStompClient?.topic("/topic/driver/request/" + BasePrefers.getPrefsInstance().infoDriver?.id)
+                ?.subscribe(
+                    { topicMessage: StompMessage ->
+                        if (topicMessage.payload.toInt() == 0) {
+                            isDriverAcceptTripSuccess.postValue(false)
+                        } else {
+                            isDriverAcceptTripSuccess.postValue(true)
+                        }
+                    }, {
+                        Timber.tag("WebSocket").e(it.printStackTrace().toString())
+                    }
+                )
+        )
     }
 
     @SuppressLint("CheckResult")
@@ -172,16 +212,16 @@ class WebSocket @Inject constructor() {
     }
 
     fun disposableLocation() {
-        disposableLocationDriver.dispose()
+        disposable.dispose()
     }
 
-    fun checkConnected(): Boolean{
+    fun checkConnected(): Boolean {
         return mStompClient?.isConnected ?: false
     }
 
     @SuppressLint("CheckResult")
     fun disconnect() {
-       // disposable.dispose()
+        // disposable.dispose()
         mStompClient?.disconnect()
     }
 

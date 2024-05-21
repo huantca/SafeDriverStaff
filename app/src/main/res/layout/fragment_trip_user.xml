@@ -46,12 +46,12 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ctlContainer"
             android:layout_width="match_parent"
-            android:visibility="@{isShow == true ? View.VISIBLE: View.GONE}"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_radius_25_top"
             android:backgroundTint="@color/white"
             android:paddingHorizontal="20dp"
             android:paddingBottom="10dp"
+            android:visibility="@{isShow == true ? View.VISIBLE: View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <TextView
@@ -128,10 +128,11 @@
                     android:id="@+id/tvRentFor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/rent_for"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:fontFamily="@font/roboto_bold"/>
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/rent_for" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -139,8 +140,8 @@
                     android:layout_centerVertical="true"
                     android:fontFamily="@font/roboto_medium"
                     android:text="@string/change"
-                    android:visibility="gone"
-                    android:textColor="#EC1B1B" />
+                    android:textColor="#EC1B1B"
+                    android:visibility="gone" />
 
             </RelativeLayout>
 
@@ -243,18 +244,35 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnCancel"
-                android:layout_width="match_parent"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="50dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/bg_radius_18"
                 android:backgroundTint="@color/primary"
                 android:text="@string/cancel"
-                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="16sp"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/lnNote" />
+
+            <TextView
+                android:id="@+id/tvWait"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lnNote"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/btnCancel"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                android:layout_marginEnd="10dp"
+                style="@style/NormalTextButton1Bold"
+                android:text="@string/waiting_for_the_driver"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -270,99 +288,147 @@
             app:layout_constraintStart_toStartOf="parent" />
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/ctlInfoDriver"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_radius_25_top"
-        android:backgroundTint="@color/white"
-        android:paddingHorizontal="20dp"
-       android:visibility="gone"
-        android:paddingBottom="10dp"
-        app:layout_constraintBottom_toBottomOf="parent">
-        <RelativeLayout
-            android:id="@+id/rltInfoDriver"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctlInfoDriver"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:background="@drawable/bg_radius_25_top"
+            android:backgroundTint="@color/white"
+            android:paddingHorizontal="20dp"
+            android:paddingBottom="10dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/imgAvatarDriver"
-                android:layout_width="51dp"
-                android:layout_height="51dp"
-                android:layout_centerVertical="true"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/sample_image"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.CircularBorder16dp" />
+            <RelativeLayout
+                android:id="@+id/rltInfoDriver"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imgAvatarDriver"
+                    android:layout_width="51dp"
+                    android:layout_height="51dp"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/sample_image"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.CircularBorder16dp" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@id/imgAvatarDriver"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvNameDriver"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Bùi Xuân Huấn "
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tvAge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@string/age"
+                        android:textColor="#353535"
+                        android:textSize="16sp" />
+
+
+                    <TextView
+                        android:id="@+id/phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@string/phone_number"
+                        android:textColor="#353535"
+                        android:textSize="16sp" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </RelativeLayout>
+
+
+            <View
+                android:id="@+id/viewDriver"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/black"
+                app:layout_constraintTop_toBottomOf="@id/rltInfoDriver" />
+
+            <TextView
+                android:id="@+id/tvStatusDriver"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="20dp"
-                android:layout_toEndOf="@id/imgAvatarDriver"
-                android:orientation="vertical">
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Đang di chuyển "
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/viewDriver" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/tvStatusDriver">
 
                 <TextView
-                    android:id="@+id/tvNameDriver"
+                    android:id="@+id/tvStartLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="Bùi Xuân Huấn "
+                    android:text="@string/start_location"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    style="@style/NormalTextButton1Bold"
+                    android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/tvAge"
+                    android:id="@+id/tvEndLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/end_location"
+                    android:textColor="@color/black"
                     android:layout_marginTop="3dp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="@string/age"
-                    android:textColor="#353535"
-                    android:textSize="16sp" />
-
+                    style="@style/NormalTextButton1Bold"
+                    android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/phone"
+                    android:id="@+id/tvFee2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="6000"
+                    style="@style/NormalTextButton1Bold"
+                    android:textColor="#F60606"
                     android:layout_marginTop="3dp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="@string/phone_number"
-                    android:textColor="#353535"
-                    android:textSize="16sp" />
+                    android:textSize="12sp" />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                <TextView
+                    android:id="@+id/tvKm2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="6000"
+                    style="@style/NormalTextButton1Bold"
+                    android:textColor="#973434"
+                    android:layout_marginTop="3dp"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
-        </RelativeLayout>
-
-
-        <View
-            android:id="@+id/viewDriver"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/black"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/rltInfoDriver"/>
-
-        <TextView
-            android:id="@+id/tvStatusDriver"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:text="Đang di chuyển "
-            android:layout_marginTop="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/viewDriver"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:fontFamily="@font/roboto_bold"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

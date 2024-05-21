@@ -53,4 +53,10 @@ interface ApiService {
         @Body requestOtp: RequestOtp
     ): BaseResponse<OtpBody>
 
+
+    @POST("driver/evaluate")
+    suspend fun voteDriver(
+        @Body driver: Driver
+    ): BaseResponse<DriverBody>
+
 }

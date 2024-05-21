@@ -52,6 +52,15 @@
                     android:textColor="#353535"
                     android:textSize="14sp" />
 
+                <TextView
+                    android:id="@+id/tvStar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_star"
+                    android:gravity="center"
+                    android:text="5"
+                    android:textSize="16sp"/>
+
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <ImageView

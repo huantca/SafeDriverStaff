@@ -17,14 +17,7 @@ class ContextUtils(base: Context) : ContextWrapper(base) {
             val image = arrayListOf<Int>()
 
             image.add(R.mipmap.ic_uk)
-            image.add(R.mipmap.ic_german)
-            image.add(R.mipmap.ic_portu)
-            image.add(R.mipmap.ic_spain)
-            //image.add(R.mipmap.ic_hindi)
-            //image.add(R.mipmap.ic_it)
-            image.add(R.mipmap.ic_french)
-            image.add(R.mipmap.ic_china)
-            //image.add(R.mipmap.ic_vn)
+            image.add(R.mipmap.ic_vn)
 
 
             val localeList = arrayListOf<Language>()

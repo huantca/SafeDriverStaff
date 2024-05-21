@@ -114,5 +114,14 @@ class SharedViewModel @Inject constructor(
         }
     }
 
+    fun voteDriver(driver: Driver){
+        viewModelScope.launch(Dispatchers.IO) {
+            apiService.voteDriver(driver).onSuccess {
+
+            }.onFailure { code, message ->
+                sendOtpUserFailLiveData.postValue(message)
+            }
+        }
+    }
 
 }

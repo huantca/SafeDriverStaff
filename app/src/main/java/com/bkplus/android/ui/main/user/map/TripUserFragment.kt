@@ -17,9 +17,13 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.bkplus.android.SharedViewModel
 import com.bkplus.android.common.BaseFragment
 import com.bkplus.android.common.BasePrefers
+import com.bkplus.android.model.Driver
 import com.bkplus.android.model.StatusE
 import com.bkplus.android.model.Trip
 import com.bkplus.android.ui.widget.CompleteDialog
@@ -58,13 +62,16 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_trip_user
     private lateinit var gpsPermissionRequestFromSetting: ActivityResultLauncher<Intent>
+    private val viewModel: SharedViewModel by activityViewModels()
+    private val args : TripUserFragmentArgs by navArgs()
     private var googleMap: GoogleMap? = null
     private var mGeoApiContext: GeoApiContext? = null
     private var trip: Trip? = null
+    private var driver: Driver? = null
 
     override fun setupData() {
         super.setupData()
-        trip = BasePrefers.getPrefsInstance().requestTrip
+        trip = args.trip
     }
 
     override fun setupUI() {
@@ -72,7 +79,6 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
         activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = false
         binding.isShow = true
         val locationManager = context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
         val mapFragment = childFragmentManager.findFragmentById(
             R.id.map_fragment_user
         ) as? SupportMapFragment
@@ -89,7 +95,6 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
                 ) {
                     return@let
                 }
-                if (location != null) {
                     // Center map on current location
                     it.clear()
                     val pickStart =
@@ -141,7 +146,7 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
                     handlerLocationDriver(it, context)
                     handlerAcceptTrip()
                     handlerCompleteTrip()
-                }
+
 
             }
         }
@@ -158,16 +163,18 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
         super.setupListener()
         binding.apply {
             imgBack.setOnSingleClickListener {
-                findNavController().popBackStack(R.id.homeFragment, false)
+                findNavController().popBackStack()
             }
             btnBook.setOnClickListener {
                 requestTrip()
                 btnBook.gone()
                 binding.btnCancel.visible()
+                binding.tvWait.visible()
             }
 
             btnCancel.setOnClickListener {
                 trip?.let { it1 -> webSocket.cancelTrip(it1) }
+                webSocket.disposableLocation()
                 findNavController().popBackStack()
             }
 
@@ -185,6 +192,7 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
     private fun handlerLocationDriver(googleMap: GoogleMap, context: Context) {
         var marker: Marker? = null
         webSocket.locationDriver.observe(viewLifecycleOwner) {
+            if (it == null) return@observe
             marker?.remove()
             val latLng = it.latitude?.let { it1 -> it.longitude?.let { it2 -> LatLng(it1, it2) } }
             marker = latLng?.let { ln ->
@@ -200,13 +208,14 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
                         .position(ln)
                 )
             }
-
         }
     }
 
     @SuppressLint("SetTextI18n")
     private fun handlerAcceptTrip() {
         webSocket.acceptTrip.observe(viewLifecycleOwner) {
+            if (it == null) return@observe
+            driver = it.driver
             binding.ctlContainer.gone()
             binding.imgUp.gone()
             binding.ctlInfoDriver.visible()
@@ -214,19 +223,29 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
             binding.tvAge.text = context?.getString(R.string.age) + it.driver?.age.toString()
             binding.tvStatusDriver.text = it.status.toString()
             binding.phone.text = context?.getString(R.string.phone_number) + ": " + it.driver?.phone
+            binding.tvStartLocation.text = context?.getString(R.string.start_location)+ ": " + it.pick_up_location
+            binding.tvEndLocation.text = context?.getString(R.string.end_location)+ ": "  + it.drop_off_location
+            binding.tvFee2.text = numberToVND(it.fee)
+            binding.tvKm2.text =  it.km.toString() + " km"
             activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = false
+            webSocket.acceptTrip.value = null
         }
 
     }
 
     private fun handlerCompleteTrip() {
         webSocket.completeTrip.observe(viewLifecycleOwner) {
-            if (it.user?.id == BasePrefers.getPrefsInstance().infoUser?.id && it.status == StatusE.COMPLETE) {
+            if (it == null) return@observe
+            if (it.user?.id == trip?.user?.id && it.status == StatusE.COMPLETE) {
                 CompleteDialog().apply {
                     action = {
                         findNavController().popBackStack(R.id.userFragment, false)
                     }
+                    vote = {
+                        driver?.let { it1 -> viewModel.voteDriver(it1) }
+                    }
                 }.show(childFragmentManager)
+                webSocket.completeTrip.value = null
             }
         }
     }
@@ -323,7 +342,7 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
             binding.tvFee.text = numberToVND(
                 minDistance.toDouble() * 10 * ((trip?.hourly_rental ?: 0) + 1)
             )
-            
+
             trip?.fee = minDistance.toDouble() * 10
             val decodedPath = PolylineEncoding.decode(shortestRoute?.overviewPolyline?.encodedPath)
             val newDecodedPath: MutableList<LatLng> = ArrayList()
@@ -352,8 +371,8 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
             it.car_name = BasePrefers.getPrefsInstance().vehicleModelUser
             it.range_of_vehicle = BasePrefers.getPrefsInstance().rangeOfVehicleUser
             it.note = binding.edtNote.text.toString()
+            it.time_start = System.currentTimeMillis()
             it.date_of_hire = System.currentTimeMillis()
-            BasePrefers.getPrefsInstance().requestTrip = it
             webSocket.sendRequest(it)
         }
     }

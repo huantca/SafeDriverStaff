@@ -125,9 +125,17 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
         binding.apply {
             btnHourly.setOnSingleClickListener {
                 isHourly = true
+                btnHourly.setBackgroundResource(R.drawable.bg_radius_8_selected_home)
+                btnByKm.setBackgroundResource(R.drawable.bg_radius_8_unselected_home)
+                context?.getColor(R.color.c100D40)?.let { it1 -> btnHourly.setTextColor(it1) }
+                context?.getColor(R.color.c686767)?.let { it1 -> btnByKm.setTextColor(it1) }
             }
             btnByKm.setOnSingleClickListener {
                 isHourly = false
+                btnByKm.setBackgroundResource(R.drawable.bg_radius_8_selected_home)
+                btnHourly.setBackgroundResource(R.drawable.bg_radius_8_unselected_home)
+                context?.getColor(R.color.c100D40)?.let { it1 -> btnByKm.setTextColor(it1) }
+                context?.getColor(R.color.c686767)?.let { it1 -> btnHourly.setTextColor(it1) }
             }
             rltStart.setOnSingleClickListener {
                 selectedPosition = 0
@@ -148,9 +156,10 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
                         }
                     }.show(childFragmentManager)
                 } else {
-                    if (!binding.isHourly) trip?.hourly_rental = 0
-                    BasePrefers.getPrefsInstance().requestTrip = trip
-                    findNavController().navigate(R.id.tripUserFragment)
+                    if (binding.isHourly == false) trip?.hourly_rental = 0
+                    findNavController().navigate(UserFragmentDirections.actionUserFragmentToTripUserFragment(
+                        trip = trip
+                    ))
                 }
 
             }
@@ -167,6 +176,10 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        checkNextAction()
+    }
     private fun autocompleteForPlaces() {
         val autocompleteFragment =
             childFragmentManager.findFragmentById(R.id.autocomplete_fragment)

@@ -64,13 +64,23 @@
         android:id="@+id/tripUserFragment"
         android:name="com.bkplus.android.ui.main.user.map.TripUserFragment"
         android:label="TripUserFragment"
-        tools:layout="@layout/fragment_trip_user" />
+        tools:layout="@layout/fragment_trip_user" >
+        <argument
+            android:name="trip"
+            app:argType="com.bkplus.android.model.Trip"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 
     <fragment
         android:id="@+id/userFragment"
         android:name="com.bkplus.android.ui.main.user.UserFragment"
         android:label="UserFragment"
-        tools:layout="@layout/fragment_user" />
+        tools:layout="@layout/fragment_user" >
+        <action
+            android:id="@+id/action_userFragment_to_tripUserFragment"
+            app:destination="@id/tripUserFragment" />
+    </fragment>
 
 
     <fragment
@@ -101,5 +111,10 @@
         android:id="@+id/infoUserFragment"
         android:name="com.bkplus.android.ui.main.user.info.InfoUserFragment"
         tools:layout="@layout/fragment_info_user"/>
+
+    <fragment
+        android:id="@+id/historyDriver"
+        android:name="com.bkplus.android.ui.main.driver.DriverHistoryFragment"
+        tools:layout="@layout/fragment_driver_history"/>
 
 </navigation>

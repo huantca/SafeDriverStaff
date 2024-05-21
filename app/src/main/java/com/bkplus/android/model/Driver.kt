@@ -1,6 +1,9 @@
 package com.bkplus.android.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Driver (
      val id: Long? = null,
      val name: String? = null,
@@ -10,8 +13,6 @@ data class Driver (
      val password: String? = null,
      val address: String? = null,
      val trips: List<Trip>? = null,
-     val license: List<License>? = null,
-     val relatives: List<Relatives>? = null,
      val avatar: String? = null,
      val number_of_times_hired: Int? = null,
      val id_number: Int? = null,
@@ -25,4 +26,5 @@ data class Driver (
      val resume_photo: String? = null,
      val working_time: Long? = null,
      val isAccept: Boolean? = null,
-)
+     val star_number: Double?= null
+): Parcelable

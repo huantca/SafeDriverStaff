@@ -7,7 +7,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/dark1">
+        android:background="@color/white">
 
         <TextView
             android:id="@+id/title"
@@ -15,6 +15,7 @@
             android:layout_height="wrap_content"
             style="@style/headingH3Medium"
             android:text="@string/language"
+            android:textColor="@color/black"
             android:layout_marginTop="16dp"
             android:textAlignment="center"
             app:layout_constraintTop_toTopOf="parent"

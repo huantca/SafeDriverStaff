@@ -1,8 +1,10 @@
 package com.bkplus.android.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
-
+@Parcelize
 data class User(
     @SerializedName("id")
     val id: Long? = null,
@@ -27,4 +29,4 @@ data class User(
     val latitude: Double? = null,
     @SerializedName("longitude")
     val longitude: Double? = null
-)
+): Parcelable

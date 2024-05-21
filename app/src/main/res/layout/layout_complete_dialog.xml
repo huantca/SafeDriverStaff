@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:background="@drawable/bg_radius_16"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="#E63773EC"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:padding="16dp">
@@ -21,19 +21,87 @@
                 style="@style/headingH3Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/complete"
+                android:text="@string/driver_reviews"
                 android:textAllCaps="true"
                 android:textColor="@color/black" />
 
-           <com.google.android.material.button.MaterialButton
-               android:id="@+id/btnHome"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="@string/home"
-               android:layout_marginTop="25dp"
-               android:background="@drawable/bg_radius_16"
-               android:backgroundTint="@color/primary"
-               app:icon="@drawable/selector_home"/>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="24dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/star1"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_star_fill" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/star2"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_star_fill" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/star3"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_star_fill" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/star4"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_star_fill" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/star5"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_star_fill" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnHome"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_radius_16"
+                    android:backgroundTint="@color/primary"
+                    android:text="@string/home"
+                    app:icon="@drawable/selector_home" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnVote"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="30dp"
+                    android:background="@drawable/bg_radius_16"
+                    android:backgroundTint="@color/primary"
+                    android:text="@string/vote"
+                    app:icon="@drawable/ic_person_new" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
     </LinearLayout>

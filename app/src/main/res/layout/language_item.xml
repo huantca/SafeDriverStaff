@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
         android:background="@drawable/bg_radius_12"
-        android:backgroundTint="@color/dark2"
+        android:backgroundTint="#509AFA"
         android:padding="16dp">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -28,7 +28,7 @@
             android:layout_marginStart="12dp"
             android:layout_toEndOf="@id/flag_img"
             style="@style/NormalTextButton1Medium"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/flag_img"
             app:layout_constraintTop_toTopOf="parent"
