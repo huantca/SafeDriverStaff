@@ -4,10 +4,12 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -24,9 +26,13 @@ import com.bkplus.android.ui.widget.SelectCarDialog
 import com.bkplus.android.ultis.setOnSingleClickListener
 import com.bkplus.android.websocket.WebSocket
 import com.google.android.gms.common.api.Status
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentUserBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,6 +49,8 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
     private var trip: Trip? = null
     private var selectedPosition = 0
     private var userAdapter: UserAdapter? = null
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
 
     override val layoutId: Int
         get() = R.layout.fragment_user
@@ -52,11 +60,11 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
     ) { permissions ->
         when {
             permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
-                // Precise location access granted.
+                requestLocation()
             }
 
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-                // Only approximate location access granted.
+                requestLocation()
             }
 
             else -> {
@@ -69,9 +77,40 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
     override fun setupData() {
         super.setupData()
         requestLocation()
+
         if (!webSocket.checkConnected()) {
             webSocket.connectWebSocket()
         }
+
+        //tab
+        val tab1: TabLayout.Tab = binding.tablayout.newTab()
+        tab1.text = getString(R.string.by_km)
+        val tab2: TabLayout.Tab = binding.tablayout.newTab()
+        tab2.text = getString(R.string.hourly)
+        binding.tablayout.addTab(tab1)
+        binding.tablayout.addTab(tab2)
+        val textview1 = LayoutInflater.from(context).inflate(R.layout.tab_title,null) as TextView
+        textview1.text = getString(R.string.by_km)
+        val textview2 = LayoutInflater.from(context).inflate(R.layout.tab_title,null) as TextView
+        textview2.text = getString(R.string.hourly)
+        binding.tablayout.getTabAt(0)?.customView = textview1
+        binding.tablayout.getTabAt(1)?.customView = textview2
+
+        binding.tablayout.addOnTabSelectedListener(object : OnTabSelectedListener{
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                binding.isHourly = tab?.position != 0
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+
+        })
+        //
         trip = Trip()
         trip?.user = BasePrefers.getPrefsInstance().infoUser
         autocompleteForPlaces()
@@ -89,7 +128,7 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
             )
         }
 
-        val itemsHour = arrayListOf(1,2,3,4,5)
+        val itemsHour = arrayListOf(1, 2, 3, 4, 5)
         binding.spinnerHour.adapter = adapterHour
         binding.spinnerHour.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
@@ -123,20 +162,6 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
     override fun setupListener() {
         super.setupListener()
         binding.apply {
-            btnHourly.setOnSingleClickListener {
-                isHourly = true
-                btnHourly.setBackgroundResource(R.drawable.bg_radius_8_selected_home)
-                btnByKm.setBackgroundResource(R.drawable.bg_radius_8_unselected_home)
-                context?.getColor(R.color.c100D40)?.let { it1 -> btnHourly.setTextColor(it1) }
-                context?.getColor(R.color.c686767)?.let { it1 -> btnByKm.setTextColor(it1) }
-            }
-            btnByKm.setOnSingleClickListener {
-                isHourly = false
-                btnByKm.setBackgroundResource(R.drawable.bg_radius_8_selected_home)
-                btnHourly.setBackgroundResource(R.drawable.bg_radius_8_unselected_home)
-                context?.getColor(R.color.c100D40)?.let { it1 -> btnByKm.setTextColor(it1) }
-                context?.getColor(R.color.c686767)?.let { it1 -> btnHourly.setTextColor(it1) }
-            }
             rltStart.setOnSingleClickListener {
                 selectedPosition = 0
                 isShowMap = true
@@ -157,9 +182,11 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
                     }.show(childFragmentManager)
                 } else {
                     if (binding.isHourly == false) trip?.hourly_rental = 0
-                    findNavController().navigate(UserFragmentDirections.actionUserFragmentToTripUserFragment(
-                        trip = trip
-                    ))
+                    findNavController().navigate(
+                        UserFragmentDirections.actionUserFragmentToTripUserFragment(
+                            trip = trip
+                        )
+                    )
                 }
 
             }
@@ -180,6 +207,7 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
         super.onResume()
         checkNextAction()
     }
+
     private fun autocompleteForPlaces() {
         val autocompleteFragment =
             childFragmentManager.findFragmentById(R.id.autocomplete_fragment)
@@ -243,12 +271,26 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
             && ContextCompat.checkSelfPermission(
                 requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
-        ) return
-        locationPermissionRequest.launch(
-            arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
+        ) {
+            activity?.let {
+                fusedLocationClient = LocationServices.getFusedLocationProviderClient(it)
+                fusedLocationClient.lastLocation
+                    .addOnSuccessListener { location ->
+                        if (location != null) {
+                            val latitude = location.latitude
+                            val longitude = location.longitude
+                            trip?.pick_up_location_longitude = longitude
+                            trip?.pick_up_location_latitude = latitude
+                        }
+                    }
+            }
+        } else {
+            locationPermissionRequest.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
             )
-        )
+        }
     }
 }

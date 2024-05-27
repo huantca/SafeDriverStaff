@@ -67,12 +67,13 @@
 
             <ImageView
                 android:id="@+id/imgDown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/ic_down_map"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
 
             <RelativeLayout
                 android:id="@+id/rltHeader"
@@ -124,14 +125,31 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <TextView
-                    android:id="@+id/tvRentFor"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="@string/rent_for" />
+                    android:layout_alignParentEnd="true"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tvRentFor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textSize="12sp"
+                        android:text="@string/rent_for" />
+
+
+                    <TextView
+                        android:id="@+id/tvDuration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:layout_marginTop="5dp"
+                        android:text="Thoi gian du kien" />
+                </LinearLayout>
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -356,6 +374,15 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
+                <ImageView
+                    android:id="@+id/imgPhone"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_phone"
+                    android:layout_marginEnd="25dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    app:layout_constraintTop_toTopOf="parent" />
             </RelativeLayout>
 
 

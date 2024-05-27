@@ -8,12 +8,14 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
 import android.widget.FrameLayout
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -27,6 +29,7 @@ import com.bkplus.android.model.Driver
 import com.bkplus.android.model.StatusE
 import com.bkplus.android.model.Trip
 import com.bkplus.android.ui.widget.CompleteDialog
+import com.bkplus.android.ui.widget.ConfirmDialog
 import com.bkplus.android.ultis.getBitmapFromVectorDrawable
 import com.bkplus.android.ultis.gone
 import com.bkplus.android.ultis.numberToVND
@@ -68,6 +71,20 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
     private var mGeoApiContext: GeoApiContext? = null
     private var trip: Trip? = null
     private var driver: Driver? = null
+
+    private val callPhonePermissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        when {
+            permissions.getOrDefault(Manifest.permission.CALL_PHONE, false) -> {
+                // Precise location access granted.
+            }
+
+            else -> {
+
+            }
+        }
+    }
 
     override fun setupData() {
         super.setupData()
@@ -163,7 +180,13 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
         super.setupListener()
         binding.apply {
             imgBack.setOnSingleClickListener {
-                findNavController().popBackStack()
+                ConfirmDialog().apply {
+                    cancel = {
+                        trip?.let { it1 -> webSocket.cancelTrip(it1) }
+                        webSocket.disposableLocation()
+                        findNavController().popBackStack()
+                    }
+                }.show(childFragmentManager)
             }
             btnBook.setOnClickListener {
                 requestTrip()
@@ -173,9 +196,13 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
             }
 
             btnCancel.setOnClickListener {
-                trip?.let { it1 -> webSocket.cancelTrip(it1) }
-                webSocket.disposableLocation()
-                findNavController().popBackStack()
+                ConfirmDialog().apply {
+                    cancel = {
+                        trip?.let { it1 -> webSocket.cancelTrip(it1) }
+                        webSocket.disposableLocation()
+                        findNavController().popBackStack()
+                    }
+                }.show(childFragmentManager)
             }
 
             imgDown.setOnSingleClickListener {
@@ -184,6 +211,14 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
 
             imgUp.setOnSingleClickListener {
                 isShow = true
+            }
+
+            imgPhone.setOnClickListener {
+                requestCallPhone {
+                    val phoneIntent = Intent(Intent.ACTION_CALL)
+                    phoneIntent.data = Uri.parse("tel:${trip?.driver?.phone}")
+                    context?.startActivity(phoneIntent)
+                }
             }
 
         }
@@ -225,9 +260,10 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
             binding.phone.text = context?.getString(R.string.phone_number) + ": " + it.driver?.phone
             binding.tvStartLocation.text = context?.getString(R.string.start_location)+ ": " + it.pick_up_location
             binding.tvEndLocation.text = context?.getString(R.string.end_location)+ ": "  + it.drop_off_location
-            binding.tvFee2.text = numberToVND(it.fee)
-            binding.tvKm2.text =  it.km.toString() + " km"
+            binding.tvFee2.text = getString(R.string.rates) + numberToVND(it.fee)
+            binding.tvKm2.text = getString(R.string.distance) +  it.km.toString() + " km"
             activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = false
+            trip?.driver?.phone = it.driver?.phone
             webSocket.acceptTrip.value = null
         }
 
@@ -305,6 +341,7 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
                         Timber.tag("huanhuan")
                             .d("onResult: geocodedWayPoints: " + result.geocodedWaypoints[0].toString())
                         addPolylineToMap(result)
+
                     }
                 }
 
@@ -327,6 +364,8 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
                     shortestRoute = route
                 }
             }
+            val duration = shortestRoute?.legs?.get(0)?.duration?.inSeconds
+            binding.tvDuration.text = getString(R.string.intend_time) + String.format("%.2f", (duration?.div(60) ?: 30))
             binding.tvNameCar.text = BasePrefers.getPrefsInstance().vehicleModelUser
             if (trip?.hourly_rental != 0) {
                 binding.tvRentFor.visible()
@@ -375,6 +414,23 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
             it.date_of_hire = System.currentTimeMillis()
             webSocket.sendRequest(it)
         }
+    }
+
+    private fun requestCallPhone(action: () -> Unit) {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.CALL_PHONE
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            action.invoke()
+        } else {
+            callPhonePermissionRequest.launch(
+                arrayOf(
+                    Manifest.permission.CALL_PHONE
+                )
+            )
+        }
+
     }
 
 }

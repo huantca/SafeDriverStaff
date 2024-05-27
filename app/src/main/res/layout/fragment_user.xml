@@ -93,30 +93,21 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:padding="5dp"
+            android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@id/rltHeader">
 
-            <TextView
-                android:id="@+id/btnByKm"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:background="@drawable/bg_radius_8_selected_home"
-                android:gravity="center"
-                android:paddingVertical="10dp"
-                android:text="@string/by_km"
-                android:textColor="#100D40" />
-
-            <TextView
-                android:id="@+id/btnHourly"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_weight="0.5"
-                android:background="@drawable/bg_radius_8_unselected_home"
-                android:gravity="center"
-                android:paddingVertical="10dp"
-                android:text="@string/hourly"
-                android:textColor="#686767" />
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tablayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:tabGravity="fill"
+                app:tabMode="fixed"
+                app:tabIndicatorGravity="stretch"
+                app:tabIndicatorAnimationMode="elastic"
+                app:tabIndicatorColor="@null"
+                app:tabIndicator="@drawable/tab_selected_background"
+                app:tabRippleColor="@null"
+                android:background="@drawable/tab_background" />
         </LinearLayout>
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -151,8 +142,8 @@
                     android:layout_marginStart="16dp"
                     android:layout_toEndOf="@id/imgLocationStart"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="@string/start"
-                    android:textColor="#5A5A5A"
+                    android:text="@string/your_current_location"
+                    android:textColor="#000000"
                     android:textSize="16sp" />
 
             </RelativeLayout>
@@ -180,8 +171,9 @@
                     android:layout_marginStart="16dp"
                     android:layout_toEndOf="@id/imgLocationEnd"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="@string/end"
-                    android:textColor="#5A5A5A"
+                    android:hint="@string/end"
+                    android:textColorHint="#B8B8B8"
+                    android:textColor="#000000"
                     android:textSize="16sp" />
 
             </RelativeLayout>
@@ -209,7 +201,6 @@
                     android:layout_height="20dp"
                     android:layout_marginStart="12dp"
                     android:layout_toEndOf="@id/imgTime"/>
-
 
             </RelativeLayout>
         </androidx.appcompat.widget.LinearLayoutCompat>

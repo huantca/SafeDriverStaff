@@ -151,6 +151,10 @@
     <string name="driver_reviews">Driver reviews</string>
     <string name="vote">Vote</string>
     <string name="waiting_for_the_driver">waiting for the driver</string>
+    <string name="your_current_location">Your current location</string>
+    <string name="intend_time">Intend time: </string>
+   <string name="cancel_trip">Do you want to cancel the trip?</string>
+    <string name="invalidate_password">Password must contain both numbers and letters and be greater than 4 characters</string>
 
     <string-array name="typeCar">
         <item>Automatic transmission</item>
