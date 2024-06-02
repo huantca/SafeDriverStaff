@@ -10,7 +10,7 @@ class CompleteDialog : BaseDialogFragment<LayoutCompleteDialogBinding>() {
 
     override val layoutId: Int
         get() = R.layout.layout_complete_dialog
-    private var currentStar: Int = 0
+    private var currentStar: Int = 5
     var action = {}
     var vote : ((Int) -> Unit ) ?= null
     override fun setupData() {

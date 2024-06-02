@@ -45,7 +45,20 @@
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
                 android:text="@string/profile"
+                android:textColor="@color/black"
                 android:textSize="26sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/imgSave"
+                android:visibility="invisible"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_radius_16"
+                app:backgroundTint="#6C63FF"
+                android:layout_alignParentEnd="true"
+                android:text="@string/save"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"/>
         </RelativeLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -59,6 +72,7 @@
             tools:layout_editor_absoluteY="20dp">
 
             <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgAvatar"
                 android:layout_width="125dp"
                 android:layout_height="125dp"
                 android:background="#757373"

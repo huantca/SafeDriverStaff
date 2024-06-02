@@ -23,6 +23,7 @@ import com.bkplus.android.model.Trip
 import com.bkplus.android.ui.main.user.adapter.UserAdapter
 import com.bkplus.android.ui.widget.PermissionLocationDialog
 import com.bkplus.android.ui.widget.SelectCarDialog
+import com.bkplus.android.ultis.loadImage
 import com.bkplus.android.ultis.setOnSingleClickListener
 import com.bkplus.android.websocket.WebSocket
 import com.google.android.gms.common.api.Status
@@ -33,9 +34,15 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import com.google.gson.Gson
+import com.google.gson.annotations.SerializedName
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentUserBinding
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import java.io.IOException
 import javax.inject.Inject
 
 
@@ -77,7 +84,6 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
     override fun setupData() {
         super.setupData()
         requestLocation()
-
         if (!webSocket.checkConnected()) {
             webSocket.connectWebSocket()
         }
@@ -98,7 +104,13 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
 
         binding.tablayout.addOnTabSelectedListener(object : OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                binding.isHourly = tab?.position != 0
+                if (tab?.position == 0){
+                    binding.isHourly = false
+                    binding.tvTime.text = " "
+                    trip?.hourly_rental = null
+                }else{
+                    binding.isHourly = true
+                }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -116,6 +128,12 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
         autocompleteForPlaces()
         trip?.user?.let {
             sharedViewModel.getListHistory(it)
+            sharedViewModel.getInfoUser(it)
+        }
+        sharedViewModel.infoUserLiveData.observe(viewLifecycleOwner) {
+            BasePrefers.getPrefsInstance().infoUser = it
+            binding.imgAvatar.loadImage(it.avatar)
+            binding.tvName.text = it.name
         }
         userAdapter = UserAdapter()
         binding.rcyHistory.adapter = userAdapter
@@ -124,7 +142,7 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
         val adapterHour = context?.let {
             ArrayAdapter(
                 it,
-                android.R.layout.simple_spinner_dropdown_item, hour
+                R.layout.text_spinner, hour
             )
         }
 
@@ -136,6 +154,7 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
                 parent: AdapterView<*>,
                 view: View, position: Int, id: Long
             ) {
+                binding.tvTime.text = itemsHour[position].toString()
                 trip?.hourly_rental = itemsHour[position]
             }
 
@@ -155,7 +174,6 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
         binding.apply {
             isHourly = false
             isShowMap = false
-            tvName.text = trip?.user?.name
         }
     }
 
@@ -172,6 +190,7 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
                 isShowMap = true
             }
             tvNext.setOnSingleClickListener {
+                binding.tvTime.text = " "
                 activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = true
                 if (BasePrefers.getPrefsInstance().vehicleModelUser == null || BasePrefers.getPrefsInstance().rangeOfVehicleUser == null) {
                     activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = false
@@ -182,6 +201,10 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
                     }.show(childFragmentManager)
                 } else {
                     if (binding.isHourly == false) trip?.hourly_rental = 0
+                    if (trip?.pick_up_location == null || trip?.drop_off_location == null) {
+                        context?.getString(R.string.missing_data)?.let { toast(it) }
+                        return@setOnSingleClickListener
+                    }
                     findNavController().navigate(
                         UserFragmentDirections.actionUserFragmentToTripUserFragment(
                             trip = trip
@@ -199,6 +222,10 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
 
             imgAvatar.setOnClickListener {
                 findNavController().navigate(R.id.infoUserFragment)
+            }
+
+            imgCloseMap.setOnClickListener {
+                isShowMap = false
             }
         }
     }
@@ -281,6 +308,10 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
                             val longitude = location.longitude
                             trip?.pick_up_location_longitude = longitude
                             trip?.pick_up_location_latitude = latitude
+                            getLocationName(latitude,longitude){locationName ->
+                                trip?.pick_up_location = locationName
+                            }
+
                         }
                     }
             }
@@ -293,4 +324,32 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
             )
         }
     }
+
+    private fun getLocationName(latitude: Double, longitude: Double, callback: (String?) -> Unit) {
+        val client = OkHttpClient()
+        val url = "https://nominatim.openstreetmap.org/reverse?lat=$latitude&lon=$longitude&format=json"
+        val request = Request.Builder().url(url).build()
+
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onFailure(call: okhttp3.Call, e: IOException) {
+                callback(null) // Handle error
+            }
+
+            override fun onResponse(call: okhttp3.Call, response: Response) {
+                if (response.isSuccessful) {
+                    val json = response.body!!.string()
+                    val place = Gson().fromJson(json, Place1::class.java)
+                    val locationName = place.display_name
+                    callback(locationName)
+                } else {
+                    callback(null) // Handle error
+                }
+            }
+        })
+    }
+
+    data class Place1(
+        @SerializedName("display_name")
+        val display_name: String?
+    )
 }

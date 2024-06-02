@@ -66,7 +66,7 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
         get() = R.layout.fragment_trip_user
     private lateinit var gpsPermissionRequestFromSetting: ActivityResultLauncher<Intent>
     private val viewModel: SharedViewModel by activityViewModels()
-    private val args : TripUserFragmentArgs by navArgs()
+    private val args: TripUserFragmentArgs by navArgs()
     private var googleMap: GoogleMap? = null
     private var mGeoApiContext: GeoApiContext? = null
     private var trip: Trip? = null
@@ -112,57 +112,57 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
                 ) {
                     return@let
                 }
-                    // Center map on current location
-                    it.clear()
-                    val pickStart =
-                        trip?.pick_up_location_latitude?.let { it1 ->
-                            trip?.pick_up_location_longitude?.let { it2 ->
-                                LatLng(
-                                    it1,
-                                    it2
-                                )
-                            }
+                // Center map on current location
+                it.clear()
+                val pickStart =
+                    trip?.pick_up_location_latitude?.let { it1 ->
+                        trip?.pick_up_location_longitude?.let { it2 ->
+                            LatLng(
+                                it1,
+                                it2
+                            )
                         }
-                    pickStart?.let { latLng ->
-                        googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
-                        it.addMarker(
-                            MarkerOptions()
-                                .icon(
-                                    BitmapDescriptorFactory.fromBitmap(
-                                        context.getBitmapFromVectorDrawable(
-                                            R.drawable.ic_current_location
-                                        )
-                                    )
-                                )
-                                .position(latLng)
-                        )
                     }
-
-
-                    val dropEnd =
-                        trip?.drop_off_location_latitude?.let { it1 ->
-                            trip?.drop_off_location_longitude?.let { it2 ->
-                                LatLng(
-                                    it1,
-                                    it2
-                                )
-                            }
-                        }
-                    dropEnd?.let { it1 ->
+                pickStart?.let { latLng ->
+                    googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
+                    it.addMarker(
                         MarkerOptions()
                             .icon(
                                 BitmapDescriptorFactory.fromBitmap(
                                     context.getBitmapFromVectorDrawable(
-                                        R.drawable.ic_location
+                                        R.drawable.ic_current_location
                                     )
                                 )
                             )
-                            .position(it1)
-                    }?.let { it2 -> it.addMarker(it2) }
-                    calculateDirections(pickStart, dropEnd, TravelMode.DRIVING)
-                    handlerLocationDriver(it, context)
-                    handlerAcceptTrip()
-                    handlerCompleteTrip()
+                            .position(latLng)
+                    )
+                }
+
+
+                val dropEnd =
+                    trip?.drop_off_location_latitude?.let { it1 ->
+                        trip?.drop_off_location_longitude?.let { it2 ->
+                            LatLng(
+                                it1,
+                                it2
+                            )
+                        }
+                    }
+                dropEnd?.let { it1 ->
+                    MarkerOptions()
+                        .icon(
+                            BitmapDescriptorFactory.fromBitmap(
+                                context.getBitmapFromVectorDrawable(
+                                    R.drawable.ic_location
+                                )
+                            )
+                        )
+                        .position(it1)
+                }?.let { it2 -> it.addMarker(it2) }
+                calculateDirections(pickStart, dropEnd, TravelMode.DRIVING)
+                handlerLocationDriver(it, context)
+                handlerAcceptTrip()
+                handlerCompleteTrip()
 
 
             }
@@ -258,10 +258,12 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
             binding.tvAge.text = context?.getString(R.string.age) + it.driver?.age.toString()
             binding.tvStatusDriver.text = it.status.toString()
             binding.phone.text = context?.getString(R.string.phone_number) + ": " + it.driver?.phone
-            binding.tvStartLocation.text = context?.getString(R.string.start_location)+ ": " + it.pick_up_location
-            binding.tvEndLocation.text = context?.getString(R.string.end_location)+ ": "  + it.drop_off_location
+            binding.tvStartLocation.text =
+                context?.getString(R.string.start_location) + ": " + it.pick_up_location
+            binding.tvEndLocation.text =
+                context?.getString(R.string.end_location) + ": " + it.drop_off_location
             binding.tvFee2.text = getString(R.string.rates) + numberToVND(it.fee)
-            binding.tvKm2.text = getString(R.string.distance) +  it.km.toString() + " km"
+            binding.tvKm2.text = getString(R.string.distance) + it.km.toString() + " km"
             activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = false
             trip?.driver?.phone = it.driver?.phone
             webSocket.acceptTrip.value = null
@@ -277,8 +279,9 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
                     action = {
                         findNavController().popBackStack(R.id.userFragment, false)
                     }
-                    vote = {
-                        driver?.let { it1 -> viewModel.voteDriver(it1) }
+                    vote = { start ->
+                        findNavController().popBackStack(R.id.userFragment, false)
+                        driver?.let { it1 -> viewModel.voteDriver(it1, start) }
                     }
                 }.show(childFragmentManager)
                 webSocket.completeTrip.value = null
@@ -365,17 +368,19 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
                 }
             }
             val duration = shortestRoute?.legs?.get(0)?.duration?.inSeconds
-            binding.tvDuration.text = getString(R.string.intend_time) + String.format("%.2f", (duration?.div(60) ?: 30))
+            binding.tvDuration.text = getString(R.string.intend_time) + String.format(
+                "%.2f",
+                (duration?.div(60)?.toFloat() ?: 30f)
+            )
             binding.tvNameCar.text = BasePrefers.getPrefsInstance().vehicleModelUser
             if (trip?.hourly_rental != 0) {
                 binding.tvRentFor.visible()
                 binding.tvRentFor.text =
-                    context?.getString(R.string.rent_for) + trip?.hourly_rental + "h"
+                    context?.getString(R.string.rent_for) + " : " + trip?.hourly_rental + "h"
             } else {
                 binding.tvRentFor.gone()
             }
-            binding.tvTypeCar.text =
-                context?.getString(R.string.range_car) + BasePrefers.getPrefsInstance().rangeOfVehicleUser
+            binding.tvTypeCar.text = BasePrefers.getPrefsInstance().rangeOfVehicleUser
             binding.tvKm.text = String.format("%.2f Km", minDistance / 1000.0)
             trip?.km = minDistance / 1000.0
             binding.tvFee.text = numberToVND(

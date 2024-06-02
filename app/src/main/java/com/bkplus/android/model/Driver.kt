@@ -4,12 +4,12 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Driver (
+data class Driver(
     val id: Long? = null,
     val name: String? = null,
     val age: Int? = null,
     val email: String? = null,
-    var phone: String?= null,
+    var phone: String? = null,
     val password: String? = null,
     val address: String? = null,
     val trips: List<Trip>? = null,
@@ -26,5 +26,6 @@ data class Driver (
     val resume_photo: String? = null,
     val working_time: Long? = null,
     val isAccept: Boolean? = null,
-    val star_number: Double?= null
-): Parcelable
+    val vote_number: Int? = 1,
+    val star_number: Double? = null
+) : Parcelable

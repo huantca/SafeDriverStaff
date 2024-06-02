@@ -18,6 +18,7 @@ data class User(
     var phone: String? = null,
     @SerializedName("address")
     var address: String? = null,
+    @SerializedName("avatar")
     var avatar: String? = null,
     var number_of_rentals: Int? = null,
     var trips: List<Trip>? = null,

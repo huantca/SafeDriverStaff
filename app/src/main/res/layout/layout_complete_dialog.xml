@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:background="@drawable/bg_radius_16"
-            android:backgroundTint="#E63773EC"
+            android:backgroundTint="@color/white"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:padding="16dp">
@@ -22,7 +22,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/driver_reviews"
-                android:textAllCaps="true"
+                android:textSize="16sp"
+                android:textAllCaps="false"
                 android:textColor="@color/black" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -72,6 +73,14 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
 
+            <EditText
+                android:id="@+id/tvComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="14sp"
+                android:hint="@string/evaluate" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,7 +93,7 @@
                     android:layout_marginTop="25dp"
                     android:layout_weight="1"
                     android:background="@drawable/bg_radius_16"
-                    android:backgroundTint="@color/primary"
+                    android:backgroundTint="#6C63FF"
                     android:text="@string/home"
                     app:icon="@drawable/selector_home" />
 
@@ -92,11 +101,11 @@
                     android:id="@+id/btnVote"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
                     android:layout_marginTop="25dp"
                     android:layout_weight="1"
-                    android:layout_marginStart="30dp"
                     android:background="@drawable/bg_radius_16"
-                    android:backgroundTint="@color/primary"
+                    android:backgroundTint="#6C63FF"
                     android:text="@string/vote"
                     app:icon="@drawable/ic_person_new" />
 

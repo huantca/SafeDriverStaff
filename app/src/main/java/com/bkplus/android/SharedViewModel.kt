@@ -16,6 +16,8 @@ import com.harison.core.app.utils.SingleLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,6 +34,7 @@ class SharedViewModel @Inject constructor(
     val registerUserFailLiveData = SingleLiveData<String>()
     val sendOtpUserSuccessLiveData = SingleLiveData<String>()
     val sendOtpUserFailLiveData = SingleLiveData<String>()
+    val infoUserLiveData = SingleLiveData<User>()
 
     fun getListHistory(user: User) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -101,7 +104,7 @@ class SharedViewModel @Inject constructor(
         }
     }
 
-    fun sendOtp(requestOtp: RequestOtp){
+    fun sendOtp(requestOtp: RequestOtp) {
         viewModelScope.launch(Dispatchers.IO) {
             apiService.sendOtp(requestOtp).onSuccess {
                 if (it.data == null) sendOtpUserFailLiveData.postValue(it.message.toString())
@@ -114,12 +117,49 @@ class SharedViewModel @Inject constructor(
         }
     }
 
-    fun voteDriver(driver: Driver){
+    fun voteDriver(driver: Driver, start: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            apiService.voteDriver(driver).onSuccess {
+            apiService.voteDriver(driver, start).onSuccess {
 
             }.onFailure { code, message ->
                 sendOtpUserFailLiveData.postValue(message)
+            }
+        }
+    }
+
+    fun saveInfoUser(user: User, actionSuccess: () -> Unit, actionFail: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            apiService.saveInfoUser(user).onSuccess {
+                actionSuccess.invoke()
+            }.onFailure { code, message ->
+                actionFail.invoke()
+            }
+        }
+    }
+
+    fun updateAvatar(
+        avatar: MultipartBody.Part,
+        user: RequestBody,
+        actionSuccess: () -> Unit,
+        actionFail: () -> Unit
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            apiService.updateAvatarUser(avatar,user).onSuccess {
+                actionSuccess.invoke()
+            }.onFailure { code, message ->
+                actionFail.invoke()
+            }
+        }
+    }
+
+    fun getInfoUser(user: User){
+        viewModelScope.launch(Dispatchers.IO) {
+            apiService.infoUser(user).onSuccess {
+                it?.data?.let { user ->
+                    infoUserLiveData.postValue(user)
+                }
+            }.onFailure { code, message ->
+
             }
         }
     }

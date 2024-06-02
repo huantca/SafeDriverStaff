@@ -8,11 +8,16 @@ import com.bkplus.android.model.RequestOtp
 import com.bkplus.android.model.TripBody
 import com.bkplus.android.model.User
 import com.bkplus.android.model.UserBody
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Url
 
 interface ApiService {
@@ -56,7 +61,24 @@ interface ApiService {
 
     @POST("driver/evaluate")
     suspend fun voteDriver(
-        @Body driver: Driver
+        @Body driver: Driver,
+        @Path("start") start: Int,
     ): BaseResponse<DriverBody>
 
+    @POST("user/update")
+    suspend fun saveInfoUser(
+        @Body user: User,
+    ): BaseResponse<UserBody>
+
+    @Multipart
+    @POST("user/avatar")
+    suspend fun updateAvatarUser(
+        @Part avatar: MultipartBody.Part,
+        @Part("user") user: RequestBody,
+    ): BaseResponse<UserBody>
+
+    @POST("user/infoUser")
+    suspend fun infoUser(
+        @Body user: User,
+    ): BaseResponse<UserBody>
 }

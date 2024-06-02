@@ -11,13 +11,13 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -26,7 +26,6 @@ object NetworkModule {
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         val interceptor = HttpLoggingInterceptor { message -> Timber.tag("----").d("\n" + message) }
-        interceptor.level = HttpLoggingInterceptor.Level.HEADERS
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         return OkHttpClient.Builder()
             .addInterceptor { chain ->
@@ -38,7 +37,6 @@ object NetworkModule {
                 chain.proceed(ongoing.build())
             }
             .addInterceptor(interceptor)
-            .addInterceptor(HttpLoggingInterceptor())
             .readTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
             .connectTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
             .callTimeout(TIME_OUT, TimeUnit.MILLISECONDS)

@@ -126,7 +126,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         R.id.firstLanguageFragment,
                         R.id.welcomeFragment,
                         R.id.settingFragment,
-                        R.id.homeFragment
+                        R.id.homeFragment,
+                        R.id.userFragment,
+                        R.id.driverFragment,
                         -> {
                             PopupExitDialogFragment().apply {
                                 actionYes = {

@@ -61,6 +61,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnPolylineClickListener 
     private val mTripMarkers = ArrayList<Marker>()
     private var tripOj: Trip? = null
     private var startTrip = false
+    private var isMap = false
 
     private val callPhonePermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -81,6 +82,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnPolylineClickListener 
         val trip = arguments?.getString("trip")
         val gson = Gson()
         tripOj = gson.fromJson(trip, Trip::class.java)
+        setupMap()
+    }
+
+    private fun setupMap() {
         val locationMap = context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val locationCurrent = locationMap.getLastKnownLocation(LocationManager.GPS_PROVIDER)
         context?.let { context ->
@@ -94,13 +99,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnPolylineClickListener 
             ) {
                 requestPermissions()
             } else {
-
                 val mapFragment = childFragmentManager.findFragmentById(
                     R.id.map_fragment
                 ) as? SupportMapFragment
                 mapFragment?.getMapAsync { it2 ->
+                    isMap = true
                     it2.setOnPolylineClickListener(this)
-
                     locationCurrent?.let { curr ->
                         locationSend = LocationSend(
                             curr.latitude,
@@ -236,6 +240,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnPolylineClickListener 
         super.setupListener()
         binding.apply {
             btnAction.setOnClickListener {
+                if (!isMap) setupMap()
                 startTrip()
             }
 
