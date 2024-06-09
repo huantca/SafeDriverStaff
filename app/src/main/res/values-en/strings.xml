@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name" translatable="false">S a f e D r i v e r</string>
+    <string name="app_name" translatable="false">Safe Driver</string>
+    <string name="app_splash" translatable="false">S a f e D r i v e r</string>
     <string name="back_pressed_finish">Please press back again to quit</string>
     <string name="api_key_map" translatable="false">AIzaSyBOD5-j2ElNi1GuIbPEZntT1iNLHKassW4</string>
 
@@ -151,6 +152,15 @@
     <string name="driver_reviews">Driver reviews</string>
     <string name="vote">Vote</string>
     <string name="waiting_for_the_driver">waiting for the driver</string>
+    <string name="your_current_location">Your current location</string>
+    <string name="intend_time">Intend time: </string>
+    <string name="cancel_trip">Do you want to cancel the trip?</string>
+    <string name="invalidate_password">Password must contain both numbers and letters and be greater than 4 characters</string>
+    <string name="missing_data">missing data</string>
+    <string name="evaluate">Evaluate</string>
+    <string name="save">Save</string>
+    <string name="saved_successfully">Saved successfully</string>
+    <string name="saved_fail">Save fail</string>
 
     <string-array name="typeCar">
         <item>Automatic transmission</item>

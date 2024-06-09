@@ -5,6 +5,7 @@ import com.harrison.myapplication.BuildConfig
 
 object Constants {
     const val BASE_URL = "https://humble-topical-krill.ngrok-free.app/api/v1/"
+    const val BASE_URL_IMAGE = "https://humble-topical-krill.ngrok-free.app/"
     const val adjust_token = "r8smxa0e5ukg"
     const val ads_revenue = "rxd4i8"
 

@@ -18,8 +18,10 @@ import androidx.navigation.fragment.findNavController
 import com.bkplus.android.common.BaseFragment
 import com.bkplus.android.model.LocationSend
 import com.bkplus.android.model.Trip
+import com.bkplus.android.ultis.Constants
 import com.bkplus.android.ultis.getBitmapFromVectorDrawable
 import com.bkplus.android.ultis.gone
+import com.bkplus.android.ultis.loadImage
 import com.bkplus.android.ultis.numberToVND
 import com.bkplus.android.ultis.visible
 import com.bkplus.android.websocket.WebSocket
@@ -103,12 +105,16 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnPolylineClickListener 
                     R.id.map_fragment
                 ) as? SupportMapFragment
                 mapFragment?.getMapAsync { it2 ->
-                    isMap = true
                     it2.setOnPolylineClickListener(this)
-                    locationCurrent?.let { curr ->
+                    locationMap.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER,
+                        1000L, // Minimum time between updates
+                        10.0F
+                    ) // Minimum distance change
+                    { location ->
                         locationSend = LocationSend(
-                            curr.latitude,
-                            curr.longitude,
+                            location.latitude,
+                            location.longitude,
                             tripOj?.user?.id
                         )
                         locationSend?.let { it3 ->
@@ -118,7 +124,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnPolylineClickListener 
                         it2.clear()
                         googleMap = it2
                         val zoomLevel = 15f
-                        val latLngDriver = LatLng(curr.latitude, curr.longitude)
+                        val latLngDriver = LatLng(location.latitude, location.longitude)
 
                         it2.addMarker(
                             MarkerOptions().icon(
@@ -184,23 +190,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnPolylineClickListener 
                     }
 
 
-                    locationMap.requestLocationUpdates(
-                        LocationManager.GPS_PROVIDER,
-                        1000L, // Minimum time between updates
-                        10.0F
-                    ) // Minimum distance change
-                    { location ->
-                        locationSend = LocationSend(
-                            location.latitude,
-                            location.longitude,
-                            tripOj?.user?.id
-                        )
-                        locationSend?.let { it3 ->
-                            webSocket.sendLocation(it3)
-                        }
-
-                    }
-
                 }
 
             }
@@ -240,7 +229,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnPolylineClickListener 
         super.setupListener()
         binding.apply {
             btnAction.setOnClickListener {
-                if (!isMap) setupMap()
                 startTrip()
             }
 
@@ -435,6 +423,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnPolylineClickListener 
     private fun updateInfoTrip() {
         binding.apply {
             tvName.text = tripOj?.user?.name
+            if (tripOj?.user?.avatar != null){
+                imgAvatar.loadImage(Constants.BASE_URL_IMAGE + tripOj?.user?.avatar)
+            }
             tvFree.text = tripOj?.fee?.let { numberToVND(it) }
             tvKm.text = String.format("%.2f Km", tripOj?.km)
             tvStartLocation.text = tripOj?.pick_up_location

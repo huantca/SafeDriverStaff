@@ -23,6 +23,7 @@ import com.bkplus.android.model.Trip
 import com.bkplus.android.ui.main.user.adapter.UserAdapter
 import com.bkplus.android.ui.widget.PermissionLocationDialog
 import com.bkplus.android.ui.widget.SelectCarDialog
+import com.bkplus.android.ultis.Constants
 import com.bkplus.android.ultis.loadImage
 import com.bkplus.android.ultis.setOnSingleClickListener
 import com.bkplus.android.websocket.WebSocket
@@ -95,10 +96,10 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
         tab2.text = getString(R.string.hourly)
         binding.tablayout.addTab(tab1)
         binding.tablayout.addTab(tab2)
-        val textview1 = LayoutInflater.from(context).inflate(R.layout.tab_title,null) as TextView
-        textview1.text = getString(R.string.by_km)
-        val textview2 = LayoutInflater.from(context).inflate(R.layout.tab_title,null) as TextView
-        textview2.text = getString(R.string.hourly)
+        val textview1 = LayoutInflater.from(context).inflate(R.layout.tab_title,null) as TextView?
+        textview1?.text = getString(R.string.by_km)
+        val textview2 = LayoutInflater.from(context).inflate(R.layout.tab_title,null) as TextView?
+        textview2?.text = getString(R.string.hourly)
         binding.tablayout.getTabAt(0)?.customView = textview1
         binding.tablayout.getTabAt(1)?.customView = textview2
 
@@ -132,7 +133,9 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
         }
         sharedViewModel.infoUserLiveData.observe(viewLifecycleOwner) {
             BasePrefers.getPrefsInstance().infoUser = it
-            binding.imgAvatar.loadImage(it.avatar)
+            if (it.avatar != null){
+                binding.imgAvatar.loadImage(Constants.BASE_URL_IMAGE + it.avatar)
+            }
             binding.tvName.text = it.name
         }
         userAdapter = UserAdapter()
@@ -226,6 +229,10 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
 
             imgCloseMap.setOnClickListener {
                 isShowMap = false
+            }
+
+            imgSetting.setOnClickListener {
+
             }
         }
     }

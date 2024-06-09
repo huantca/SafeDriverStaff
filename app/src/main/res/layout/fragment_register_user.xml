@@ -120,6 +120,17 @@
             app:layout_constraintTop_toTopOf="@id/edtPassword"
             app:layout_constraintBottom_toBottomOf="@id/edtPassword"/>
 
+        <ImageView
+            android:id="@+id/imgEyeGone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/visibility_off"
+            android:layout_marginEnd="17dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/edtPassword"
+            app:layout_constraintTop_toTopOf="@id/edtPassword"
+            app:layout_constraintBottom_toBottomOf="@id/edtPassword"/>
+
         <TextView
             android:id="@+id/tvValidatePass"
             android:layout_width="wrap_content"

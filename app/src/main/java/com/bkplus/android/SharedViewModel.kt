@@ -29,6 +29,7 @@ class SharedViewModel @Inject constructor(
     val loginUserSuccessLiveData = SingleLiveData<User>()
     val loginFailLiveData = SingleLiveData<String>()
     val loginDriverSuccessLiveData = SingleLiveData<Driver>()
+    val starDriver = SingleLiveData<Double>()
 
     val registerUserSuccessLiveData = SingleLiveData<User>()
     val registerUserFailLiveData = SingleLiveData<String>()
@@ -63,6 +64,17 @@ class SharedViewModel @Inject constructor(
             }
         }
 
+    }
+
+    fun getStar(id : Long?){
+        if (id == null) return
+        viewModelScope.launch(Dispatchers.IO) {
+            apiService.getStar(id).onSuccess {
+                starDriver.postValue(it.data?: 5.0)
+            }.onException {
+                Log.d("huanhuan", it?.message.toString())
+            }
+        }
     }
 
     fun login(user: User) {

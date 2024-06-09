@@ -147,7 +147,7 @@
                         android:textColor="@color/black"
                         android:textSize="12sp"
                         android:layout_marginTop="5dp"
-                        android:text="Thoi gian du kien" />
+                        android:text="@string/time" />
                 </LinearLayout>
 
 

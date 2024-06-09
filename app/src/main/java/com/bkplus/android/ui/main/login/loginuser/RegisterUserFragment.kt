@@ -1,6 +1,7 @@
 package com.bkplus.android.ui.main.login.loginuser
 
 import android.os.Bundle
+import android.text.method.PasswordTransformationMethod
 import android.view.inputmethod.EditorInfo
 import android.widget.FrameLayout
 import androidx.core.view.isVisible
@@ -15,6 +16,7 @@ import com.bkplus.android.ultis.visible
 import com.google.gson.Gson
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentRegisterUserBinding
+import java.util.regex.Pattern
 
 class RegisterUserFragment : BaseFragment<FragmentRegisterUserBinding>() {
 
@@ -24,8 +26,6 @@ class RegisterUserFragment : BaseFragment<FragmentRegisterUserBinding>() {
     private var user: User? = null
     private var gson: Gson? = null
     private var bundle: Bundle? = null
-    private var count = 0
-
     override fun setupData() {
         super.setupData()
         user = User()
@@ -41,24 +41,30 @@ class RegisterUserFragment : BaseFragment<FragmentRegisterUserBinding>() {
                 findNavController().popBackStack()
             }
             btnRegister.setOnClickListener {
-                activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = true
+                if (binding.edtName.text.toString() == "" || binding.edtEmail.text.toString() == "" || binding.edtPhone.text.toString() == ""
+                    || binding.edtPassword.text.toString() == ""){
+                    toast(getString(R.string.missing_data))
+                    return@setOnClickListener
+                }
                 if (isValidPassword(binding.edtPassword.text.toString())) {
                     binding.tvValidatePass.gone()
+                    activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = true
                     viewModel.sendOtp(RequestOtp(email = edtEmail.text.trim().toString()))
                 } else {
                     binding.tvValidatePass.visible()
                 }
             }
             imgEye.setOnClickListener {
-                if (count == 0) {
-                    count = 1
-                    binding.edtPassword.inputType = EditorInfo.TYPE_CLASS_TEXT
-                    binding.edtPassword.text = binding.edtPassword.text
-                } else {
-                    count = 0
-                    binding.edtPassword.inputType = EditorInfo.TYPE_TEXT_VARIATION_PASSWORD
-                    binding.edtPassword.text = binding.edtPassword.text
-                }
+                binding.edtPassword.inputType = EditorInfo.TYPE_CLASS_TEXT
+                binding.edtPassword.transformationMethod = null
+                binding.imgEye.gone()
+                binding.imgEyeGone.visible()
+            }
+            imgEyeGone.setOnClickListener {
+                binding.edtPassword.inputType = EditorInfo.TYPE_TEXT_VARIATION_PASSWORD
+                binding.edtPassword.transformationMethod = PasswordTransformationMethod.getInstance()
+                binding.imgEye.visible()
+                binding.imgEyeGone.gone()
             }
 
         }
@@ -84,7 +90,8 @@ class RegisterUserFragment : BaseFragment<FragmentRegisterUserBinding>() {
     }
 
     private fun isValidPassword(password: String): Boolean {
-        val regex = Regex("[a-zA-Z0-9]")
-        return regex.matches(password) && password.length >= 4
+        val lowercase: Pattern = Pattern.compile("[a-z]")
+        val digit: Pattern = Pattern.compile("[0-9]")
+        return lowercase.matcher(password).find() && digit.matcher(password).find() && password.length > 4
     }
 }

@@ -8,7 +8,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationManager
-import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
@@ -20,6 +19,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bkplus.android.SharedViewModel
@@ -71,6 +71,9 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
     private var mGeoApiContext: GeoApiContext? = null
     private var trip: Trip? = null
     private var driver: Driver? = null
+    private var tripLiveData : MutableLiveData<Trip>?= null
+    private var locationLiveData : MutableLiveData<Trip>?= null
+    private var completeLiveData : MutableLiveData<Trip>?= null
 
     private val callPhonePermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -214,11 +217,11 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
             }
 
             imgPhone.setOnClickListener {
-                requestCallPhone {
-                    val phoneIntent = Intent(Intent.ACTION_CALL)
-                    phoneIntent.data = Uri.parse("tel:${trip?.driver?.phone}")
-                    context?.startActivity(phoneIntent)
-                }
+//                requestCallPhone {
+//                    val phoneIntent = Intent(Intent.ACTION_CALL)
+//                    phoneIntent.data = Uri.parse("tel:${trip?.driver?.phone}")
+//                    context?.startActivity(phoneIntent)
+//                }
             }
 
         }
@@ -248,7 +251,7 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
 
     @SuppressLint("SetTextI18n")
     private fun handlerAcceptTrip() {
-        webSocket.acceptTrip.observe(viewLifecycleOwner) {
+       webSocket.acceptTrip.observe(viewLifecycleOwner) {
             if (it == null) return@observe
             driver = it.driver
             binding.ctlContainer.gone()
@@ -266,7 +269,6 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
             binding.tvKm2.text = getString(R.string.distance) + it.km.toString() + " km"
             activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = false
             trip?.driver?.phone = it.driver?.phone
-            webSocket.acceptTrip.value = null
         }
 
     }
@@ -371,7 +373,7 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
             binding.tvDuration.text = getString(R.string.intend_time) + String.format(
                 "%.2f",
                 (duration?.div(60)?.toFloat() ?: 30f)
-            )
+            ) + "m"
             binding.tvNameCar.text = BasePrefers.getPrefsInstance().vehicleModelUser
             if (trip?.hourly_rental != 0) {
                 binding.tvRentFor.visible()
@@ -412,6 +414,7 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
 
     private fun requestTrip() {
         trip?.let {
+            it.user = BasePrefers.getPrefsInstance().infoUser
             it.car_name = BasePrefers.getPrefsInstance().vehicleModelUser
             it.range_of_vehicle = BasePrefers.getPrefsInstance().rangeOfVehicleUser
             it.note = binding.edtNote.text.toString()
@@ -436,6 +439,12 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
             )
         }
 
+    }
+
+    override fun onDestroy() {
+        webSocket.acceptTrip.value = null
+        webSocket.locationDriver.value = null
+        super.onDestroy()
     }
 
 }

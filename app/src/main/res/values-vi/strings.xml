@@ -1,2 +1,189 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="back_pressed_finish">Vui lòng nhấn lại lần nữa để thoát</string>
+    <string name="setting_language">Ngôn ngữ</string>
+    <string name="setting_policy">Chính sách bảo mật</string>
+    <string name="setting_en">Tiếng Anh</string>
+    <string name="setting_vi">Tiếng Việt</string>
+    <string name="setting_it">người Ý</string>
+    <string name="setting_spain">người Tây Ban Nha</string>
+    <string name="setting_hindi">Tiếng Hindi</string>
+    <string name="setting_china">Trung Quốc</string>
+    <string name="setting_russian">tiếng Nga</string>
+    <string name="setting_bengal">Bengal</string>
+    <string name="setting_japan">Nhật Bản</string>
+    <string name="setting_marathi">Tiếng Marathi</string>
+    <string name="setting_telugu">tiếng Telugu</string>
+    <string name="setting_turkish">tiếng Thổ Nhĩ Kỳ</string>
+    <string name="setting_tamil">Tiếng Tamil</string>
+    <string name="setting_korea">Hàn Quốc</string>
+    <string name="setting_italian">người Ý</string>
+    <string name="setting_thailand">nước Thái Lan</string>
+    <string name="setting_pt">tiếng Bồ Đào Nha</string>
+    <string name="setting_de">tiếng Đức</string>
+    <string name="setting_fr">người Pháp</string>
+    <string name="view">Xem</string>
+    <string name="your_friend">\"Bạn của bạn \"</string>
+    <string name="visit_app">\" muốn bạn kiểm tra ứng dụng của chúng tôi!. Hãy ghé thăm chúng tôi tại: \"</string>
+    <string name="choose_way_share">Chọn cách chia sẻ:</string>
+    <string name="rate_app">Đánh giá ứng dụng</string>
+    <string name="share_us">Chia sẻ với chúng tôi</string>
+    <string name="privacy_policy">Chính sách bảo mật</string>
+    <string name="term_of_users">Điều khoản của người dùng</string>
+    <string name="version_app">Phiên bản ứng dụng</string>
+    <string name="language">Ngôn ngữ</string>
+    <string name="no_internet">Kết nối internet của bạn không hoạt động. Vui lòng kiểm tra mạng của bạn và thử kết nối lại.</string>
+    <string name="connect">Kết nối</string>
+    <string name="the_action_may_contain_advertising">Hành động có thể chứa quảng cáo</string>
+    <string name="ob1_title">Hình nền hợp thời trang</string>
+    <string name="ob2_title">Cá nhân hóa việc tạo hình nền</string>
+    <string name="ob3_title">Cài đặt hình nền</string>
+    <string name="ob4_title">Nhiều chuyên mục thú vị</string>
+    <string name="ob1_description">Khám phá hình nền xu hướng nóng và cập nhật theo thời gian thực. Chọn và tải xuống những hình ảnh bạn yêu thích.</string>
+    <string name="ob2_description">Tùy chỉnh hình nền của bạn bằng các công cụ tạo độc đáo. Thiết kế hình nền theo ý thích của bạn.</string>
+    <string name="ob3_description">Dễ dàng đặt hình nền yêu thích của bạn trên điện thoại. Thay đổi hình nền của bạn bất cứ lúc nào bạn muốn.</string>
+    <string name="ob4_description">Hãy cùng khám phá hình nền 4k với các chủ đề hấp dẫn của chúng tôi ngay bây giờ.</string>
+    <string name="next">Kế tiếp</string>
+    <string name="get_started_btn">Bắt đầu</string>
+    <string name="congratulations">Chúc mừng</string>
+    <string name="success_installing_text">Bạn đã cài đặt thành công cái này</string>
+    <string name="home">Trang chủ</string>
+    <string name="setting">Cài đặt</string>
+    <string name="top_trending">Xu hướng hàng đầu</string>
+    <string name="view_all">Xem tất cả</string>
+    <string name="latest">Muộn nhất</string>
+    <string name="_4k_wallpaper">Hình nền 4K</string>
+    <string name="application_update">Cập nhật ứng dụng</string>
+    <string name="your_are_has_new">Ứng dụng của bạn đã có phiên bản cập nhật mới \n Vui lòng cập nhật để có trải nghiệm tốt hơn</string>
+    <string name="update_now">Cập nhật bây giờ!</string>
+    <string name="update">Cập nhật</string>
+    <string name="cancel">Hủy bỏ</string>
+    <string name="loading">Đang tải...</string>
+    <string name="like">Giống:</string>
+    <string name="share">Chia sẻ</string>
+    <string name="preview">Xem trước</string>
+    <string name="gallery">Phòng trưng bày</string>
+    <string name="camera">Máy ảnh</string>
+    <string name="calendar">Lịch</string>
+    <string name="txt_continue">Tiếp tục</string>
+    <string name="welcome">Chào mừng</string>
+    <string name="choose_your_favorite_categories">Chọn danh mục yêu thích của bạn.</string>
+    <string name="an_error_has_occurred_when_install_this_wallpaper_please_try_again_later">Đã xảy ra lỗi khi cài đặt hình nền này, vui lòng thử lại sau!</string>
+    <string name="set_wallpaper">Đặt hình nền thành công.</string>
+    <string name="favourite">Yêu thích</string>
+    <string name="category">Loại</string>
+    <string name="exit_title">Thoát ứng dụng</string>
+    <string name="do_you_really_want_to_exit">Bạn có thực sự muốn thoát ra?</string>
+    <string name="yes">Đúng</string>
+    <string name="no">KHÔNG</string>
+    <string name="home_amp_lock_screen"><![CDATA[Màn hình chính và màn hình khóa]]></string>
+    <string name="home_screen">Màn hình chính</string>
+    <string name="lock_screen">Màn hình khóa</string>
+    <string name="set_wallpaper_btn">Cài đặt hình nền</string>
+    <string name="galaxy">ngân hà</string>
+    <string name="wallpapers"> hình nền</string>
+    <string name="watch_an_ads">Xem QUẢNG CÁO</string>
+    <string name="load_ads_fail">tải quảng cáo thất bại</string>
+    <string name="you_can_view_and_set">Bạn có thể xem và đặt hình nền này bằng cách xem quảng cáo! Sẵn sàng?</string>
+    <string name="hello_friend">Chào bạn</string>
+    <string name="sign_in_to_your_account">đăng nhập vào tài khoản của bạn</string>
+    <string name="remember_me">nhớ tôi</string>
+    <string name="forget_password">Quên mật khẩu ?</string>
+    <string name="total_income">Tổng thu nhập</string>
+    <string name="number_of_times_set">Số lần đặt</string>
+    <string name="latest_request">Yêu cầu mới nhất</string>
+    <string name="hello">Xin chào</string>
+    <string name="start_location">Vị trí bắt đầu</string>
+    <string name="end_location">Vị trí kết thúc</string>
+    <string name="accept">Chấp nhận</string>
+    <string name="moving">Di chuyển</string>
+    <string name="note">Ghi chú :</string>
+    <string name="good_moring">Chào buổi sáng</string>
+    <string name="by_km">Theo km</string>
+    <string name="hourly">Hàng giờ</string>
+    <string name="recent_history">Lịch sử gần đây</string>
+    <string name="start">Bắt đầu</string>
+    <string name="end">Kết thúc</string>
+    <string name="time">Thời gian</string>
+    <string name="trip">Chuyến đi</string>
+    <string name="change">Thay đổi</string>
+    <string name="rates">Giá:</string>
+    <string name="distance">Khoảng cách:</string>
+    <string name="book">Đặt</string>
+    <string name="your_GPS">GPS của bạn dường như bị tắt, bạn có muốn bật nó không?</string>
+    <string name="error">Lỗi</string>
+    <string name="profile">Hồ sơ</string>
+    <string name="car_model">Mẫu xe :</string>
+    <string name="range_car">Phạm vi của xe:</string>
+    <string name="age">Tuổi:</string>
+    <string name="scroll_to_the_customer_and_press_start_trip">Di chuyển đến khách hàng và nhấn bắt đầu chuyến đi</string>
+    <string name="complete">Hoàn thành</string>
+    <string name="your_email">Email của bạn</string>
+    <string name="your_password">Mật khẩu của bạn</string>
+    <string name="newbie">Người mới à?</string>
+    <string name="register_here">Đăng ký ở đây</string>
+    <string name="login">Đăng nhập</string>
+    <string name="create_free">Tạo một tài khoản miễn phí</string>
+    <string name="full_name">Họ và tên</string>
+    <string name="phone_number">Số điện thoại</string>
+    <string name="register">Đăng ký</string>
+    <string name="already_a_member">Đã là thành viên hay chưa ?</string>
+    <string name="account_authentication">Xác thực tài khoản</string>
+    <string name="please_enter_the_6_digit_code_sent">Vui lòng nhập mã gồm 6 chữ số được gửi Email %s để xác minh.</string>
+    <string name="haven_received_any_codes_yet">Bạn chưa nhận được mã nào?</string>
+    <string name="resend_the_code">Gửi lại mã</string>
+    <string name="verification">xác minh</string>
+    <string name="otp_does_not_match">Otp không khớp</string>
+    <string name="register_sccess">Đăng ký thành công</string>
+    <string name="select_your_vehicle_type_to_continue">Chọn loại xe của bạn để tiếp tục</string>
+    <string name="ok">Được rồi</string>
+    <string name="rent_for">Gửi cho</string>
+    <string name="allow_app_to_access_device_location">Cho phép truy cập vị trí của thiết bị này?</string>
+    <string name="driver_reviews">Đánh giá tài xế</string>
+    <string name="vote">Bỏ phiếu</string>
+    <string name="waiting_for_the_driver">đang đợi tài xế</string>
+    <string name="your_current_location">vị trí hiện tại của bạn</string>
+    <string name="intend_time">Đi trong:</string>
+    <string name="cancel_trip">Bạn có muốn hủy chuyến đi không?</string>
+    <string name="invalidate_password">Mật khẩu phải có cả số và chữ và lớn hơn 4 ký tự</string>
+    <string name="missing_data">dữ liệu bị mất</string>
+    <string name="evaluate">Đánh giá</string>
+    <string name="save">Lưu</string>
+    <string name="saved_successfully">đã lưu thành công</string>
+    <string name="saved_fail">Lưu không thành công</string>
+
+    <string-array name="typeCar">
+        <item>Hộp số tự động</item>
+        <item>Hộp số tay</item>
+    </string-array>
+
+    <string-array name="car">
+        <item>Hyundai Grand i10</item>
+        <item>Kia Morning</item>
+        <item>VinFast Fadil</item>
+        <item>Suzuki Celerio</item>
+        <item>Honda Brio</item>
+        <item>Toyota Vios</item>
+        <item>Hyundai Accent </item>
+        <item>Mitsubishi Xpander</item>
+        <item>Ford Ranger</item>
+        <item>Honda City</item>
+        <item>Toyota Corolla Altis</item>
+        <item>Mazda3</item>
+        <item>Kia Cerato</item>
+        <item>Hyundai Elantra</item>
+        <item>Toyota Camry</item>
+        <item>Honda Accord</item>
+        <item>Mazda6</item>
+        <item>Kia Optima</item>
+        <item>Hyundai Sonata</item>
+        <item>Honda Civic</item>
+    </string-array>
+
+    <string-array name="hour">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+</resources>

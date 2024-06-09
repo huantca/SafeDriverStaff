@@ -59,6 +59,9 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
                 intent.data = Uri.parse(Constants.TERMS_OF_USE_LINK)
                 startActivity(intent)
             }
+            icBack.setOnSingleClickListener {
+                findNavController().popBackStack()
+            }
         }
     }
 }

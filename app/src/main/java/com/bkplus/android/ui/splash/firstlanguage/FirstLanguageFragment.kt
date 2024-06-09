@@ -66,7 +66,6 @@ class FirstLanguageFragment : BaseFragment<FragmentFirstLanguageBinding>(), Lang
         super.setupListener()
 
         binding.confirmLanguage.setOnSingleClickListener {
-            TrackingManager.tracking(EventTracking.fb011_language_choose_language_v_click)
             newLocale =
                 languageViewModel.chosenLanguage?.code ?: Locale.getDefault().displayLanguage
             if (newLocale != null) {

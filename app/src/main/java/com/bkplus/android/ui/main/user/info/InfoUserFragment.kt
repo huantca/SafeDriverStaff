@@ -17,7 +17,9 @@ import com.bkplus.android.SharedViewModel
 import com.bkplus.android.common.BaseFragment
 import com.bkplus.android.common.BasePrefers
 import com.bkplus.android.model.User
+import com.bkplus.android.ultis.Constants
 import com.bkplus.android.ultis.gone
+import com.bkplus.android.ultis.loadImage
 import com.harrison.myapplication.R
 import com.harrison.myapplication.databinding.FragmentInfoUserBinding
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -87,9 +89,12 @@ class InfoUserFragment : BaseFragment<FragmentInfoUserBinding>() {
     override fun setupUI() {
         super.setupUI()
         binding.apply {
-            binding.tvName.text = BasePrefers.getPrefsInstance().infoUser?.name
-            binding.tvPhone.text = BasePrefers.getPrefsInstance().infoUser?.phone
-
+            val info = BasePrefers.getPrefsInstance().infoUser
+            binding.tvName.text = info?.name
+            binding.tvPhone.text = info?.phone
+            if (info?.avatar != null) {
+                binding.imgAvatar.loadImage(Constants.BASE_URL_IMAGE + info?.avatar)
+            }
             BasePrefers.getPrefsInstance().vehicleModelUser?.let {
                 binding.tvNameCar.text = it
             }
@@ -100,13 +105,13 @@ class InfoUserFragment : BaseFragment<FragmentInfoUserBinding>() {
     }
 
     private fun updateAvatar(uri: Uri) {
-        val file = getFile(requireContext(),uri)
+        val file = getFile(requireContext(), uri)
         val requestFile: RequestBody =
             RequestBody.create(MultipartBody.FORM, file)
         val body: MultipartBody.Part =
             MultipartBody.Part.createFormData("image", file.getName(), requestFile)
         val user = BasePrefers.getPrefsInstance().infoUser ?: return
-        sharedViewModel.updateAvatar(body,buildPostBody(user), {
+        sharedViewModel.updateAvatar(body, buildPostBody(user), {
 //            if (this@InfoUserFragment.isAdded) {
 //                context?.getString(R.string.saved_successfully)?.let { toast(it) }
 //            }
@@ -121,10 +126,13 @@ class InfoUserFragment : BaseFragment<FragmentInfoUserBinding>() {
         // build body
         val jsonObject = JSONObject()
         jsonObject.put("id", user.id)
-        return jsonObject.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+        return jsonObject.toString()
+            .toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
     }
+
     fun getFile(context: Context, uri: Uri): File {
-        val destinationFilename = File(context.filesDir.path + File.separatorChar + queryName(context, uri))
+        val destinationFilename =
+            File(context.filesDir.path + File.separatorChar + queryName(context, uri))
         try {
             context.contentResolver.openInputStream(uri).use { ins ->
                 if (ins != null) {
@@ -136,6 +144,7 @@ class InfoUserFragment : BaseFragment<FragmentInfoUserBinding>() {
         }
         return destinationFilename
     }
+
     fun createFileFromStream(ins: InputStream, destination: File?) {
         try {
             FileOutputStream(destination).use { os ->
@@ -159,6 +168,7 @@ class InfoUserFragment : BaseFragment<FragmentInfoUserBinding>() {
         returnCursor.close()
         return name
     }
+
     override fun setupListener() {
         super.setupListener()
 

@@ -7,26 +7,42 @@
     </data>
 
     <LinearLayout
-        android:background="@color/naviColor"
-        android:orientation="vertical"
-        android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <TextView
-            style="@style/headingH1Medium"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="16dp"
-            android:text="@string/setting" />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/icBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                style="@style/headingH1Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/icBack"
+                android:textColor="@color/black"
+                android:layout_marginStart="20dp"
+                android:text="@string/setting" />
+        </RelativeLayout>
+
 
         <LinearLayout
             android:id="@+id/btn_language"
+            android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:background="@drawable/bg_radius_16"
-            android:backgroundTint="@color/naviColor1"
+            android:backgroundTint="#509AFA"
             android:orientation="horizontal"
             android:padding="16dp">
 
@@ -43,7 +59,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_weight="1"
                 android:text="@string/language"
-                android:textColor="@color/white" />
+                android:textColor="@color/black" />
 
             <ImageView
                 android:layout_width="16dp"
@@ -58,6 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
+            android:visibility="gone"
             android:background="@drawable/bg_radius_16"
             android:backgroundTint="@color/naviColor1"
             android:orientation="horizontal"
@@ -91,6 +108,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
+            android:visibility="gone"
             android:background="@drawable/bg_radius_16"
             android:backgroundTint="@color/naviColor1"
             android:orientation="horizontal"
@@ -124,6 +142,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
+            android:visibility="gone"
             android:background="@drawable/bg_radius_16"
             android:backgroundTint="@color/naviColor1"
             android:orientation="horizontal"
@@ -157,6 +176,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
+            android:visibility="gone"
             android:background="@drawable/bg_radius_16"
             android:backgroundTint="@color/naviColor1"
             android:orientation="horizontal"
@@ -190,7 +210,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:background="@drawable/bg_radius_16"
-            android:backgroundTint="@color/naviColor1"
+            android:backgroundTint="#509AFA"
             android:orientation="horizontal"
             android:padding="16dp">
 
@@ -207,7 +227,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_weight="1"
                 android:text="@string/version_app"
-                android:textColor="@color/white" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/tvVersion"
@@ -216,7 +236,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
                 android:layout_marginStart="12dp"
-                android:textColor="@color/neutral40"
+                android:textColor="@color/dark1"
                 tools:text="Ver 1.0.0" />
         </LinearLayout>
 

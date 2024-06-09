@@ -42,7 +42,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
 
     private fun startSplash() {
 
-        val words = getString(R.string.app_name).split(" ")
+        val words = getString(R.string.app_splash).split(" ")
         val valueAnimator = ValueAnimator.ofInt(0, words.size)
         valueAnimator.duration = 500 // Thời gian hiển thị mỗi từ
 

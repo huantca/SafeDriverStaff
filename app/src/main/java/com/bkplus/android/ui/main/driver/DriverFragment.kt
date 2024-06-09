@@ -109,8 +109,9 @@ class DriverFragment : BaseFragment<FragmentDriverBinding>() {
         super.setupUI()
         activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = false
         binding.tvName.text = BasePrefers.getPrefsInstance().infoDriver?.name
-        BasePrefers.getPrefsInstance().infoDriver?.star_number?.let {
-            binding.tvStar.text = it.toString()
+        viewModel.getStar(BasePrefers.getPrefsInstance().infoDriver?.id)
+        viewModel.starDriver.observe(viewLifecycleOwner) {
+            binding.tvStar.text = it.toInt().toString()
         }
     }
 

@@ -68,13 +68,14 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <ImageView
-                android:id="@+id/imgPerson"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:id="@+id/imgSetting"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="12dp"
                 android:layout_toStartOf="@id/icLogout"
-                android:src="@drawable/ic_notification" />
+                android:background="@drawable/ic_nav_setting_selected"
+                android:backgroundTint="@color/black"/>
 
 
             <ImageView
