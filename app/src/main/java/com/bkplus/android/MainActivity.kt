@@ -65,7 +65,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         setUpNoInternetDialog()
         setUpBottomNavigation()
         requestNotificationPermissionAndroid13()
-        if (BasePrefers.getPrefsInstance().infoUser != null || BasePrefers.getPrefsInstance().infoDriver != null) webSocket.connectWebSocket()
     }
 
     private fun setUpBottomNavigation() {
@@ -76,33 +75,25 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     R.id.splashFragment,
                     R.id.onboardFragment,
                     -> {
-                        setVisibleBottomView(false)
+
                     }
 
                     R.id.homeFragment -> {
-                        setVisibleBottomView(true)
-                        tabLayout.getTabAt(0)?.select()
+
+
                     }
 
                     R.id.settingFragment -> {
-                        setVisibleBottomView(true)
-                        tabLayout.getTabAt(3)?.select()
+
                     }
 
                     else -> {
-                        setVisibleBottomView(false)
+
                     }
                 }
             }
         }
 
-    }
-
-    fun setVisibleBottomView(show: Boolean) {
-        binding.apply {
-            bottomNav.isVisible = show
-            tabLayout.isVisible = show
-        }
     }
 
     private fun setUpNoInternetDialog() {

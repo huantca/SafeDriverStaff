@@ -1,7 +1,5 @@
 package com.bkplus.android.ui.main.login.loginuser
 
-import android.annotation.SuppressLint
-import android.content.res.ColorStateList
 import android.os.CountDownTimer
 import android.widget.FrameLayout
 import androidx.core.view.isVisible
@@ -75,28 +73,7 @@ class OtpFragment : BaseFragment<FragmentVerificationLoginBinding>() {
 
     override fun onStop() {
         super.onStop()
-        timer?.onFinish()
     }
     private fun startCountDownTimer(){
-        timer = object : CountDownTimer(30000, 1000) {
-
-            // Callback function, fired on regular interval
-            @SuppressLint("SetTextI18n")
-            override fun onTick(millisUntilFinished: Long) {
-                binding.tvResendCode.isEnabled = false
-                binding.tvResendCode.setTextColor(context?.let { ColorStateList.valueOf(it.getColor(R.color.naviColor1)) })
-                binding.tvTime.isVisible = true
-                binding.tvTime.text = (millisUntilFinished / 1000).toInt().toString() + "s"
-            }
-
-            // Callback function, fired
-            // when the time is up
-            override fun onFinish() {
-                binding.tvResendCode.isEnabled = true
-                binding.tvResendCode.setTextColor(context?.let { ColorStateList.valueOf(it.getColor(R.color.primary)) })
-                binding.tvTime.isVisible = false
-            }
-        }
-        timer?.start()
     }
 }

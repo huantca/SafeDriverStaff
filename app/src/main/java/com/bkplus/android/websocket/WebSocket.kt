@@ -82,9 +82,7 @@ class WebSocket @Inject constructor() {
                         val json = gson.fromJson(topicMessage.payload, Trip::class.java)
                         arrTrip.add(json)
                         mutableLiveData.postValue(arrTrip)
-                        Log.e("huan123", json.toString())
                     }, {
-                        Log.e("huanhuan123 error", it.message.toString())
                         Timber.tag("WebSocket").e(it.printStackTrace().toString())
                     }
                 ),

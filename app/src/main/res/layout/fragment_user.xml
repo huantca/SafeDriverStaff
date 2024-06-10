@@ -13,7 +13,8 @@
 
         <variable
             name="isHourly"
-            type="Boolean" />
+            type="Boolean"
+            android:value="false"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -100,15 +101,31 @@
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tablayout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/tab_background"
-                app:tabGravity="fill"
                 app:tabIndicator="@drawable/tab_selected_background"
                 app:tabIndicatorAnimationMode="elastic"
+                app:tabIndicatorFullWidth="true"
                 app:tabIndicatorColor="@null"
+                app:tabSelectedTextColor="@color/white"
                 app:tabIndicatorGravity="stretch"
                 app:tabMode="fixed"
-                app:tabRippleColor="@null" />
+                app:tabRippleColor="@null" >
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/tab1"
+                    android:text="@string/by_km"
+                    style="@style/NormalTextButton2Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/tab2"
+                    style="@style/NormalTextButton2Medium"
+                    android:text="@string/hourly"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.tabs.TabLayout>
         </LinearLayout>
 
         <androidx.appcompat.widget.LinearLayoutCompat

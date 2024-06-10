@@ -162,6 +162,7 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
                         )
                         .position(it1)
                 }?.let { it2 -> it.addMarker(it2) }
+                Log.e("adadadad","handlerLocationDriver")
                 calculateDirections(pickStart, dropEnd, TravelMode.DRIVING)
                 handlerLocationDriver(it, context)
                 handlerAcceptTrip()
@@ -230,6 +231,7 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
     private fun handlerLocationDriver(googleMap: GoogleMap, context: Context) {
         var marker: Marker? = null
         webSocket.locationDriver.observe(viewLifecycleOwner) {
+            Log.e("adadadad","locationDriver")
             if (it == null) return@observe
             marker?.remove()
             val latLng = it.latitude?.let { it1 -> it.longitude?.let { it2 -> LatLng(it1, it2) } }
@@ -252,6 +254,7 @@ class TripUserFragment : BaseFragment<FragmentTripUserBinding>() {
     @SuppressLint("SetTextI18n")
     private fun handlerAcceptTrip() {
        webSocket.acceptTrip.observe(viewLifecycleOwner) {
+           Log.e("adadadad","acceptTrip")
             if (it == null) return@observe
             driver = it.driver
             binding.ctlContainer.gone()

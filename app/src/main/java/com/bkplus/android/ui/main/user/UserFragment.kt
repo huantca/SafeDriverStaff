@@ -4,12 +4,10 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.FrameLayout
-import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -90,20 +88,67 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
         }
 
         //tab
-        val tab1: TabLayout.Tab = binding.tablayout.newTab()
-        tab1.text = getString(R.string.by_km)
-        val tab2: TabLayout.Tab = binding.tablayout.newTab()
-        tab2.text = getString(R.string.hourly)
-        binding.tablayout.addTab(tab1)
-        binding.tablayout.addTab(tab2)
-        val textview1 = LayoutInflater.from(context).inflate(R.layout.tab_title,null) as TextView?
-        textview1?.text = getString(R.string.by_km)
-        val textview2 = LayoutInflater.from(context).inflate(R.layout.tab_title,null) as TextView?
-        textview2?.text = getString(R.string.hourly)
-        binding.tablayout.getTabAt(0)?.customView = textview1
-        binding.tablayout.getTabAt(1)?.customView = textview2
 
-        binding.tablayout.addOnTabSelectedListener(object : OnTabSelectedListener{
+
+        //
+        trip = Trip()
+        trip?.user = BasePrefers.getPrefsInstance().infoUser
+        autocompleteForPlaces()
+        trip?.user?.let {
+            sharedViewModel.getListHistory(it)
+            sharedViewModel.getInfoUser(it)
+        }
+        sharedViewModel.infoUserLiveData.observe(viewLifecycleOwner) {
+            BasePrefers.getPrefsInstance().infoUser = it
+            if (it.avatar != null){
+                binding.imgAvatar.loadImage(Constants.BASE_URL_IMAGE + it.avatar)
+            }
+            binding.tvName.text = it.name
+        }
+        userAdapter = UserAdapter()
+        binding.rcyHistory.adapter = userAdapter
+        val hour = resources.getStringArray(R.array.hour)
+
+
+        view?.post {
+            val adapterHour = context?.let {
+                ArrayAdapter(
+                    it,
+                    R.layout.text_spinner, hour
+                )
+            }
+            val itemsHour = arrayListOf(1, 2, 3, 4, 5)
+            binding.spinnerHour.adapter = adapterHour
+            binding.spinnerHour.onItemSelectedListener = object :
+                AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View?, position: Int, id: Long
+                ) {
+                    binding.tvTime.text = itemsHour[position].toString()
+                    trip?.hourly_rental = itemsHour[position]
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                }
+            }
+        }
+
+        sharedViewModel.historyUserLiveData.observe(viewLifecycleOwner) {
+            userAdapter?.updateItems(it)
+        }
+    }
+
+    override fun setupUI() {
+        super.setupUI()
+        activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = false
+        binding.apply {
+            isHourly = false
+            isShowMap = false
+        }
+
+        binding.tablayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 if (tab?.position == 0){
                     binding.isHourly = false
@@ -123,61 +168,6 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
             }
 
         })
-        //
-        trip = Trip()
-        trip?.user = BasePrefers.getPrefsInstance().infoUser
-        autocompleteForPlaces()
-        trip?.user?.let {
-            sharedViewModel.getListHistory(it)
-            sharedViewModel.getInfoUser(it)
-        }
-        sharedViewModel.infoUserLiveData.observe(viewLifecycleOwner) {
-            BasePrefers.getPrefsInstance().infoUser = it
-            if (it.avatar != null){
-                binding.imgAvatar.loadImage(Constants.BASE_URL_IMAGE + it.avatar)
-            }
-            binding.tvName.text = it.name
-        }
-        userAdapter = UserAdapter()
-        binding.rcyHistory.adapter = userAdapter
-
-        val hour = resources.getStringArray(R.array.hour)
-        val adapterHour = context?.let {
-            ArrayAdapter(
-                it,
-                R.layout.text_spinner, hour
-            )
-        }
-
-        val itemsHour = arrayListOf(1, 2, 3, 4, 5)
-        binding.spinnerHour.adapter = adapterHour
-        binding.spinnerHour.onItemSelectedListener = object :
-            AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View, position: Int, id: Long
-            ) {
-                binding.tvTime.text = itemsHour[position].toString()
-                trip?.hourly_rental = itemsHour[position]
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-        }
-
-        sharedViewModel.historyUserLiveData.observe(viewLifecycleOwner) {
-            userAdapter?.updateItems(it)
-        }
-    }
-
-    override fun setupUI() {
-        super.setupUI()
-        activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = false
-        binding.apply {
-            isHourly = false
-            isShowMap = false
-        }
     }
 
     override fun setupListener() {
@@ -232,7 +222,7 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
             }
 
             imgSetting.setOnClickListener {
-
+                findNavController().navigate(R.id.settingFragment)
             }
         }
     }
@@ -359,4 +349,9 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
         @SerializedName("display_name")
         val display_name: String?
     )
+
+    override fun onDestroyView() {
+        binding.isShowMap = false
+        super.onDestroyView()
+    }
 }

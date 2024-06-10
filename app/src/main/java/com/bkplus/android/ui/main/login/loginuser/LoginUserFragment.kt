@@ -1,5 +1,6 @@
 package com.bkplus.android.ui.main.login.loginuser
 
+import android.util.Log
 import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -56,6 +57,7 @@ class LoginUserFragment : BaseFragment<FragmentLoginUserBinding>() {
             activity?.findViewById<FrameLayout>(R.id.loading_main)?.isVisible = false
             BasePrefers.getPrefsInstance().newLogin = true
             BasePrefers.getPrefsInstance().infoUser = it
+            Log.e("adadadad",it.id.toString())
             BasePrefers.getPrefsInstance().infoDriver = null
             findNavController().navigate(R.id.userFragment)
         }
