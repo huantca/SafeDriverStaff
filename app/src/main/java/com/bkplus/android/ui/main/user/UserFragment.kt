@@ -107,33 +107,9 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
         }
         userAdapter = UserAdapter()
         binding.rcyHistory.adapter = userAdapter
-        val hour = resources.getStringArray(R.array.hour)
 
 
-        view?.post {
-            val adapterHour = context?.let {
-                ArrayAdapter(
-                    it,
-                    R.layout.text_spinner, hour
-                )
-            }
-            val itemsHour = arrayListOf(1, 2, 3, 4, 5)
-            binding.spinnerHour.adapter = adapterHour
-            binding.spinnerHour.onItemSelectedListener = object :
-                AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>,
-                    view: View?, position: Int, id: Long
-                ) {
-                    binding.tvTime.text = itemsHour[position].toString()
-                    trip?.hourly_rental = itemsHour[position]
-                }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                }
-            }
-        }
 
         sharedViewModel.historyUserLiveData.observe(viewLifecycleOwner) {
             userAdapter?.updateItems(it)
@@ -156,6 +132,31 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
                     trip?.hourly_rental = null
                 }else{
                     binding.isHourly = true
+                    view?.post {
+                        val hour = resources.getStringArray(R.array.hour)
+                        val adapterHour = context?.let {
+                            ArrayAdapter(
+                                it,
+                                R.layout.text_spinner, hour
+                            )
+                        }
+                        val itemsHour = arrayListOf(1, 2, 3, 4, 5)
+                        binding.spinnerHour.adapter = adapterHour
+                        binding.spinnerHour.onItemSelectedListener = object :
+                            AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>,
+                                view: View?, position: Int, id: Long
+                            ) {
+                                binding.tvTime.text = itemsHour[position].toString()
+                                trip?.hourly_rental = itemsHour[position]
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                            }
+                        }
+                    }
                 }
             }
 

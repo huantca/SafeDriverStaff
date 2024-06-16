@@ -104,6 +104,7 @@ class WebSocket @Inject constructor() {
                         acceptTrip.postValue(json)
                         Timber.tag("huan driver accepted").d(topicMessage.payload)
                     }, {
+                        Timber.tag("huan driver no accepted").d(BasePrefers.getPrefsInstance().infoUser?.id.toString())
                         Timber.tag("WebSocket").e(it.printStackTrace().toString())
                     }
                 ),

@@ -46,7 +46,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun setupData() {
         super.setupData()
-        webSocket.connectWebSocket()
+
     }
 
     override fun setupListener() {

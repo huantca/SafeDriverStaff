@@ -58,8 +58,8 @@ class InfoUserFragment : BaseFragment<FragmentInfoUserBinding>() {
         binding.spinnerType.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View, position: Int, id: Long
+                parent: AdapterView<*>?,
+                view: View?, position: Int, id: Long
             ) {
                 BasePrefers.getPrefsInstance().rangeOfVehicleUser = dataType[position]
                 binding.tvTypeVehicle.text = BasePrefers.getPrefsInstance().rangeOfVehicleUser
@@ -73,8 +73,8 @@ class InfoUserFragment : BaseFragment<FragmentInfoUserBinding>() {
         binding.spinnerCar.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View, position: Int, id: Long
+                parent: AdapterView<*>?,
+                view: View?, position: Int, id: Long
             ) {
                 BasePrefers.getPrefsInstance().vehicleModelUser = dataCar[position]
                 binding.tvNameCar.text = BasePrefers.getPrefsInstance().vehicleModelUser
