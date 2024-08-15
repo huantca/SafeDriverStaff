@@ -2,7 +2,6 @@
     <string name="app_name" translatable="false">Safe Driver</string>
     <string name="app_splash" translatable="false">S a f e D r i v e r</string>
     <string name="back_pressed_finish">Please press back again to quit</string>
-    <string name="api_key_map" translatable="false">AIzaSyBOD5-j2ElNi1GuIbPEZntT1iNLHKassW4</string>
 
     <!--Setting-->
     <string name="setting_language">Languages</string>
